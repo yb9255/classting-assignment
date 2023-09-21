@@ -4,7 +4,7 @@ import {
   fetchQuestionsSuccess,
   fetchQuestionFailure,
 } from '../questions/reducer';
-import axios, { AxiosResponse } from 'axios';
+import axios, { type AxiosResponse } from 'axios';
 import { QuestionType } from '../questions/types';
 import { DB_API_URL } from '../../constants';
 
@@ -14,8 +14,9 @@ type ExpectedAxiosResponse = AxiosResponse<{
 }>;
 
 function* watchFetchQuestions() {
+  const query = '?amount=10&category=11&type=multiple';
   const questionsResponse: ExpectedAxiosResponse = yield call(() =>
-    axios.get(DB_API_URL)
+    axios.get(`${DB_API_URL}${query}`)
   );
 
   if (questionsResponse.data.response_code === 0) {
