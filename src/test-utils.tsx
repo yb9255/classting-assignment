@@ -1,16 +1,9 @@
 import { render, type RenderOptions } from '@testing-library/react';
-import { BrowserRouter, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 
 function WrapperComponent({ children }: { children: React.ReactNode }) {
-  return (
-    <BrowserRouter>
-      <Provider store={store}>
-        <Routes>{children}</Routes>
-      </Provider>
-    </BrowserRouter>
-  );
+  return <Provider store={store}>{children}</Provider>;
 }
 
 function customRender(
