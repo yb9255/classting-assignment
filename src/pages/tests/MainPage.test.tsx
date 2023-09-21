@@ -9,7 +9,7 @@ describe('MainPage', () => {
     const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
     expect(mainTitle).toBeInTheDocument();
 
-    const mainButton = screen.queryByRole('button', { name: '시작' });
+    const mainButton = screen.queryByRole('link', { name: '퀴즈 풀기' });
     expect(mainButton).toBeInTheDocument();
   });
 });
