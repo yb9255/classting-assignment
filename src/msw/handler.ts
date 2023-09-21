@@ -1,5 +1,5 @@
 import { rest } from 'msw';
-import { DB_API_URL } from './constants';
+import { DB_API_URL } from '../constants';
 
 export const handlers = [
   rest.get(DB_API_URL, (_, response, context) => {
