@@ -1,7 +1,5 @@
-import React from 'react';
-
 function QuestionsResultPage() {
-  return <div>QuestionsResultPage</div>;
+  return <h1>문제 결과</h1>;
 }
 
 export default QuestionsResultPage;

@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getError,
@@ -6,7 +6,12 @@ import {
   getQuestions,
 } from '../redux/questions/selectors';
 import { useEffect, useState } from 'react';
-import { fetchQuestions } from '../redux/questions/reducer';
+import {
+  fetchQuestions,
+  increaseCorrectAnsweredQuestions,
+  increaseWrongAnsweredQuestions,
+  initError,
+} from '../redux/questions/reducer';
 import styled from 'styled-components';
 
 function QuestionPage() {
@@ -14,7 +19,7 @@ function QuestionPage() {
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-  const { questionId } = useParams<{ questionId?: string }>();
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const isLoading = useSelector(getIsLoading);
   const error = useSelector(getError);
   const questions = useSelector(getQuestions);
@@ -23,33 +28,33 @@ function QuestionPage() {
     dispatch(fetchQuestions());
   }, [dispatch]);
 
-  const targetQuestion =
-    questions.find((question) => question.id === Number(questionId)) ??
-    questions[0];
+  const targetQuestion = questions[currentQuestionIndex];
 
-  const lastQuestionId = questions[questions.length - 1]?.id;
+  const lastQuestionIndex = questions.length - 1;
 
   function handleClickAnswer(answer: string) {
     setIsModalOpen(true);
 
     if (targetQuestion.correctAnswer === answer) {
       setModalMessage('정답입니다!');
+      dispatch(increaseCorrectAnsweredQuestions(targetQuestion));
       return;
     }
 
     setModalMessage('틀렸습니다!');
+    dispatch(increaseWrongAnsweredQuestions(targetQuestion));
   }
 
   function handleMoveToNextQuestion() {
     setIsModalOpen(false);
     setModalMessage('');
 
-    if (targetQuestion.id !== lastQuestionId) {
-      navigate(`/questions/${targetQuestion.id + 1}`);
+    if (currentQuestionIndex === lastQuestionIndex) {
+      navigate('/questions-result');
       return;
     }
 
-    navigate('/questions-result');
+    setCurrentQuestionIndex(currentQuestionIndex + 1);
   }
 
   if (isLoading) {
@@ -57,16 +62,30 @@ function QuestionPage() {
   }
 
   if (!isLoading && !error && !targetQuestion) {
-    return <h2>해당하는 문제가 없습니다.</h2>;
+    return (
+      <>
+        <h2>해당하는 문제가 없습니다.</h2>
+        <Link to="/" onClick={() => dispatch(initError())}>
+          돌아가기
+        </Link>
+      </>
+    );
   }
 
   if (!isLoading && error) {
-    return <h2>ERROR!</h2>;
+    return (
+      <>
+        <h2>ERROR!</h2>
+        <Link to="/" onClick={() => dispatch(initError())}>
+          돌아가기
+        </Link>
+      </>
+    );
   }
 
   return (
-    <Container>
-      <h1>{targetQuestion.question}</h1>
+    <div>
+      <h1>{`${currentQuestionIndex + 1}: ${targetQuestion.question}`}</h1>
       <ul>
         {targetQuestion.answers.map((answer) => {
           return (
@@ -85,15 +104,9 @@ function QuestionPage() {
           </Modal>
         </>
       )}
-    </Container>
+    </div>
   );
 }
-
-const Container = styled.main`
-  width: 100vw;
-  height: 100vh;
-  position: relative;
-`;
 
 const Backdrop = styled.div`
   position: absolute;

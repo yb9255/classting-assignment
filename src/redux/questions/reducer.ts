@@ -5,8 +5,8 @@ import { shuffleArray } from '../../helpers';
 const initialState: InitialState = {
   isLoading: false,
   questions: [],
-  correctAnswerCount: 0,
-  wrongAnswerCount: 0,
+  correctAnsweredQuestions: [],
+  wrongAnsweredQuestions: [],
   error: null,
 };
 
@@ -29,7 +29,6 @@ const questionsSlice = createSlice({
 
       action.payload.results.forEach((result, index) => {
         filteredQuestions.push({
-          id: index,
           type: result.type,
           difficulty: result.difficulty,
           category: result.category,
@@ -51,10 +50,31 @@ const questionsSlice = createSlice({
       state.isLoading = false;
       state.error = action.payload.data.error;
     },
+    increaseCorrectAnsweredQuestions: (
+      state,
+      action: PayloadAction<QuestionType>
+    ) => {
+      state.correctAnsweredQuestions.push(action.payload);
+    },
+    increaseWrongAnsweredQuestions: (
+      state,
+      action: PayloadAction<QuestionType>
+    ) => {
+      state.wrongAnsweredQuestions.push(action.payload);
+    },
+    initError: (state) => {
+      state.error = null;
+    },
   },
 });
 
-export const { fetchQuestions, fetchQuestionsSuccess, fetchQuestionFailure } =
-  questionsSlice.actions;
+export const {
+  fetchQuestions,
+  fetchQuestionsSuccess,
+  fetchQuestionFailure,
+  increaseCorrectAnsweredQuestions,
+  increaseWrongAnsweredQuestions,
+  initError,
+} = questionsSlice.actions;
 
 export default questionsSlice.reducer;

@@ -8,7 +8,6 @@ export type OriginalQuestionType = {
 };
 
 export type QuestionType = {
-  id: number;
   category: string;
   type: string;
   difficulty: string;
@@ -20,7 +19,7 @@ export type QuestionType = {
 export type InitialState = {
   isLoading: boolean;
   questions: QuestionType[];
-  correctAnswerCount: number;
-  wrongAnswerCount: number;
+  correctAnsweredQuestions: QuestionType[];
+  wrongAnsweredQuestions: QuestionType[];
   error: null | 'ERROR';
 };

@@ -9,7 +9,6 @@ function App() {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/questions" element={<QuestionPage />} />
-      <Route path="/questions/:questionId" element={<QuestionPage />} />
       <Route path="/questions-result" element={<QuestionsResultPage />} />
       <Route path="/wrong-questions" element={<WrongQuestionsPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
