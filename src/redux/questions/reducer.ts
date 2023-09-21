@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { ExpectedAxiosPayloadAction, InitialState } from './types';
+import { InitialState, OriginalQuestionType, QuestionType } from './types';
+import { shuffleArray } from '../../helpers';
 
 const initialState: InitialState = {
   isLoading: false,
@@ -16,9 +17,32 @@ const questionsSlice = createSlice({
     fetchQuestions: (state) => {
       state.isLoading = true;
     },
-    fetchQuestionsSuccess: (state, action: ExpectedAxiosPayloadAction) => {
+    fetchQuestionsSuccess: (
+      state,
+      action: PayloadAction<{
+        results: OriginalQuestionType[];
+      }>
+    ) => {
       state.isLoading = false;
-      state.questions = action.payload.data.results;
+
+      const filteredQuestions: QuestionType[] = [];
+
+      action.payload.results.forEach((result, index) => {
+        filteredQuestions.push({
+          id: index,
+          type: result.type,
+          difficulty: result.difficulty,
+          category: result.category,
+          question: result.question,
+          correctAnswer: result.correct_answer,
+          answers: shuffleArray([
+            result.correct_answer,
+            ...result.incorrect_answers,
+          ]),
+        });
+      });
+
+      state.questions = filteredQuestions;
     },
     fetchQuestionFailure: (
       state,

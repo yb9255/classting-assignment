@@ -9,8 +9,10 @@ const store = configureStore({
   reducer: {
     questions: questionsSliceReducer,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(sagaMiddleware),
+  middleware: (getDefaultMiddleware) => [
+    sagaMiddleware,
+    ...getDefaultMiddleware(),
+  ],
 });
 
 sagaMiddleware.run(watch);
