@@ -135,6 +135,27 @@ describe('QuestionResult', () => {
     expect(spentTimeDiv).toBeInTheDocument();
   });
 
+  it('shows spent time with mm:ss format', () => {
+    render(
+      <MemoryRouter initialEntries={['/questions-result']}>
+        <Routes>
+          <Route path="/questions-result" element={<QuestionsResultPage />} />
+        </Routes>
+      </MemoryRouter>,
+      {
+        preloadedState: {
+          questions: {
+            startTime: 0,
+            endTime: 650000,
+          },
+        },
+      }
+    );
+
+    const spentTimeDiv = screen.getByText('소요 시간:', { exact: false });
+    expect(spentTimeDiv).toHaveTextContent('10:50');
+  });
+
   it('shows how many rights and wrongs user got', async () => {
     render(
       <MemoryRouter initialEntries={['/questions']}>
