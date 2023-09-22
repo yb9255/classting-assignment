@@ -10,6 +10,13 @@ export function shuffleArray(array: string[]) {
 }
 
 export function decodeHtmlString(markup: string) {
-  var doc = new DOMParser().parseFromString(markup, 'text/html');
+  const doc = new DOMParser().parseFromString(markup, 'text/html');
   return doc.documentElement.textContent ?? '';
+}
+
+export function changeMillisecondsToMinutesAndSeconds(milliseconds: number) {
+  const minutes = Math.floor(milliseconds / 60000);
+  const seconds = ((milliseconds % 60000) / 1000).toFixed(0);
+
+  return `${minutes}:${Number(seconds) < 10 ? '0' : ''}${seconds}`;
 }

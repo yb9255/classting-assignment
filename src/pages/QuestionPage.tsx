@@ -11,6 +11,8 @@ import {
   increaseCorrectAnsweredQuestions,
   increaseWrongAnsweredQuestions,
   initError,
+  setStartTime,
+  setEndTime,
 } from '../redux/questions/reducer';
 import styled from 'styled-components';
 
@@ -27,6 +29,14 @@ function QuestionPage() {
   useEffect(() => {
     dispatch(fetchQuestions());
   }, [dispatch]);
+
+  useEffect(() => {
+    const hasQuestion = questions.length > 0;
+
+    if (hasQuestion) {
+      dispatch(setStartTime({ startTime: Date.now() }));
+    }
+  }, [questions, dispatch]);
 
   const targetQuestion = questions[currentQuestionIndex];
 
@@ -50,6 +60,7 @@ function QuestionPage() {
     setModalMessage('');
 
     if (currentQuestionIndex === lastQuestionIndex) {
+      dispatch(setEndTime({ endTIme: Date.now() }));
       navigate('/questions-result');
       return;
     }
