@@ -9,14 +9,12 @@ type Props = {
 
 function Layout({ layoutType = 'default', children }: Props) {
   return (
-    <Container layoutType={layoutType}>
+    <Container $layoutType={layoutType}>
       {layoutType === 'default' && <NavBar />}
       {children}
     </Container>
   );
 }
-
-const defaultLayoutCss = css``;
 
 const mainLayoutCss = css`
   width: 100vw;
@@ -27,9 +25,16 @@ const mainLayoutCss = css`
   align-items: center;
 `;
 
-const Container = styled.main<{ layoutType: 'default' | 'main' }>`
-  ${({ layoutType }) =>
-    layoutType === 'default' ? defaultLayoutCss : mainLayoutCss}
+const defaultLayoutCss = css`
+  width: 100vw;
+  height: 100vh;
+  padding: 30px;
+  box-sizing: border-box;
+`;
+
+const Container = styled.main<{ $layoutType: 'default' | 'main' }>`
+  ${({ $layoutType }) =>
+    $layoutType === 'default' ? defaultLayoutCss : mainLayoutCss}
 `;
 
 export default Layout;

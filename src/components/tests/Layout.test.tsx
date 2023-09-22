@@ -2,9 +2,9 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { screen, render, waitFor } from '../../test-utils';
 import WrongAnsweredQuestionsPage from '../../pages/WrongAnsweredQuestionsPage';
 import MainPage from '../../pages/MainPage';
-import NavBar from '../NavBar';
 import userEvent from '@testing-library/user-event';
 import QuestionPage from '../../pages/QuestionPage';
+import Layout from '../Layout';
 
 describe('NavBar', () => {
   const user = userEvent.setup();
@@ -12,14 +12,15 @@ describe('NavBar', () => {
   it('moves to home page when click 홈', async () => {
     render(
       <MemoryRouter initialEntries={['/wrong-answered-questions']}>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route
+              path="/wrong-answered-questions"
+              element={<WrongAnsweredQuestionsPage />}
+            />
+          </Routes>
+        </Layout>
       </MemoryRouter>
     );
 
@@ -43,14 +44,15 @@ describe('NavBar', () => {
   it('moves to WrongAnsweredQuestionsPage when click 오답 노트', async () => {
     render(
       <MemoryRouter initialEntries={['/questions']}>
-        <NavBar />
-        <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
+        <Layout>
+          <Routes>
+            <Route path="/questions" element={<QuestionPage />} />
+            <Route
+              path="/wrong-answered-questions"
+              element={<WrongAnsweredQuestionsPage />}
+            />
+          </Routes>
+        </Layout>
       </MemoryRouter>
     );
 
@@ -70,4 +72,25 @@ describe('NavBar', () => {
 
     expect(wrongAnsweredQuestionsPageTitle).toBeInTheDocument();
   });
+
+  it("doesn't show navbar when the route is /", () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <Layout layoutType="main">
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+          </Routes>
+        </Layout>
+      </MemoryRouter>
+    );
+  });
+
+  const homeLink = screen.queryByRole('link', { name: '홈' });
+
+  const wrongAnsweredQuestionsPageLink = screen.queryByRole('link', {
+    name: '오답 노트',
+  });
+
+  expect(homeLink).not.toBeInTheDocument();
+  expect(wrongAnsweredQuestionsPageLink).not.toBeInTheDocument();
 });
