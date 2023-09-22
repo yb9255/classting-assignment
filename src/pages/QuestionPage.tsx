@@ -15,6 +15,7 @@ import {
   setEndTime,
 } from '../redux/questions/reducer';
 import styled from 'styled-components';
+import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
 
 function QuestionPage() {
   const dispatch = useDispatch();
@@ -51,7 +52,24 @@ function QuestionPage() {
       return;
     }
 
+    const wrongAnsweredQuestionData = localStorage.getItem('wrong-questions');
+    const wrongAnsweredQuestionsHistory: WrongAnsweredQuestionType[] =
+      wrongAnsweredQuestionData ? JSON.parse(wrongAnsweredQuestionData) : [];
+
+    wrongAnsweredQuestionsHistory.push({
+      question: targetQuestion.question,
+      chosenAnswer: answer,
+      correctAnswer: targetQuestion.correctAnswer,
+      answers: targetQuestion.answers,
+    });
+
+    localStorage.setItem(
+      'wrong-questions',
+      JSON.stringify(wrongAnsweredQuestionsHistory)
+    );
+
     setModalMessage('틀렸습니다!');
+
     dispatch(increaseWrongAnsweredQuestions(targetQuestion));
   }
 

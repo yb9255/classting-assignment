@@ -45,7 +45,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     ];
 
     localStorage.setItem(
-      'wrong-questions',
+      'wrong-answered-questions',
       JSON.stringify(testWrongAnsweredQuestions)
     );
   });
@@ -66,7 +66,7 @@ describe('WrongAnsweredQuestionsPage', () => {
       </MemoryRouter>
     );
 
-    const pageTitle = screen.getByRole('heading', { name: '오답노트' });
+    const pageTitle = screen.getByRole('heading', { name: '오답 노트' });
 
     expect(pageTitle).toBeInTheDocument();
   });
@@ -86,13 +86,15 @@ describe('WrongAnsweredQuestionsPage', () => {
     const firstQuestionTitleDiv = screen.getByText(
       decodeHtmlString(
         'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
-      )
+      ),
+      { exact: false }
     );
 
     const secondQuestionTitleDiv = screen.getByText(
       decodeHtmlString(
         'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
-      )
+      ),
+      { exact: false }
     );
 
     expect(firstQuestionTitleDiv).toBeInTheDocument();
@@ -111,8 +113,11 @@ describe('WrongAnsweredQuestionsPage', () => {
       </MemoryRouter>
     );
 
-    const chosenAnswerDiv = screen.getByText(decodeHtmlString('Closer'));
-    expect(chosenAnswerDiv).toHaveTextContent('선택한 오답');
+    const chosenAnswerDiv = screen.getByText(
+      `선택한 오답: ${decodeHtmlString('Closer')}`
+    );
+
+    expect(chosenAnswerDiv).toBeInTheDocument();
   });
 
   it('shows correct answer that was not chosen', () => {
@@ -127,8 +132,11 @@ describe('WrongAnsweredQuestionsPage', () => {
       </MemoryRouter>
     );
 
-    const correctAnswerDiv = screen.getByText(decodeHtmlString('Hurt'));
-    expect(correctAnswerDiv).toHaveTextContent('정답');
+    const correctAnswerDiv = screen.getByText(
+      `정답: ${decodeHtmlString('Hurt')}`
+    );
+
+    expect(correctAnswerDiv).toBeInTheDocument();
   });
 
   it('shows list of answers', () => {
