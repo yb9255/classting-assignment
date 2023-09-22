@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage';
 import QuestionPage from './pages/QuestionPage';
 import QuestionsResultPage from './pages/QuestionsResultPage';
-import WrongQuestionsPage from './pages/WrongQuestionsPage';
+import WrongAnsweredQuestionsPage from './pages/WrongAnsweredQuestionsPage';
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/questions" element={<QuestionPage />} />
       <Route path="/questions-result" element={<QuestionsResultPage />} />
-      <Route path="/wrong-questions" element={<WrongQuestionsPage />} />
+      <Route path="/wrong-questions" element={<WrongAnsweredQuestionsPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   );
