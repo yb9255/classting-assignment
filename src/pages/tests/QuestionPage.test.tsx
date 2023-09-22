@@ -7,6 +7,7 @@ import { rest } from 'msw';
 import { DB_API_URL } from '../../constants';
 import QuestionsResultPage from '../QuestionsResultPage';
 import MainPage from '../MainPage';
+import { decodeHtmlString } from '../../helpers';
 
 describe('MainPage', () => {
   const user = userEvent.setup();
@@ -37,7 +38,9 @@ describe('MainPage', () => {
     );
 
     const question = await screen.findByText(
-      'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?',
+      decodeHtmlString(
+        'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
+      ),
       { exact: false }
     );
 
@@ -67,7 +70,7 @@ describe('MainPage', () => {
     );
 
     const correctAnswer = await screen.findByText(
-      'The Lead Programmer&#039;s birthday'
+      decodeHtmlString('The Lead Programmer&#039;s birthday')
     );
 
     await waitFor(async () => {
@@ -88,7 +91,9 @@ describe('MainPage', () => {
     });
 
     const nextQuestionTitle = await screen.findByText(
-      'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.',
+      decodeHtmlString(
+        'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
+      ),
       { exact: false }
     );
 
@@ -105,7 +110,9 @@ describe('MainPage', () => {
     );
 
     const wrongAnswer = await screen.findByText(
-      'The first release date of &quot;Sonic the Hedgehog&quot;'
+      decodeHtmlString(
+        'The first release date of &quot;Sonic the Hedgehog&quot;'
+      )
     );
 
     await waitFor(async () => {
@@ -126,7 +133,9 @@ describe('MainPage', () => {
     });
 
     const nextQuestionTitle = await screen.findByText(
-      'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.',
+      decodeHtmlString(
+        'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
+      ),
       { exact: false }
     );
 
@@ -213,15 +222,6 @@ describe('MainPage', () => {
   });
 
   it('moves to QuestionResult Page when quiz is over', async () => {
-    render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
-          <Route path="/questions-result" element={<QuestionsResultPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
-
     server.resetHandlers(
       rest.get(DB_API_URL, (_, response, context) => {
         return response(
@@ -247,8 +247,17 @@ describe('MainPage', () => {
       })
     );
 
+    render(
+      <MemoryRouter initialEntries={['/questions']}>
+        <Routes>
+          <Route path="/questions" element={<QuestionPage />} />
+          <Route path="/questions-result" element={<QuestionsResultPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
     const correctAnswer = await screen.findByText(
-      'The Lead Programmer&#039;s birthday'
+      decodeHtmlString('The Lead Programmer&#039;s birthday')
     );
 
     await waitFor(async () => {

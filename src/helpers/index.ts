@@ -8,3 +8,8 @@ export function shuffleArray(array: string[]) {
 
   return newArray;
 }
+
+export function decodeHtmlString(markup: string) {
+  var doc = new DOMParser().parseFromString(markup, 'text/html');
+  return doc.documentElement.textContent ?? '';
+}

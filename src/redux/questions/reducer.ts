@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { InitialState, OriginalQuestionType, QuestionType } from './types';
-import { shuffleArray } from '../../helpers';
+import { decodeHtmlString, shuffleArray } from '../../helpers';
 
 const initialState: InitialState = {
   isLoading: false,
@@ -32,11 +32,13 @@ const questionsSlice = createSlice({
           type: result.type,
           difficulty: result.difficulty,
           category: result.category,
-          question: result.question,
-          correctAnswer: result.correct_answer,
+          question: decodeHtmlString(result.question),
+          correctAnswer: decodeHtmlString(result.correct_answer),
           answers: shuffleArray([
-            result.correct_answer,
-            ...result.incorrect_answers,
+            decodeHtmlString(result.correct_answer),
+            ...result.incorrect_answers.map((answer) =>
+              decodeHtmlString(answer)
+            ),
           ]),
         });
       });
