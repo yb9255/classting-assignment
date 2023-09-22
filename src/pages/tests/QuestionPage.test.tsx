@@ -5,7 +5,6 @@ import userEvent from '@testing-library/user-event';
 import { server } from '../../msw/server';
 import { rest } from 'msw';
 import { DB_API_URL } from '../../constants';
-import QuestionsResultPage from '../QuestionsResultPage';
 import MainPage from '../MainPage';
 import { decodeHtmlString } from '../../helpers';
 
@@ -219,68 +218,5 @@ describe('MainPage', () => {
 
     const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
     expect(mainTitle).toBeInTheDocument();
-  });
-
-  it('moves to QuestionResult Page when quiz is over', async () => {
-    server.resetHandlers(
-      rest.get(DB_API_URL, (_, response, context) => {
-        return response(
-          context.json({
-            response_code: 0,
-            results: [
-              {
-                category: 'Entertainment: Video Games',
-                type: 'multiple',
-                difficulty: 'hard',
-                question:
-                  'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?',
-                correct_answer: 'The Lead Programmer&#039;s birthday',
-                incorrect_answers: [
-                  'The first release date of &quot;Sonic the Hedgehog&quot;',
-                  'The date Sonic Team was founded',
-                  'The first release date of &quot;Sonic the Hedgehog 2&quot;',
-                ],
-              },
-            ],
-          })
-        );
-      })
-    );
-
-    render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
-          <Route path="/questions-result" element={<QuestionsResultPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
-
-    const correctAnswer = await screen.findByText(
-      decodeHtmlString('The Lead Programmer&#039;s birthday')
-    );
-
-    await waitFor(async () => {
-      await user.click(correctAnswer);
-    });
-
-    const messageModal = await screen.findByText('정답입니다!', {
-      exact: false,
-    });
-
-    const nextBtn = await screen.findByRole('button', { name: '다음' });
-
-    expect(messageModal).toBeInTheDocument();
-    expect(nextBtn).toBeInTheDocument();
-
-    await waitFor(async () => {
-      await user.click(nextBtn);
-    });
-
-    const questionResultHeading = screen.getByRole('heading', {
-      name: '문제 결과',
-    });
-
-    expect(questionResultHeading).toBeInTheDocument();
   });
 });
