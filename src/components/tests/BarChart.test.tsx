@@ -14,8 +14,9 @@ describe('BarChart', () => {
     const correctAnswerBar = screen.getByRole('bar-정답');
     const wrongAnswerBar = screen.getByRole('bar-오답');
 
-    expect(correctAnswerBar.getAttribute('height')).not.toBe(
-      wrongAnswerBar.getAttribute('height')
-    );
+    const correctAnswerBarSize = correctAnswerBar.getAttribute('height') ?? 0;
+    const wrongAnswerBarSize = wrongAnswerBar.getAttribute('height') ?? 0;
+
+    expect(correctAnswerBarSize > wrongAnswerBarSize).toBeTruthy();
   });
 });
