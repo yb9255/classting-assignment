@@ -1,13 +1,4 @@
-import { AxisBottomProps } from './AxisBottom';
-import { AxisLeftProps } from './AxisLeft';
-import { BarChartProps } from './BarChart';
-
-type BarsProps = {
-  data: BarChartProps['data'];
-  height: number;
-  scaleX: AxisBottomProps['scale'];
-  scaleY: AxisLeftProps['scale'];
-};
+import type { BarsProps } from './types';
 
 function Bars({ data, height, scaleX, scaleY }: BarsProps) {
   return (
@@ -17,6 +8,7 @@ function Bars({ data, height, scaleX, scaleY }: BarsProps) {
           key={`bar-${label}`}
           x={scaleX(label)}
           y={scaleY(value)}
+          role={`bar-${label}`}
           width={scaleX.bandwidth()}
           height={height - scaleY(value)}
           fill={label === '정답' ? 'blue' : 'red'}

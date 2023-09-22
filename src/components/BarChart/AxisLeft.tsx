@@ -1,9 +1,6 @@
-import { type ScaleLinear, axisLeft, select } from 'd3';
+import { axisLeft, select } from 'd3';
 import { useEffect, useRef } from 'react';
-
-export type AxisLeftProps = {
-  scale: ScaleLinear<number, number, never>;
-};
+import type { AxisLeftProps } from './types';
 
 function AxisLeft({ scale }: AxisLeftProps) {
   const ref = useRef<SVGGElement>(null);

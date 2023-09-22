@@ -1,10 +1,6 @@
-import { type ScaleBand, axisBottom, select } from 'd3';
+import { axisBottom, select } from 'd3';
 import { useEffect, useRef } from 'react';
-
-export type AxisBottomProps = {
-  scale: ScaleBand<string>;
-  transform: string;
-};
+import type { AxisBottomProps } from './types';
 
 function AxisBottom({ scale, transform }: AxisBottomProps) {
   const ref = useRef<SVGGElement>(null);
