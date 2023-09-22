@@ -12,6 +12,7 @@ function NavBar() {
 
 const NavBarContainer = styled.nav`
   display: flex;
+  justify-content: flex-end;
   gap: 20px;
 `;
 
