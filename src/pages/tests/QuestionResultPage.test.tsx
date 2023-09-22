@@ -131,7 +131,7 @@ describe('QuestionResult', () => {
       await user.click(nextBtn);
     });
 
-    const spentTimeDiv = screen.getByText('소요 시간: ', { exact: false });
+    const spentTimeDiv = screen.getByText('소요 시간:', { exact: false });
     expect(spentTimeDiv).toBeInTheDocument();
   });
 
