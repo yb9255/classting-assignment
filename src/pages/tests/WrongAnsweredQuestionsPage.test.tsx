@@ -7,43 +7,43 @@ import WrongAnsweredQuestionsPage, {
 
 const TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS = 8;
 
+const testWrongAnsweredQuestions: WrongAnsweredQuestionType[] = [
+  {
+    question: decodeHtmlString(
+      'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
+    ),
+    correctAnswer: decodeHtmlString('The Lead Programmer&#039;s birthday'),
+    chosenAnswer: decodeHtmlString(
+      'The first release date of &quot;Sonic the Hedgehog&quot;'
+    ),
+    answers: [
+      decodeHtmlString(
+        'The first release date of &quot;Sonic the Hedgehog&quot;'
+      ),
+      decodeHtmlString('The date Sonic Team was founded'),
+      decodeHtmlString(
+        'The first release date of &quot;Sonic the Hedgehog 2&quot;'
+      ),
+      decodeHtmlString('The Lead Programmer&#039;s birthday'),
+    ],
+  },
+  {
+    question: decodeHtmlString(
+      'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
+    ),
+    correctAnswer: decodeHtmlString('Hurt'),
+    chosenAnswer: decodeHtmlString('Closer'),
+    answers: [
+      decodeHtmlString('Closer'),
+      decodeHtmlString('A Warm Place'),
+      decodeHtmlString('Hurt'),
+      decodeHtmlString('Big Man with a Gun'),
+    ],
+  },
+];
+
 describe('WrongAnsweredQuestionsPage', () => {
   beforeAll(() => {
-    const testWrongAnsweredQuestions: WrongAnsweredQuestionType[] = [
-      {
-        question: decodeHtmlString(
-          'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
-        ),
-        correctAnswer: decodeHtmlString('The Lead Programmer&#039;s birthday'),
-        chosenAnswer: decodeHtmlString(
-          'The first release date of &quot;Sonic the Hedgehog&quot;'
-        ),
-        answers: [
-          decodeHtmlString(
-            'The first release date of &quot;Sonic the Hedgehog&quot;'
-          ),
-          decodeHtmlString('The date Sonic Team was founded'),
-          decodeHtmlString(
-            'The first release date of &quot;Sonic the Hedgehog 2&quot;'
-          ),
-          decodeHtmlString('The Lead Programmer&#039;s birthday'),
-        ],
-      },
-      {
-        question: decodeHtmlString(
-          'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
-        ),
-        correctAnswer: decodeHtmlString('Hurt'),
-        chosenAnswer: decodeHtmlString('Closer'),
-        answers: [
-          decodeHtmlString('Closer'),
-          decodeHtmlString('A Warm Place'),
-          decodeHtmlString('Hurt'),
-          decodeHtmlString('Big Man with a Gun'),
-        ],
-      },
-    ];
-
     localStorage.setItem(
       'wrong-answered-questions',
       JSON.stringify(testWrongAnsweredQuestions)
@@ -154,6 +154,31 @@ describe('WrongAnsweredQuestionsPage', () => {
     const totalAnswersList = screen.getAllByRole('listitem');
     expect(totalAnswersList).toHaveLength(
       TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS
+    );
+  });
+
+  it('shows there is no wrong answered questions in history', () => {
+    localStorage.clear();
+
+    render(
+      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
+        <Routes>
+          <Route
+            path="/wrong-answered-questions"
+            element={<WrongAnsweredQuestionsPage />}
+          />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    const noWrongAnsweredQuestionHeading = screen.getByRole('heading', {
+      name: '오답 기록이 없습니다.',
+    });
+    expect(noWrongAnsweredQuestionHeading).toBeInTheDocument();
+
+    localStorage.setItem(
+      'wrong-answered-questions',
+      JSON.stringify(testWrongAnsweredQuestions)
     );
   });
 });
