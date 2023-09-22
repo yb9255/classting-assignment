@@ -11,7 +11,7 @@ export function shuffleArray(array: string[]) {
 
 export function decodeHtmlString(markup: string) {
   const doc = new DOMParser().parseFromString(markup, 'text/html');
-  return doc.documentElement.textContent ?? '';
+  return doc.documentElement.textContent!;
 }
 
 export function changeMillisecondsToMinutesAndSeconds(milliseconds: number) {

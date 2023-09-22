@@ -7,9 +7,11 @@ import { rest } from 'msw';
 import { DB_API_URL } from '../../constants';
 import MainPage from '../MainPage';
 import { decodeHtmlString } from '../../helpers';
+import { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage';
 
 describe('MainPage', () => {
   const user = userEvent.setup();
+  afterAll(() => localStorage.clear());
 
   it('shows loading before question is rendered', () => {
     render(
@@ -218,5 +220,42 @@ describe('MainPage', () => {
 
     const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
     expect(mainTitle).toBeInTheDocument();
+  });
+
+  it('save wrong answered question in localStroge', async () => {
+    render(
+      <MemoryRouter initialEntries={['/questions']}>
+        <Routes>
+          <Route path="/questions" element={<QuestionPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    const wrongAnswer = await screen.findByText(
+      decodeHtmlString(
+        'The first release date of &quot;Sonic the Hedgehog&quot;'
+      )
+    );
+
+    await waitFor(async () => {
+      await user.click(wrongAnswer);
+    });
+
+    const wrongAnsweredQuestionData = localStorage.getItem(
+      'wrong-answered-questions'
+    );
+
+    const wrongAnsweredQuestionsHistory: WrongAnsweredQuestionType[] =
+      wrongAnsweredQuestionData ? JSON.parse(wrongAnsweredQuestionData) : [];
+
+    expect(wrongAnsweredQuestionsHistory[0].correctAnswer).toBe(
+      decodeHtmlString('The Lead Programmer&#039;s birthday')
+    );
+
+    expect(wrongAnsweredQuestionsHistory[0].chosenAnswer).toBe(
+      decodeHtmlString(
+        'The first release date of &quot;Sonic the Hedgehog&quot;'
+      )
+    );
   });
 });
