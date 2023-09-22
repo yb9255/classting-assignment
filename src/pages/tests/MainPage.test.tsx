@@ -12,7 +12,7 @@ describe('MainPage', () => {
       </MemoryRouter>
     );
 
-    const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
+    const mainTitle = screen.getByRole('heading', { name: '영화 퀴즈' });
     expect(mainTitle).toBeInTheDocument();
   });
 
@@ -25,7 +25,7 @@ describe('MainPage', () => {
       </MemoryRouter>
     );
 
-    const mainButton = screen.queryByRole('link', { name: '퀴즈 풀기' });
+    const mainButton = screen.getByRole('link', { name: '퀴즈 풀기' });
     expect(mainButton).toBeInTheDocument();
   });
 });
