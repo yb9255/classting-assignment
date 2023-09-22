@@ -22,4 +22,6 @@ export type InitialState = {
   correctAnsweredQuestions: QuestionType[];
   wrongAnsweredQuestions: QuestionType[];
   error: null | 'ERROR';
+  startTime: number;
+  endTime: number;
 };

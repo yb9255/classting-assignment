@@ -21,6 +21,8 @@ function WrapperComponent({ children }: { children: React.ReactNode }) {
         correctAnsweredQuestions: [],
         wrongAnsweredQuestions: [],
         error: null,
+        startTime: 0,
+        endTime: 0,
       },
     },
   });

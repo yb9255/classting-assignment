@@ -8,6 +8,8 @@ const initialState: InitialState = {
   correctAnsweredQuestions: [],
   wrongAnsweredQuestions: [],
   error: null,
+  startTime: 0,
+  endTime: 0,
 };
 
 const questionsSlice = createSlice({
@@ -64,6 +66,16 @@ const questionsSlice = createSlice({
     ) => {
       state.wrongAnsweredQuestions.push(action.payload);
     },
+    setStartTime: (state, action: PayloadAction<{ startTime: number }>) => {
+      state.startTime = action.payload.startTime;
+    },
+    setEndTime: (state, action: PayloadAction<{ endTIme: number }>) => {
+      state.endTime = action.payload.endTIme;
+    },
+    initTimes: (state) => {
+      state.startTime = 0;
+      state.endTime = 0;
+    },
     initError: (state) => {
       state.error = null;
     },
@@ -76,6 +88,9 @@ export const {
   fetchQuestionFailure,
   increaseCorrectAnsweredQuestions,
   increaseWrongAnsweredQuestions,
+  setStartTime,
+  setEndTime,
+  initTimes,
   initError,
 } = questionsSlice.actions;
 
