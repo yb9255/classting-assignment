@@ -52,7 +52,10 @@ function QuestionPage() {
       return;
     }
 
-    const wrongAnsweredQuestionData = localStorage.getItem('wrong-questions');
+    const wrongAnsweredQuestionData = localStorage.getItem(
+      'wrong-answered-questions'
+    );
+
     const wrongAnsweredQuestionsHistory: WrongAnsweredQuestionType[] =
       wrongAnsweredQuestionData ? JSON.parse(wrongAnsweredQuestionData) : [];
 
@@ -64,7 +67,7 @@ function QuestionPage() {
     });
 
     localStorage.setItem(
-      'wrong-questions',
+      'wrong-answered-questions',
       JSON.stringify(wrongAnsweredQuestionsHistory)
     );
 
