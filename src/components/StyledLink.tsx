@@ -13,6 +13,12 @@ const StyledLink = styled(Link)<{ $width?: number }>`
   font-size: 16px;
   border-radius: 15px;
   box-shadow: 2px 2px 3px rgba(0, 0, 0, 0.1);
+  transition: 0.3s all;
+
+  &:active {
+    box-shadow: none;
+    transform: translate(3px, 3px);
+  }
 `;
 
 export default StyledLink;
