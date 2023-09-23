@@ -1,4 +1,4 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getError,
@@ -16,6 +16,7 @@ import {
 } from '../redux/questions/reducer';
 import styled from 'styled-components';
 import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
+import StyledLink from '../components/StyledLink';
 
 function QuestionPage() {
   const dispatch = useDispatch();
@@ -97,9 +98,9 @@ function QuestionPage() {
     return (
       <>
         <h2>해당하는 문제가 없습니다.</h2>
-        <Link to="/" onClick={() => dispatch(initError())}>
+        <StyledLink to="/" onClick={() => dispatch(initError())}>
           돌아가기
-        </Link>
+        </StyledLink>
       </>
     );
   }
@@ -108,25 +109,30 @@ function QuestionPage() {
     return (
       <>
         <h2>ERROR!</h2>
-        <Link to="/" onClick={() => dispatch(initError())}>
+        <StyledLink to="/" onClick={() => dispatch(initError())}>
           돌아가기
-        </Link>
+        </StyledLink>
       </>
     );
   }
 
   return (
-    <div>
-      <h1>{`${currentQuestionIndex + 1}: ${targetQuestion.question}`}</h1>
-      <ul>
+    <QuestionContainer>
+      <QuestionHeading>{`${currentQuestionIndex + 1}: ${
+        targetQuestion.question
+      }`}</QuestionHeading>
+      <QuestionAnswersWrapper>
         {targetQuestion.answers.map((answer) => {
           return (
-            <li key={answer} onClick={() => handleClickAnswer(answer)}>
+            <QuestionAnswer
+              key={answer}
+              onClick={() => handleClickAnswer(answer)}
+            >
               {answer}
-            </li>
+            </QuestionAnswer>
           );
         })}
-      </ul>
+      </QuestionAnswersWrapper>
       {isModalOpen && (
         <>
           <Backdrop />
@@ -136,9 +142,44 @@ function QuestionPage() {
           </Modal>
         </>
       )}
-    </div>
+    </QuestionContainer>
   );
 }
+
+const QuestionContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding-top: 50px;
+`;
+const QuestionHeading = styled.h3`
+  font-size: 20px;
+  width: 700px;
+`;
+
+const QuestionAnswersWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  width: 700px;
+`;
+
+const QuestionAnswer = styled.li`
+  list-style: none;
+  background-color: #fff;
+  padding: 18px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 1.2px 6px -2px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: 0.3 all;
+
+  &:hover {
+    box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.5);
+  }
+`;
 
 const Backdrop = styled.div`
   position: absolute;
