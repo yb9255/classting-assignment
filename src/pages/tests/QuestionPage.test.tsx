@@ -143,7 +143,7 @@ describe('MainPage', () => {
     expect(nextQuestionTitle).toBeInTheDocument();
   });
 
-  it('shows error message when error occurred', async () => {
+  it('shows error message when wrong request occurred', async () => {
     render(
       <MemoryRouter initialEntries={['/questions']}>
         <Routes>
@@ -161,6 +161,40 @@ describe('MainPage', () => {
             results: [],
           })
         );
+      })
+    );
+
+    const errorHeading = await screen.findByRole('heading', {
+      name: /ERROR/i,
+    });
+
+    expect(errorHeading).toBeInTheDocument();
+
+    const errorBtn = await screen.findByRole('link', {
+      name: '돌아가기',
+    });
+
+    await waitFor(async () => {
+      await user.click(errorBtn);
+    });
+
+    const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
+    expect(mainTitle).toBeInTheDocument();
+  });
+
+  it('shows error message when server error occurred', async () => {
+    render(
+      <MemoryRouter initialEntries={['/questions']}>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/questions" element={<QuestionPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    server.resetHandlers(
+      rest.get(DB_API_URL, (_, response, context) => {
+        return response(context.status(500));
       })
     );
 
