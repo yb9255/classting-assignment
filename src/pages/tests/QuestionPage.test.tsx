@@ -9,7 +9,7 @@ import MainPage from '../MainPage';
 import { decodeHtmlString } from '../../helpers';
 import { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage';
 
-describe('MainPage', () => {
+describe('QuestionPage', () => {
   const user = userEvent.setup();
   afterAll(() => localStorage.clear());
 
