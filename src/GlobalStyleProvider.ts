@@ -5,7 +5,8 @@ const GlobalStyleProvider = createGlobalStyle`
     background-color: #fbebe4;
     font-family: "source-han-sans-korean", sans-serif;
     font-weight: 400;
-    font-style: normal;    
+    font-style: normal;  
+    color: #000000c4;  
   }
 `;
 
