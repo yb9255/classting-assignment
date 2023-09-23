@@ -1,11 +1,11 @@
-import { Link } from 'react-router-dom';
 import { styled } from 'styled-components';
+import StyledLink from './StyledLink';
 
 function NavBar() {
   return (
     <NavBarContainer>
-      <Link to="/">홈</Link>
-      <Link to="/wrong-answered-questions">오답 노트</Link>
+      <StyledLink to="/">홈</StyledLink>
+      <StyledLink to="/wrong-answered-questions">오답 노트</StyledLink>
     </NavBarContainer>
   );
 }
