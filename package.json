@@ -55,7 +55,8 @@
     ],
     "collectCoverageFrom": [
       "!src/index.tsx",
-      "!src/reportWebVitals.ts"
+      "!src/reportWebVitals.ts",
+      "!src/GlobalStyleProvider.ts"
     ]
   },
   "devDependencies": {
