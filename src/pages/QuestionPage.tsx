@@ -81,7 +81,7 @@ function QuestionPage() {
     setModalMessage('');
 
     if (currentQuestionIndex === lastQuestionIndex) {
-      dispatch(setEndTime({ endTIme: Date.now() }));
+      dispatch(setEndTime({ endTime: Date.now() }));
       navigate('/questions-result');
       return;
     }

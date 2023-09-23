@@ -29,7 +29,7 @@ const questionsSlice = createSlice({
 
       const filteredQuestions: QuestionType[] = [];
 
-      action.payload.results.forEach((result, index) => {
+      action.payload.results.forEach((result) => {
         filteredQuestions.push({
           type: result.type,
           difficulty: result.difficulty,
@@ -69,8 +69,8 @@ const questionsSlice = createSlice({
     setStartTime: (state, action: PayloadAction<{ startTime: number }>) => {
       state.startTime = action.payload.startTime;
     },
-    setEndTime: (state, action: PayloadAction<{ endTIme: number }>) => {
-      state.endTime = action.payload.endTIme;
+    setEndTime: (state, action: PayloadAction<{ endTime: number }>) => {
+      state.endTime = action.payload.endTime;
     },
     initTimes: (state) => {
       state.startTime = 0;
