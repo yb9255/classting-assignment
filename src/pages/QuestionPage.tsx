@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
 import StyledLink from '../components/StyledLink';
 import Modal from '../components/Modal';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 function QuestionPage() {
   const dispatch = useDispatch();
@@ -92,7 +93,7 @@ function QuestionPage() {
   }
 
   if (isLoading) {
-    return <h2>loading...</h2>;
+    return <LoadingSpinner data-testid="loading-spinner" />;
   }
 
   if (!isLoading && !error && !targetQuestion) {
@@ -151,6 +152,7 @@ const QuestionContainer = styled.section`
   box-sizing: border-box;
   padding-top: 50px;
 `;
+
 const QuestionHeading = styled.h3`
   font-size: 20px;
   width: 700px;
