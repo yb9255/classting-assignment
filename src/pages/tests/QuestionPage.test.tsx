@@ -22,10 +22,7 @@ describe('QuestionPage', () => {
       </MemoryRouter>
     );
 
-    const loadingComponent = screen.getByRole('heading', {
-      name: /loading.../i,
-    });
-
+    const loadingComponent = screen.getByTestId('loading-spinner');
     expect(loadingComponent).toBeInTheDocument();
   });
 
