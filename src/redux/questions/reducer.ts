@@ -79,6 +79,10 @@ const questionsSlice = createSlice({
     initError: (state) => {
       state.error = null;
     },
+    initAnsweredQuestions: (state) => {
+      state.correctAnsweredQuestions = [];
+      state.wrongAnsweredQuestions = [];
+    },
   },
 });
 
@@ -92,6 +96,7 @@ export const {
   setEndTime,
   initTimes,
   initError,
+  initAnsweredQuestions,
 } = questionsSlice.actions;
 
 export default questionsSlice.reducer;

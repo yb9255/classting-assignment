@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   getCorrectAnsweredQuestions,
   getEndTime,
@@ -10,8 +10,10 @@ import { useNavigate } from 'react-router-dom';
 import { changeMillisecondsToMinutesAndSeconds } from '../helpers';
 import { BarChart } from '../components/BarChart';
 import StyledLink from '../components/StyledLink';
+import { initAnsweredQuestions } from '../redux/questions/reducer';
 
 function QuestionsResultPage() {
+  const dispatch = useDispatch();
   const [resultData, setResultData] = useState<
     { label: '정답' | '오답'; value: number }[] | null
   >(null);
@@ -43,6 +45,12 @@ function QuestionsResultPage() {
       },
     ]);
   }, [correctAnswerCount, wrongAnswerCount]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(initAnsweredQuestions());
+    };
+  }, [dispatch]);
 
   return (
     <>
