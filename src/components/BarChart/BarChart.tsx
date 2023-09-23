@@ -4,6 +4,8 @@ import AxisLeft from './AxisLeft';
 import Bars from './Bars';
 import type { BarChartProps } from './types';
 
+const QUIZ_LENGTH = 10;
+
 function BarChart({ data }: BarChartProps) {
   const margin = { top: 10, right: 0, bottom: 20, left: 30 };
   const width = 500 - margin.left - margin.right;
@@ -14,9 +16,7 @@ function BarChart({ data }: BarChartProps) {
     .range([0, width])
     .padding(0.5);
 
-  const scaleY = scaleLinear()
-    .domain([0, Math.max(...data.map(({ value }) => value))])
-    .range([height, 0]);
+  const scaleY = scaleLinear().domain([0, QUIZ_LENGTH]).range([height, 0]);
 
   return (
     <svg
