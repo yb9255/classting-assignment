@@ -63,11 +63,14 @@ describe('QuestionPage', () => {
 
   it("shows message '정답입니다!' when the answer is correct", async () => {
     render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
-        </Routes>
-      </MemoryRouter>
+      <>
+        <div id="overlay-root" />
+        <MemoryRouter initialEntries={['/questions']}>
+          <Routes>
+            <Route path="/questions" element={<QuestionPage />} />
+          </Routes>
+        </MemoryRouter>
+      </>
     );
 
     const correctAnswer = await screen.findByText(
@@ -103,11 +106,14 @@ describe('QuestionPage', () => {
 
   it("shows message '틀렸습니다!' when the answer is wrong", async () => {
     render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
-        </Routes>
-      </MemoryRouter>
+      <>
+        <div id="overlay-root" />
+        <MemoryRouter initialEntries={['/questions']}>
+          <Routes>
+            <Route path="/questions" element={<QuestionPage />} />
+          </Routes>
+        </MemoryRouter>
+      </>
     );
 
     const wrongAnswer = await screen.findByText(

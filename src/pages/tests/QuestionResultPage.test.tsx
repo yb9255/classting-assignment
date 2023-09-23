@@ -39,12 +39,15 @@ describe('QuestionResult', () => {
     );
 
     render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
-          <Route path="/questions-result" element={<QuestionsResultPage />} />
-        </Routes>
-      </MemoryRouter>
+      <>
+        <div id="overlay-root" />
+        <MemoryRouter initialEntries={['/questions']}>
+          <Routes>
+            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions-result" element={<QuestionsResultPage />} />
+          </Routes>
+        </MemoryRouter>
+      </>
     );
 
     const correctAnswer = await screen.findByText(
@@ -102,12 +105,15 @@ describe('QuestionResult', () => {
     );
 
     render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
-          <Route path="/questions-result" element={<QuestionsResultPage />} />
-        </Routes>
-      </MemoryRouter>
+      <>
+        <div id="overlay-root" />
+        <MemoryRouter initialEntries={['/questions']}>
+          <Routes>
+            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions-result" element={<QuestionsResultPage />} />
+          </Routes>
+        </MemoryRouter>
+      </>
     );
 
     const correctAnswer = await screen.findByText(
@@ -158,12 +164,15 @@ describe('QuestionResult', () => {
 
   it('shows how many rights and wrongs user got', async () => {
     render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
-          <Route path="/questions-result" element={<QuestionsResultPage />} />
-        </Routes>
-      </MemoryRouter>
+      <>
+        <div id="overlay-root" />
+        <MemoryRouter initialEntries={['/questions']}>
+          <Routes>
+            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions-result" element={<QuestionsResultPage />} />
+          </Routes>
+        </MemoryRouter>
+      </>
     );
 
     const correctAnswer = await screen.findByText(
@@ -240,7 +249,15 @@ describe('QuestionResult', () => {
           <Route path="/" element={<MainPage />} />
           <Route path="/questions-result" element={<QuestionsResultPage />} />
         </Routes>
-      </MemoryRouter>
+      </MemoryRouter>,
+      {
+        preloadedState: {
+          questions: {
+            startTime: 0,
+            endTime: 0,
+          },
+        },
+      }
     );
 
     const mainTitle = screen.getByRole('heading', { name: '영화 퀴즈' });

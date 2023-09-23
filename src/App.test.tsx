@@ -18,6 +18,7 @@ describe('App', () => {
       <MemoryRouter initialEntries={['/']}>
         <Provider store={store}>
           <App />
+          <div id="overlay-root" />
         </Provider>
       </MemoryRouter>
     );
