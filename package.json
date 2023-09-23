@@ -54,8 +54,7 @@
     ],
     "collectCoverageFrom": [
       "!src/index.tsx",
-      "!src/reportWebVitals.ts",
-      "!src/redux/store.ts"
+      "!src/reportWebVitals.ts"
     ]
   },
   "devDependencies": {
