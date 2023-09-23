@@ -13,25 +13,29 @@ type ExpectedAxiosResponse = AxiosResponse<{
   results: OriginalQuestionType[];
 }>;
 
-function* watchFetchQuestions() {
+export function* watchFetchQuestions() {
   const query = '?amount=10&category=11&type=multiple';
 
-  const questionsResponse: ExpectedAxiosResponse = yield call(() =>
-    axios.get(`${DB_API_URL}${query}`)
-  );
-
-  const isSuccess = questionsResponse.data.response_code <= 1;
-
-  if (isSuccess) {
-    yield put(
-      fetchQuestionsSuccess({
-        results: questionsResponse.data.results,
-      })
+  try {
+    const questionsResponse: ExpectedAxiosResponse = yield call(() =>
+      axios.get(`${DB_API_URL}${query}`)
     );
-    return;
-  }
 
-  yield put(fetchQuestionFailure({ data: { error: 'ERROR' } }));
+    const isSuccess = questionsResponse.data.response_code <= 1;
+
+    if (isSuccess) {
+      yield put(
+        fetchQuestionsSuccess({
+          results: questionsResponse.data.results,
+        })
+      );
+      return;
+    }
+
+    yield put(fetchQuestionFailure({ data: { error: 'ERROR' } }));
+  } catch {
+    yield put(fetchQuestionFailure({ data: { error: 'ERROR' } }));
+  }
 }
 
 export default function* watch() {
