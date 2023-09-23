@@ -17,6 +17,7 @@ import {
 import styled from 'styled-components';
 import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
 import StyledLink from '../components/StyledLink';
+import Modal from '../components/Modal';
 
 function QuestionPage() {
   const dispatch = useDispatch();
@@ -134,13 +135,10 @@ function QuestionPage() {
         })}
       </QuestionAnswersWrapper>
       {isModalOpen && (
-        <>
-          <Backdrop />
-          <Modal>
-            <div>{modalMessage}</div>
-            <button onClick={handleMoveToNextQuestion}>다음</button>
-          </Modal>
-        </>
+        <Modal
+          modalMessage={modalMessage}
+          onClickButton={handleMoveToNextQuestion}
+        />
       )}
     </QuestionContainer>
   );
@@ -179,27 +177,6 @@ const QuestionAnswer = styled.li`
   &:hover {
     box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.5);
   }
-`;
-
-const Backdrop = styled.div`
-  position: absolute;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.3);
-  z-index: 2;
-`;
-
-const Modal = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-  height: 200px;
-  margin: auto;
-  border: 1px solid black;
-  position: absolute;
-  z-index: 3;
 `;
 
 export default QuestionPage;
