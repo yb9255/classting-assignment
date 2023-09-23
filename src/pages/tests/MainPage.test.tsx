@@ -25,7 +25,7 @@ describe('MainPage', () => {
       </MemoryRouter>
     );
 
-    const mainButton = screen.getByRole('link', { name: '퀴즈 풀기' });
+    const mainButton = screen.getByRole('link', { name: '시작하기' });
     expect(mainButton).toBeInTheDocument();
   });
 });
