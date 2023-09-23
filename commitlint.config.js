@@ -19,7 +19,7 @@ const allowTypes = [
 module.exports = {
   parserPreset: {
     parserOpts: {
-      headerPattern: /(<\w*>|.\w*) (.*)/,
+      headerPattern: /(<\w*>) (.*)/,
       headerCorrespondence: ['type', 'subject'],
     },
   },
