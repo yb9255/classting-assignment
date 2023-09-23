@@ -28,7 +28,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage --watchAll",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
@@ -58,10 +59,12 @@
     ]
   },
   "devDependencies": {
+    "@commitlint/cli": "^17.7.1",
     "@testing-library/dom": "^9.3.3",
     "@testing-library/user-event": "^14.5.1",
     "@types/axios": "^0.14.0",
     "@types/d3": "^7.4.0",
-    "@types/styled-components": "^5.1.27"
+    "@types/styled-components": "^5.1.27",
+    "husky": "^8.0.0"
   }
 }
