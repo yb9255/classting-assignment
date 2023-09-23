@@ -46,20 +46,16 @@ function QuestionsResultPage() {
     ]);
   }, [correctAnswerCount, wrongAnswerCount]);
 
-  useEffect(() => {
-    return () => {
-      dispatch(initAnsweredQuestions());
-    };
-  }, [dispatch]);
-
   return (
     <>
       <h1>문제 결과</h1>
       <h3>소요 시간: {spentSeconds}</h3>
       <div>정답 수: {correctAnswerCount}</div>
       <div>오답 수: {wrongAnswerCount}</div>
-      <StyledLink to="/">돌아가기</StyledLink>
       {resultData && <BarChart data={resultData} />}
+      <div onClick={() => dispatch(initAnsweredQuestions())}>
+        <StyledLink to="/">돌아가기</StyledLink>
+      </div>
     </>
   );
 }
