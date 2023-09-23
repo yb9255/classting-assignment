@@ -9,6 +9,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { changeMillisecondsToMinutesAndSeconds } from '../helpers';
 import { BarChart } from '../components/BarChart';
+import StyledLink from '../components/StyledLink';
 
 function QuestionsResultPage() {
   const [resultData, setResultData] = useState<
@@ -49,6 +50,7 @@ function QuestionsResultPage() {
       <h3>소요 시간: {spentSeconds}</h3>
       <div>정답 수: {correctAnswerCount}</div>
       <div>오답 수: {wrongAnswerCount}</div>
+      <StyledLink to="/">돌아가기</StyledLink>
       {resultData && <BarChart data={resultData} />}
     </>
   );
