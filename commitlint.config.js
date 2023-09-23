@@ -2,8 +2,8 @@ const types = {
   feature: '<feature>',
   fix: '<fix>',
   chore: '<chore>',
-  refactor: '<refactor>',
   style: '<style>',
+  test: '<test>',
   configure: '<configure>',
 };
 
@@ -12,6 +12,7 @@ const allowTypes = [
   types.fix,
   types.chore,
   types.style,
+  types.test,
   types.configure,
 ];
 
