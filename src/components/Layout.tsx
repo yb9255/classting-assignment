@@ -19,9 +19,9 @@ function Layout({ layoutType = 'default', children }: Props) {
 const mainLayoutCss = css`
   width: 100vw;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  justify-items: center;
   align-items: center;
 `;
 
