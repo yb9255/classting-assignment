@@ -222,7 +222,7 @@ describe('MainPage', () => {
     expect(mainTitle).toBeInTheDocument();
   });
 
-  it('save wrong answered question in localStroge', async () => {
+  it('save wrong answered question in localStorage', async () => {
     render(
       <MemoryRouter initialEntries={['/questions']}>
         <Routes>
