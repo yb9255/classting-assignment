@@ -19,6 +19,7 @@ import styled from 'styled-components';
 import { StyledLink, Modal, LoadingSpinner, QuestionCard } from '../components';
 import { saveDataToLocalStorageArray } from '../helpers';
 import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
 
 function QuestionPage() {
   const dispatch = useDispatch();
@@ -65,7 +66,7 @@ function QuestionPage() {
     };
 
     saveDataToLocalStorageArray({
-      arrayId: 'wrong-answered-questions',
+      arrayId: LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
       data: wrongAnsweredQuestionData,
     });
 

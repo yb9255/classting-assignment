@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
 import { QuestionCard, PageNavigation } from '../components';
 import { useState } from 'react';
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
 
 export type WrongAnsweredQuestionType = {
   id: string;
@@ -15,7 +16,7 @@ const WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE = 5;
 function WrongAnsweredQuestionsPage() {
   const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const wrongAnsweredQuestionData = localStorage.getItem(
-    'wrong-answered-questions'
+    LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID
   );
 
   const wrongAnsweredQuestionHistory: WrongAnsweredQuestionType[] =
