@@ -67,6 +67,7 @@ const ModalButton = styled.button`
   transition: 0.3s all;
   border: none;
   cursor: pointer;
+  user-select: none;
 
   &:active {
     box-shadow: none;
