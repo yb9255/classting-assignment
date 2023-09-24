@@ -3,7 +3,7 @@ import MainPage from './pages/MainPage';
 import QuestionPage from './pages/QuestionPage';
 import QuestionsResultPage from './pages/QuestionsResultPage';
 import WrongAnsweredQuestionsPage from './pages/WrongAnsweredQuestionsPage';
-import Layout from './components/Layout';
+import { Layout } from './components';
 import { useLocation } from 'react-router-dom';
 
 function App() {

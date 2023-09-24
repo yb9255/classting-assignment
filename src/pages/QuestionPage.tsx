@@ -17,10 +17,7 @@ import {
 } from '../redux/questions/reducer';
 import styled from 'styled-components';
 import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
-import StyledLink from '../components/StyledLink';
-import Modal from '../components/Modal';
-import LoadingSpinner from '../components/LoadingSpinner';
-import QuestionCard from '../components/QuestionCard';
+import { StyledLink, Modal, LoadingSpinner, QuestionCard } from '../components';
 
 function QuestionPage() {
   const dispatch = useDispatch();

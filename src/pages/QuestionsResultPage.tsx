@@ -8,8 +8,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { changeMillisecondsToMinutesAndSeconds } from '../helpers';
-import { BarChart } from '../components/BarChart';
-import StyledLink from '../components/StyledLink';
+import { BarChart, StyledLink } from '../components';
 import { initAnsweredQuestions } from '../redux/questions/reducer';
 import { styled } from 'styled-components';
 

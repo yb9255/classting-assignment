@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { initTimes } from '../redux/questions/reducer';
-import StyledLink from '../components/StyledLink';
+import { StyledLink } from '../components';
 import { MAIN_PAGE_IMAGE_SRC } from '../constants';
 
 function MainPage() {

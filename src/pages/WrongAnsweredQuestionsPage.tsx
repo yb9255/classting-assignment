@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
-import QuestionCard from '../components/QuestionCard';
+import { QuestionCard, PageNavigation } from '../components';
 import { useState } from 'react';
-import PageNavigation from '../components/PageNavigation';
 
 export type WrongAnsweredQuestionType = {
   id: string;
