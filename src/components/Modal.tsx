@@ -2,11 +2,12 @@ import { styled } from 'styled-components';
 import { createPortal } from 'react-dom';
 import StyledButton from './StyledButton';
 type Props = {
-  modalMessage: string;
+  mainMessage: string;
+  subMessage?: string | null;
   onClickButton: () => void;
 };
 
-function Modal({ modalMessage, onClickButton }: Props) {
+function Modal({ mainMessage, subMessage, onClickButton }: Props) {
   const overlayRoot = document.getElementById('overlay-root');
 
   return overlayRoot
@@ -14,7 +15,8 @@ function Modal({ modalMessage, onClickButton }: Props) {
         <>
           <Backdrop />
           <ModalBody>
-            <ModalMessageBox>{modalMessage}</ModalMessageBox>
+            <MessageBox>{mainMessage}</MessageBox>
+            {subMessage && <MessageBox>{subMessage}</MessageBox>}
             <StyledButton onClick={onClickButton}>다음</StyledButton>
           </ModalBody>
         </>,
@@ -50,7 +52,7 @@ const ModalBody = styled.div`
   background-color: #fff;
 `;
 
-const ModalMessageBox = styled.div`
+const MessageBox = styled.div`
   font-size: 20px;
 `;
 

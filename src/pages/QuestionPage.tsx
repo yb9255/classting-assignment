@@ -25,7 +25,8 @@ function QuestionPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMessage, setModalMessage] = useState('');
+  const [modalMainMessage, setModalMainMessage] = useState('');
+  const [modalSubMessage, setModalSubMessage] = useState<string | null>(null);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const isLoading = useSelector(getIsLoading);
   const error = useSelector(getError);
@@ -52,7 +53,7 @@ function QuestionPage() {
     setIsModalOpen(true);
 
     if (targetQuestion.correctAnswer === answer) {
-      setModalMessage('정답입니다!');
+      setModalMainMessage('정답입니다!');
       dispatch(increaseCorrectAnsweredQuestions(targetQuestion));
       return;
     }
@@ -70,14 +71,15 @@ function QuestionPage() {
       data: wrongAnsweredQuestionData,
     });
 
-    setModalMessage('틀렸습니다!');
-
+    setModalMainMessage('틀렸습니다!');
+    setModalSubMessage(`정답: ${targetQuestion.correctAnswer}`);
     dispatch(increaseWrongAnsweredQuestions(targetQuestion));
   }
 
   function handleMoveToNextQuestion() {
     setIsModalOpen(false);
-    setModalMessage('');
+    setModalMainMessage('');
+    setModalSubMessage(null);
 
     if (currentQuestionIndex === lastQuestionIndex) {
       dispatch(setEndTime({ endTime: Date.now() }));
@@ -134,7 +136,8 @@ function QuestionPage() {
         </QuestionAnswersWrapper>
         {isModalOpen && (
           <Modal
-            modalMessage={modalMessage}
+            mainMessage={modalMainMessage}
+            subMessage={modalSubMessage}
             onClickButton={handleMoveToNextQuestion}
           />
         )}
