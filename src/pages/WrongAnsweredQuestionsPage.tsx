@@ -1,5 +1,7 @@
 import { styled } from 'styled-components';
 import QuestionCard from '../components/QuestionCard';
+import { useState } from 'react';
+import PageNavigation from '../components/PageNavigation';
 
 export type WrongAnsweredQuestionType = {
   id: string;
@@ -9,13 +11,42 @@ export type WrongAnsweredQuestionType = {
   answers: string[];
 };
 
+const WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE = 5;
+
 function WrongAnsweredQuestionsPage() {
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const wrongAnsweredQuestionData = localStorage.getItem(
     'wrong-answered-questions'
   );
 
   const wrongAnsweredQuestionHistory: WrongAnsweredQuestionType[] =
     wrongAnsweredQuestionData ? JSON.parse(wrongAnsweredQuestionData) : [];
+
+  const firstSlice = currentPageIndex * WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE;
+
+  const totalPageCount = Math.ceil(
+    wrongAnsweredQuestionHistory.length /
+      WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE
+  );
+
+  const currentPageQuestions = wrongAnsweredQuestionHistory.slice(
+    firstSlice,
+    firstSlice + WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE
+  );
+
+  function handleClickPrevButton() {
+    if (currentPageIndex === 0) return;
+    window.scrollTo({ top: 0 });
+
+    setCurrentPageIndex(currentPageIndex - 1);
+  }
+
+  function handleClickNextButton() {
+    if (currentPageIndex + 1 === totalPageCount) return;
+    window.scrollTo({ top: 0 });
+
+    setCurrentPageIndex(currentPageIndex + 1);
+  }
 
   if (wrongAnsweredQuestionHistory.length <= 0) {
     return (
@@ -33,7 +64,7 @@ function WrongAnsweredQuestionsPage() {
       <WrongAnsweredQuestionPageHeading>
         오답 노트
       </WrongAnsweredQuestionPageHeading>
-      {wrongAnsweredQuestionHistory.map((question) => {
+      {currentPageQuestions.map((question) => {
         return (
           <QuestionCard key={question.id}>
             <QuestionHeading>문제: {question.question}</QuestionHeading>
@@ -48,6 +79,13 @@ function WrongAnsweredQuestionsPage() {
           </QuestionCard>
         );
       })}
+      <Spacing />
+      <PageNavigation
+        currentPage={currentPageIndex + 1}
+        totalPageCount={totalPageCount}
+        onPrev={handleClickPrevButton}
+        onNext={handleClickNextButton}
+      />
     </Container>
   );
 }
@@ -89,6 +127,10 @@ const QuestionAnswer = styled.li`
   box-shadow: 0 1.2px 6px -2px rgba(0, 0, 0, 0.6);
   transition: 0.3 all;
   user-select: none;
+`;
+
+const Spacing = styled.div`
+  height: 30px;
 `;
 
 export default WrongAnsweredQuestionsPage;
