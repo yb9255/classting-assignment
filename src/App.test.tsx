@@ -23,7 +23,7 @@ describe('App', () => {
       </MemoryRouter>
     );
 
-    const startButton = screen.getByRole('link', { name: '시작하기' });
+    const startButton = screen.getByRole('link', { name: '퀴즈 풀기' });
     expect(startButton).toBeInTheDocument();
 
     await waitFor(async () => {

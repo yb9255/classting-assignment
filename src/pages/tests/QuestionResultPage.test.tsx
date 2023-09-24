@@ -380,7 +380,7 @@ describe('QuestionResult', () => {
       await user.click(backButton);
     });
 
-    const mainButton = screen.getByRole('link', { name: '시작하기' });
+    const mainButton = screen.getByRole('link', { name: '퀴즈 풀기' });
 
     await waitFor(async () => {
       await user.click(mainButton);
