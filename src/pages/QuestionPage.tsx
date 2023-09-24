@@ -150,7 +150,10 @@ const QuestionContainer = styled.section`
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  padding-top: 50px;
+  margin-top: 50px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px 0;
 `;
 
 const QuestionHeading = styled.h3`
@@ -168,13 +171,14 @@ const QuestionAnswersWrapper = styled.ul`
 
 const QuestionAnswer = styled.li`
   list-style: none;
-  background-color: #fff;
+  background-color: #fbebe4;
   padding: 18px;
   box-sizing: border-box;
   border-radius: 4px;
   box-shadow: 0 1.2px 6px -2px rgba(0, 0, 0, 0.6);
   cursor: pointer;
   transition: 0.3 all;
+  user-select: none;
 
   &:hover {
     box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.5);
