@@ -30,10 +30,12 @@ function QuestionPage() {
   const error = useSelector(getError);
   const questions = useSelector(getQuestions);
 
+  /** 문제 목록을 서버에 요청하는 액션을 사가에 전송 */
   useEffect(() => {
     dispatch(fetchQuestions());
   }, [dispatch]);
 
+  /** 문제 목록을 서버에서 받아왔다면, 시작 시간을 설정 */
   useEffect(() => {
     const hasQuestion = questions.length > 0;
 

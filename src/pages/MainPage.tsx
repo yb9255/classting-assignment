@@ -7,6 +7,7 @@ import { MAIN_PAGE_IMAGE_SRC } from '../constants';
 function MainPage() {
   const dispatch = useDispatch();
 
+  /** 페이지 진입 시, 이전 문제풀이 때 설정된 시작 시간과 끝 시간을 초기화 */
   useEffect(() => {
     dispatch(initTimes());
   }, [dispatch]);

@@ -20,6 +20,13 @@ function QuestionsResultPage() {
   const correctAnswerCount = useSelector(getCorrectAnsweredQuestions).length;
   const wrongAnswerCount = useSelector(getWrongAnsweredQuestions).length;
 
+  /** 시작 시간과 끝 시간이 같을 시, 퀴즈를 풀지 않았다고 간주하여 메인 페이지로 이동 */
+  useEffect(() => {
+    if (startTime === endTime) {
+      navigate('/');
+    }
+  }, [startTime, endTime, navigate]);
+
   const resultData = [
     {
       label: '정답',
@@ -34,12 +41,6 @@ function QuestionsResultPage() {
   const spentSeconds = changeMillisecondsToMinutesAndSeconds(
     endTime - startTime
   );
-
-  useEffect(() => {
-    if (startTime === endTime) {
-      navigate('/');
-    }
-  }, [startTime, endTime, navigate]);
 
   return (
     <Container>
