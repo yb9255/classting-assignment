@@ -1,58 +1,25 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { decodeHtmlString } from '../../helpers';
-import { screen, render } from '../../test-utils';
-import WrongAnsweredQuestionsPage, {
-  WrongAnsweredQuestionType,
-} from '../WrongAnsweredQuestionsPage';
-
-const TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS = 8;
-
-const testWrongAnsweredQuestions: WrongAnsweredQuestionType[] = [
-  {
-    id: 'abcd',
-    question: decodeHtmlString(
-      'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
-    ),
-    correctAnswer: decodeHtmlString('The Lead Programmer&#039;s birthday'),
-    chosenAnswer: decodeHtmlString(
-      'The first release date of &quot;Sonic the Hedgehog&quot;'
-    ),
-    answers: [
-      decodeHtmlString(
-        'The first release date of &quot;Sonic the Hedgehog&quot;'
-      ),
-      decodeHtmlString('The date Sonic Team was founded'),
-      decodeHtmlString(
-        'The first release date of &quot;Sonic the Hedgehog 2&quot;'
-      ),
-      decodeHtmlString('The Lead Programmer&#039;s birthday'),
-    ],
-  },
-  {
-    id: 'efgh',
-    question: decodeHtmlString(
-      'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
-    ),
-    correctAnswer: decodeHtmlString('Hurt'),
-    chosenAnswer: decodeHtmlString('Closer'),
-    answers: [
-      decodeHtmlString('Closer'),
-      decodeHtmlString('A Warm Place'),
-      decodeHtmlString('Hurt'),
-      decodeHtmlString('Big Man with a Gun'),
-    ],
-  },
-];
+import { screen, render, waitFor } from '../../test-utils';
+import WrongAnsweredQuestionsPage from '../WrongAnsweredQuestionsPage';
+import {
+  longTestWrongAnsweredQuestions,
+  shortTestWrongAnsweredQuestions,
+} from './WrongAnsweredQuestion.mock';
+import userEvent from '@testing-library/user-event';
 
 describe('WrongAnsweredQuestionsPage', () => {
-  beforeAll(() => {
+  const user = userEvent.setup();
+  window.scrollTo = jest.fn();
+
+  beforeEach(() => {
     localStorage.setItem(
       'wrong-answered-questions',
-      JSON.stringify(testWrongAnsweredQuestions)
+      JSON.stringify(shortTestWrongAnsweredQuestions)
     );
   });
 
-  afterAll(() => {
+  afterEach(() => {
     localStorage.clear();
   });
 
@@ -142,6 +109,8 @@ describe('WrongAnsweredQuestionsPage', () => {
   });
 
   it('shows list of answers', () => {
+    const TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS = 8;
+
     render(
       <MemoryRouter initialEntries={['/wrong-answered-questions']}>
         <Routes>
@@ -176,11 +145,103 @@ describe('WrongAnsweredQuestionsPage', () => {
     const noWrongAnsweredQuestionHeading = screen.getByRole('heading', {
       name: '오답 기록이 없습니다.',
     });
-    expect(noWrongAnsweredQuestionHeading).toBeInTheDocument();
 
+    expect(noWrongAnsweredQuestionHeading).toBeInTheDocument();
+  });
+
+  it('shows only 5 question per page', () => {
     localStorage.setItem(
       'wrong-answered-questions',
-      JSON.stringify(testWrongAnsweredQuestions)
+      JSON.stringify(longTestWrongAnsweredQuestions)
     );
+
+    render(
+      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
+        <Routes>
+          <Route
+            path="/wrong-answered-questions"
+            element={<WrongAnsweredQuestionsPage />}
+          />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    const wrongAnsweredQuestionTitleList = screen.getAllByText('문제', {
+      exact: false,
+    });
+
+    expect(wrongAnsweredQuestionTitleList).toHaveLength(5);
+  });
+
+  it('change page and card based on pagination when click pagination btn', async () => {
+    localStorage.setItem(
+      'wrong-answered-questions',
+      JSON.stringify(longTestWrongAnsweredQuestions)
+    );
+
+    render(
+      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
+        <Routes>
+          <Route
+            path="/wrong-answered-questions"
+            element={<WrongAnsweredQuestionsPage />}
+          />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    const prevButton = screen.getByRole('button', { name: '<' });
+    const nextButton = screen.getByRole('button', { name: '>' });
+
+    expect(prevButton).toBeInTheDocument();
+    expect(nextButton).toBeInTheDocument();
+
+    await waitFor(async () => {
+      await user.click(nextButton);
+    });
+
+    const wrongAnsweredQuestionTitleListOnSecondPage =
+      await screen.findAllByText('문제', {
+        exact: false,
+      });
+
+    expect(wrongAnsweredQuestionTitleListOnSecondPage).toHaveLength(2);
+
+    await waitFor(async () => {
+      await user.click(nextButton);
+    });
+
+    const wrongAnsweredQuestionTitleListOnSecondPage2 =
+      await screen.findAllByText('문제', {
+        exact: false,
+      });
+
+    expect(wrongAnsweredQuestionTitleListOnSecondPage2).toHaveLength(2);
+
+    await waitFor(async () => {
+      await user.click(prevButton);
+    });
+
+    const wrongAnswerQuestionTitleListOnFirstPage = await screen.findAllByText(
+      '문제',
+      {
+        exact: false,
+      }
+    );
+
+    expect(wrongAnswerQuestionTitleListOnFirstPage).toHaveLength(5);
+
+    await waitFor(async () => {
+      await user.click(prevButton);
+    });
+
+    const wrongAnswerQuestionTitleListOnFirstPage2 = await screen.findAllByText(
+      '문제',
+      {
+        exact: false,
+      }
+    );
+
+    expect(wrongAnswerQuestionTitleListOnFirstPage2).toHaveLength(5);
   });
 });
