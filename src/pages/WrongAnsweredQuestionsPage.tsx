@@ -1,3 +1,5 @@
+import { styled } from 'styled-components';
+
 export type WrongAnsweredQuestionType = {
   question: string;
   chosenAnswer: string;
@@ -15,32 +17,85 @@ function WrongAnsweredQuestionsPage() {
 
   if (wrongAnsweredQuestionHistory.length <= 0) {
     return (
-      <>
-        <h1>오답 노트</h1>
+      <Container>
+        <WrongAnsweredQuestionPageHeading>
+          오답 노트
+        </WrongAnsweredQuestionPageHeading>
         <h3>오답 기록이 없습니다.</h3>
-      </>
+      </Container>
     );
   }
 
   return (
-    <>
-      <h1>오답 노트</h1>
+    <Container>
+      <WrongAnsweredQuestionPageHeading>
+        오답 노트
+      </WrongAnsweredQuestionPageHeading>
       {wrongAnsweredQuestionHistory.map((history) => {
         return (
-          <div key={history.question}>
-            <h3>문제: {history.question}</h3>
-            <div>선택한 오답: {history.chosenAnswer}</div>
-            <div>정답: {history.correctAnswer}</div>
-            <ul>
+          <QuestionContainer key={history.question}>
+            <QuestionHeading>문제: {history.question}</QuestionHeading>
+            <AnswerInfoBox>선택한 오답: {history.chosenAnswer}</AnswerInfoBox>
+            <AnswerInfoBox>정답: {history.correctAnswer}</AnswerInfoBox>
+            <QuestionAnswersWrapper>
+              <h4>답지 리스트</h4>
               {history.answers.map((answer) => (
-                <li key={answer}>{answer}</li>
+                <QuestionAnswer key={answer}>{answer}</QuestionAnswer>
               ))}
-            </ul>
-          </div>
+            </QuestionAnswersWrapper>
+          </QuestionContainer>
         );
       })}
-    </>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const WrongAnsweredQuestionPageHeading = styled.h1`
+  margin-top: 50px;
+`;
+
+const QuestionContainer = styled.section`
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  margin-top: 50px;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 30px 30px;
+`;
+
+const QuestionHeading = styled.h3`
+  font-size: 20px;
+  width: 700px;
+`;
+
+const AnswerInfoBox = styled.div`
+  margin-bottom: 10px;
+`;
+
+const QuestionAnswersWrapper = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 0;
+  width: 700px;
+`;
+
+const QuestionAnswer = styled.li`
+  list-style: none;
+  background-color: #fbebe4;
+  padding: 18px;
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 1.2px 6px -2px rgba(0, 0, 0, 0.6);
+  transition: 0.3 all;
+  user-select: none;
+`;
 
 export default WrongAnsweredQuestionsPage;
