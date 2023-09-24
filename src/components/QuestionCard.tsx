@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 
-const QuestionCard = styled.section`
+const QuestionCard = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
