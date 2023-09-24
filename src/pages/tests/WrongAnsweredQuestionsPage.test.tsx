@@ -9,6 +9,7 @@ const TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS = 8;
 
 const testWrongAnsweredQuestions: WrongAnsweredQuestionType[] = [
   {
+    id: 'abcd',
     question: decodeHtmlString(
       'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
     ),
@@ -28,6 +29,7 @@ const testWrongAnsweredQuestions: WrongAnsweredQuestionType[] = [
     ],
   },
   {
+    id: 'efgh',
     question: decodeHtmlString(
       'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
     ),

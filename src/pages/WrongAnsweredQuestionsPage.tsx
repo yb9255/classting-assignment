@@ -2,6 +2,7 @@ import { styled } from 'styled-components';
 import QuestionCard from '../components/QuestionCard';
 
 export type WrongAnsweredQuestionType = {
+  id: string;
   question: string;
   chosenAnswer: string;
   correctAnswer: string;
@@ -32,15 +33,15 @@ function WrongAnsweredQuestionsPage() {
       <WrongAnsweredQuestionPageHeading>
         오답 노트
       </WrongAnsweredQuestionPageHeading>
-      {wrongAnsweredQuestionHistory.map((history) => {
+      {wrongAnsweredQuestionHistory.map((question) => {
         return (
-          <QuestionCard key={history.question}>
-            <QuestionHeading>문제: {history.question}</QuestionHeading>
-            <AnswerInfoBox>선택한 오답: {history.chosenAnswer}</AnswerInfoBox>
-            <AnswerInfoBox>정답: {history.correctAnswer}</AnswerInfoBox>
+          <QuestionCard key={question.id}>
+            <QuestionHeading>문제: {question.question}</QuestionHeading>
+            <AnswerInfoBox>선택한 오답: {question.chosenAnswer}</AnswerInfoBox>
+            <AnswerInfoBox>정답: {question.correctAnswer}</AnswerInfoBox>
             <QuestionAnswersWrapper>
               <h4>답지 리스트</h4>
-              {history.answers.map((answer) => (
+              {question.answers.map((answer) => (
                 <QuestionAnswer key={answer}>{answer}</QuestionAnswer>
               ))}
             </QuestionAnswersWrapper>

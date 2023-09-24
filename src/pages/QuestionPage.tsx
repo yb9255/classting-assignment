@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -5,7 +6,7 @@ import {
   getIsLoading,
   getQuestions,
 } from '../redux/questions/selectors';
-import { useEffect, useState } from 'react';
+import { v4 as uuid } from 'uuid';
 import {
   fetchQuestions,
   increaseCorrectAnsweredQuestions,
@@ -64,6 +65,7 @@ function QuestionPage() {
       wrongAnsweredQuestionData ? JSON.parse(wrongAnsweredQuestionData) : [];
 
     wrongAnsweredQuestionsHistory.push({
+      id: uuid(),
       question: targetQuestion.question,
       chosenAnswer: answer,
       correctAnswer: targetQuestion.correctAnswer,
