@@ -19,6 +19,7 @@ import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
 import StyledLink from '../components/StyledLink';
 import Modal from '../components/Modal';
 import LoadingSpinner from '../components/LoadingSpinner';
+import QuestionCard from '../components/QuestionCard';
 
 function QuestionPage() {
   const dispatch = useDispatch();
@@ -119,41 +120,37 @@ function QuestionPage() {
   }
 
   return (
-    <QuestionContainer>
-      <QuestionHeading>{`${currentQuestionIndex + 1}: ${
-        targetQuestion.question
-      }`}</QuestionHeading>
-      <QuestionAnswersWrapper>
-        {targetQuestion.answers.map((answer) => {
-          return (
-            <QuestionAnswer
-              key={answer}
-              onClick={() => handleClickAnswer(answer)}
-            >
-              {answer}
-            </QuestionAnswer>
-          );
-        })}
-      </QuestionAnswersWrapper>
-      {isModalOpen && (
-        <Modal
-          modalMessage={modalMessage}
-          onClickButton={handleMoveToNextQuestion}
-        />
-      )}
-    </QuestionContainer>
+    <Container>
+      <QuestionCard>
+        <QuestionHeading>{`${currentQuestionIndex + 1}: ${
+          targetQuestion.question
+        }`}</QuestionHeading>
+        <QuestionAnswersWrapper>
+          {targetQuestion.answers.map((answer) => {
+            return (
+              <QuestionAnswer
+                key={answer}
+                onClick={() => handleClickAnswer(answer)}
+              >
+                {answer}
+              </QuestionAnswer>
+            );
+          })}
+        </QuestionAnswersWrapper>
+        {isModalOpen && (
+          <Modal
+            modalMessage={modalMessage}
+            onClickButton={handleMoveToNextQuestion}
+          />
+        )}
+      </QuestionCard>
+    </Container>
   );
 }
 
-const QuestionContainer = styled.section`
+const Container = styled.section`
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-  margin-top: 50px;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 30px 0;
+  justify-content: center;
 `;
 
 const QuestionHeading = styled.h3`

@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import QuestionCard from '../components/QuestionCard';
 
 export type WrongAnsweredQuestionType = {
   question: string;
@@ -33,7 +34,7 @@ function WrongAnsweredQuestionsPage() {
       </WrongAnsweredQuestionPageHeading>
       {wrongAnsweredQuestionHistory.map((history) => {
         return (
-          <QuestionContainer key={history.question}>
+          <QuestionCard key={history.question}>
             <QuestionHeading>문제: {history.question}</QuestionHeading>
             <AnswerInfoBox>선택한 오답: {history.chosenAnswer}</AnswerInfoBox>
             <AnswerInfoBox>정답: {history.correctAnswer}</AnswerInfoBox>
@@ -43,7 +44,7 @@ function WrongAnsweredQuestionsPage() {
                 <QuestionAnswer key={answer}>{answer}</QuestionAnswer>
               ))}
             </QuestionAnswersWrapper>
-          </QuestionContainer>
+          </QuestionCard>
         );
       })}
     </Container>
@@ -58,16 +59,6 @@ const Container = styled.div`
 
 const WrongAnsweredQuestionPageHeading = styled.h1`
   margin-top: 50px;
-`;
-
-const QuestionContainer = styled.section`
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  margin-top: 50px;
-  background-color: #fff;
-  border-radius: 10px;
-  padding: 30px 30px;
 `;
 
 const QuestionHeading = styled.h3`
