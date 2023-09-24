@@ -4,7 +4,10 @@ import QuestionPage from '../QuestionPage';
 import userEvent from '@testing-library/user-event';
 import { server } from '../../msw/server';
 import { rest } from 'msw';
-import { DB_API_URL } from '../../constants';
+import {
+  DB_API_URL,
+  LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
+} from '../../constants';
 import MainPage from '../MainPage';
 import { decodeHtmlString } from '../../helpers';
 import { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage';
@@ -279,7 +282,7 @@ describe('QuestionPage', () => {
     });
 
     const wrongAnsweredQuestionData = localStorage.getItem(
-      'wrong-answered-questions'
+      LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID
     );
 
     const wrongAnsweredQuestionsHistory: WrongAnsweredQuestionType[] =

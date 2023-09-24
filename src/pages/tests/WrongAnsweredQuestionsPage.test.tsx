@@ -7,6 +7,7 @@ import {
   shortTestWrongAnsweredQuestions,
 } from './WrongAnsweredQuestion.mock';
 import userEvent from '@testing-library/user-event';
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
 
 describe('WrongAnsweredQuestionsPage', () => {
   const user = userEvent.setup();
@@ -14,7 +15,7 @@ describe('WrongAnsweredQuestionsPage', () => {
 
   beforeEach(() => {
     localStorage.setItem(
-      'wrong-answered-questions',
+      LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
       JSON.stringify(shortTestWrongAnsweredQuestions)
     );
   });
@@ -151,7 +152,7 @@ describe('WrongAnsweredQuestionsPage', () => {
 
   it('shows only 5 question per page', () => {
     localStorage.setItem(
-      'wrong-answered-questions',
+      LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
       JSON.stringify(longTestWrongAnsweredQuestions)
     );
 
@@ -175,7 +176,7 @@ describe('WrongAnsweredQuestionsPage', () => {
 
   it('change page and card based on pagination when click pagination btn', async () => {
     localStorage.setItem(
-      'wrong-answered-questions',
+      LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
       JSON.stringify(longTestWrongAnsweredQuestions)
     );
 
