@@ -5,7 +5,7 @@ import {
   getStartTime,
   getWrongAnsweredQuestions,
 } from '../redux/questions/selectors';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { changeMillisecondsToMinutesAndSeconds } from '../helpers';
 import { BarChart, StyledLink } from '../components';
@@ -14,14 +14,22 @@ import { styled } from 'styled-components';
 
 function QuestionsResultPage() {
   const dispatch = useDispatch();
-  const [resultData, setResultData] = useState<
-    { label: '정답' | '오답'; value: number }[] | null
-  >(null);
   const navigate = useNavigate();
   const startTime = useSelector(getStartTime);
   const endTime = useSelector(getEndTime);
   const correctAnswerCount = useSelector(getCorrectAnsweredQuestions).length;
   const wrongAnswerCount = useSelector(getWrongAnsweredQuestions).length;
+
+  const resultData = [
+    {
+      label: '정답',
+      value: correctAnswerCount,
+    },
+    {
+      label: '오답',
+      value: wrongAnswerCount,
+    },
+  ];
 
   const spentSeconds = changeMillisecondsToMinutesAndSeconds(
     endTime - startTime
@@ -32,19 +40,6 @@ function QuestionsResultPage() {
       navigate('/');
     }
   }, [startTime, endTime, navigate]);
-
-  useEffect(() => {
-    setResultData([
-      {
-        label: '정답',
-        value: correctAnswerCount,
-      },
-      {
-        label: '오답',
-        value: wrongAnswerCount,
-      },
-    ]);
-  }, [correctAnswerCount, wrongAnswerCount]);
 
   return (
     <Container>
