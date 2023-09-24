@@ -16,8 +16,9 @@ import {
   setEndTime,
 } from '../redux/questions/reducer';
 import styled from 'styled-components';
-import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
 import { StyledLink, Modal, LoadingSpinner, QuestionCard } from '../components';
+import { saveDataToLocalStorageArray } from '../helpers';
+import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
 
 function QuestionPage() {
   const dispatch = useDispatch();
@@ -42,7 +43,6 @@ function QuestionPage() {
   }, [questions, dispatch]);
 
   const targetQuestion = questions[currentQuestionIndex];
-
   const lastQuestionIndex = questions.length - 1;
 
   function handleClickAnswer(answer: string) {
@@ -54,25 +54,18 @@ function QuestionPage() {
       return;
     }
 
-    const wrongAnsweredQuestionData = localStorage.getItem(
-      'wrong-answered-questions'
-    );
-
-    const wrongAnsweredQuestionsHistory: WrongAnsweredQuestionType[] =
-      wrongAnsweredQuestionData ? JSON.parse(wrongAnsweredQuestionData) : [];
-
-    wrongAnsweredQuestionsHistory.push({
+    const wrongAnsweredQuestionData: WrongAnsweredQuestionType = {
       id: uuid(),
       question: targetQuestion.question,
       chosenAnswer: answer,
       correctAnswer: targetQuestion.correctAnswer,
       answers: targetQuestion.answers,
-    });
+    };
 
-    localStorage.setItem(
-      'wrong-answered-questions',
-      JSON.stringify(wrongAnsweredQuestionsHistory)
-    );
+    saveDataToLocalStorageArray({
+      arrayId: 'wrong-answered-questions',
+      data: wrongAnsweredQuestionData,
+    });
 
     setModalMessage('틀렸습니다!');
 
