@@ -12,8 +12,24 @@ import MainPage from '../MainPage';
 import { decodeHtmlString } from '../../helpers';
 import { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage';
 
+const wrongAnswerOfFirstQuestion = decodeHtmlString(
+  'The first release date of &quot;Sonic the Hedgehog&quot;'
+);
+const correctAnswerOfFirstQuestion = decodeHtmlString(
+  'The Lead Programmer&#039;s birthday'
+);
+
+const titleOfFirstQuestion = decodeHtmlString(
+  'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
+);
+
+const titleOfSecondQuestion = decodeHtmlString(
+  'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
+);
+
 describe('QuestionPage', () => {
   const user = userEvent.setup();
+
   afterAll(() => localStorage.clear());
 
   it('shows loading before question is rendered', () => {
@@ -38,12 +54,9 @@ describe('QuestionPage', () => {
       </MemoryRouter>
     );
 
-    const question = await screen.findByText(
-      decodeHtmlString(
-        'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
-      ),
-      { exact: false }
-    );
+    const question = await screen.findByText(titleOfFirstQuestion, {
+      exact: false,
+    });
 
     expect(question).toBeInTheDocument();
   });
@@ -73,9 +86,7 @@ describe('QuestionPage', () => {
       </>
     );
 
-    const correctAnswer = await screen.findByText(
-      decodeHtmlString('The Lead Programmer&#039;s birthday')
-    );
+    const correctAnswer = await screen.findByText(correctAnswerOfFirstQuestion);
 
     await waitFor(async () => {
       await user.click(correctAnswer);
@@ -94,17 +105,14 @@ describe('QuestionPage', () => {
       await user.click(nextBtn);
     });
 
-    const nextQuestionTitle = await screen.findByText(
-      decodeHtmlString(
-        'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
-      ),
-      { exact: false }
-    );
+    const nextQuestionTitle = await screen.findByText(titleOfSecondQuestion, {
+      exact: false,
+    });
 
     expect(nextQuestionTitle).toBeInTheDocument();
   });
 
-  it("shows message '틀렸습니다!' when the answer is wrong", async () => {
+  it("shows message '틀렸습니다!' and correct answer when the answer is wrong", async () => {
     render(
       <>
         <div id="overlay-root" />
@@ -116,11 +124,7 @@ describe('QuestionPage', () => {
       </>
     );
 
-    const wrongAnswer = await screen.findByText(
-      decodeHtmlString(
-        'The first release date of &quot;Sonic the Hedgehog&quot;'
-      )
-    );
+    const wrongAnswer = await screen.findByText(wrongAnswerOfFirstQuestion);
 
     await waitFor(async () => {
       await user.click(wrongAnswer);
@@ -139,12 +143,9 @@ describe('QuestionPage', () => {
       await user.click(nextBtn);
     });
 
-    const nextQuestionTitle = await screen.findByText(
-      decodeHtmlString(
-        'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
-      ),
-      { exact: false }
-    );
+    const nextQuestionTitle = await screen.findByText(titleOfSecondQuestion, {
+      exact: false,
+    });
 
     expect(nextQuestionTitle).toBeInTheDocument();
   });
@@ -271,11 +272,7 @@ describe('QuestionPage', () => {
       </MemoryRouter>
     );
 
-    const wrongAnswer = await screen.findByText(
-      decodeHtmlString(
-        'The first release date of &quot;Sonic the Hedgehog&quot;'
-      )
-    );
+    const wrongAnswer = await screen.findByText(wrongAnswerOfFirstQuestion);
 
     await waitFor(async () => {
       await user.click(wrongAnswer);
@@ -289,13 +286,11 @@ describe('QuestionPage', () => {
       wrongAnsweredQuestionData ? JSON.parse(wrongAnsweredQuestionData) : [];
 
     expect(wrongAnsweredQuestionsHistory[0].correctAnswer).toBe(
-      decodeHtmlString('The Lead Programmer&#039;s birthday')
+      correctAnswerOfFirstQuestion
     );
 
     expect(wrongAnsweredQuestionsHistory[0].chosenAnswer).toBe(
-      decodeHtmlString(
-        'The first release date of &quot;Sonic the Hedgehog&quot;'
-      )
+      wrongAnswerOfFirstQuestion
     );
   });
 });
