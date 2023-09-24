@@ -134,9 +134,15 @@ describe('QuestionPage', () => {
       exact: false,
     });
 
+    const correctAnswerTextDiv = await screen.findByText(
+      `정답: ${correctAnswerOfFirstQuestion}`,
+      { exact: false }
+    );
+
     const nextBtn = await screen.findByRole('button', { name: '다음' });
 
     expect(messageModal).toBeInTheDocument();
+    expect(correctAnswerTextDiv).toBeInTheDocument();
     expect(nextBtn).toBeInTheDocument();
 
     await waitFor(async () => {
