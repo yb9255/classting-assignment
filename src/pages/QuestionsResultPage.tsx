@@ -11,6 +11,7 @@ import { changeMillisecondsToMinutesAndSeconds } from '../helpers';
 import { BarChart } from '../components/BarChart';
 import StyledLink from '../components/StyledLink';
 import { initAnsweredQuestions } from '../redux/questions/reducer';
+import { styled } from 'styled-components';
 
 function QuestionsResultPage() {
   const dispatch = useDispatch();
@@ -47,17 +48,36 @@ function QuestionsResultPage() {
   }, [correctAnswerCount, wrongAnswerCount]);
 
   return (
-    <>
+    <Container>
       <h1>문제 결과</h1>
       <h3>소요 시간: {spentSeconds}</h3>
-      <div>정답 수: {correctAnswerCount}</div>
-      <div>오답 수: {wrongAnswerCount}</div>
+      <CountWrapper>
+        <div>정답 수: {correctAnswerCount} 👍</div>
+        <div>오답 수: {wrongAnswerCount} 😂</div>
+      </CountWrapper>
       {resultData && <BarChart data={resultData} />}
-      <div onClick={() => dispatch(initAnsweredQuestions())}>
+      <StyledLinkBox onClick={() => dispatch(initAnsweredQuestions())}>
         <StyledLink to="/">돌아가기</StyledLink>
-      </div>
-    </>
+      </StyledLinkBox>
+    </Container>
   );
 }
+
+const Container = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CountWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+`;
+
+const StyledLinkBox = styled.div`
+  margin-top: 20px;
+`;
 
 export default QuestionsResultPage;
