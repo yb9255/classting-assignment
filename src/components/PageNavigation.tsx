@@ -1,4 +1,5 @@
 import { styled } from 'styled-components';
+import StyledButton from './StyledButton';
 
 type Props = {
   totalPageCount: number;
@@ -15,16 +16,15 @@ function PageNavigation({
 }: Props) {
   return (
     <PageNavigationContainer>
-      <Cell onClick={onPrev}>{'<'}</Cell>
+      <StyledButton onClick={onPrev}>{'<'}</StyledButton>
       <PageCount>{`${currentPage} / ${totalPageCount}`}</PageCount>
-      <Cell onClick={onNext}>{'>'}</Cell>
+      <StyledButton onClick={onNext}>{'>'}</StyledButton>
     </PageNavigationContainer>
   );
 }
 
 const PageNavigationContainer = styled.div`
   align-items: center;
-  background-color: #fff;
   display: flex;
   height: 56px;
   justify-content: center;
@@ -35,15 +35,6 @@ const PageCount = styled.div`
   font-size: 24px;
   text-align: center;
   width: 100px;
-`;
-
-const Cell = styled.button`
-  align-items: center;
-  display: flex;
-  height: 56px;
-  justify-content: center;
-  width: 56px;
-  border: none;
 `;
 
 export default PageNavigation;
