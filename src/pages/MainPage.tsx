@@ -22,7 +22,7 @@ function MainPage() {
         alt="quiz icons"
       />
       <StyledLink $width={200} to="/questions">
-        시작하기
+        퀴즈 풀기
       </StyledLink>
     </>
   );
