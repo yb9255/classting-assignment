@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { QuestionCard, PageNavigation } from '../components';
-import { useState } from 'react';
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
+import usePagination from '../hooks/usePagination';
 
 export type WrongAnsweredQuestionType = {
   id: string;
@@ -14,7 +14,6 @@ export type WrongAnsweredQuestionType = {
 const WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE = 5;
 
 function WrongAnsweredQuestionsPage() {
-  const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const wrongAnsweredQuestionData = localStorage.getItem(
     LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID
   );
@@ -22,17 +21,15 @@ function WrongAnsweredQuestionsPage() {
   const wrongAnsweredQuestionHistory: WrongAnsweredQuestionType[] =
     wrongAnsweredQuestionData ? JSON.parse(wrongAnsweredQuestionData) : [];
 
-  const firstSlice = currentPageIndex * WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE;
-
-  const totalPageCount = Math.ceil(
-    wrongAnsweredQuestionHistory.length /
-      WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE
-  );
-
-  const currentPageQuestions = wrongAnsweredQuestionHistory.slice(
-    firstSlice,
-    firstSlice + WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE
-  );
+  const {
+    currentPageIndex,
+    setCurrentPageIndex,
+    currentPageData: currentPageQuestions,
+    totalPageCount,
+  } = usePagination<WrongAnsweredQuestionType>({
+    dataArray: wrongAnsweredQuestionHistory,
+    pageLimit: WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE,
+  });
 
   function handleClickPrevButton() {
     if (currentPageIndex === 0) return;
