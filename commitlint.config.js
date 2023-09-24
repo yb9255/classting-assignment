@@ -5,6 +5,7 @@ const types = {
   style: '<style>',
   test: '<test>',
   configure: '<configure>',
+  refactor: '<refactor>',
 };
 
 const allowTypes = [
@@ -14,6 +15,7 @@ const allowTypes = [
   types.style,
   types.test,
   types.configure,
+  types.refactor,
 ];
 
 module.exports = {
