@@ -27,7 +27,6 @@ const mainLayoutCss = css`
 
 const defaultLayoutCss = css`
   width: 100vw;
-  height: 100vh;
   padding: 30px;
   box-sizing: border-box;
 `;
