@@ -7,6 +7,7 @@ export type Data = {
 
 export type AxisLeftProps = {
   scale: ScaleLinear<number, number, never>;
+  tickCount: number;
 };
 
 export type BarChartProps = {
