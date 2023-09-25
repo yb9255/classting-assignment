@@ -1,6 +1,7 @@
 import store from '../store';
 
 import {
+  fetchQuestions,
   fetchQuestionsSuccess,
   fetchQuestionFailure,
   increaseCorrectAnsweredQuestions,
@@ -10,45 +11,10 @@ import {
   initTimes,
   initError,
 } from '../questions/reducer';
+import { DUMMY_ANSWER, DUMMY_QUESTIONS } from './store.mock';
 import { decodeHtmlString } from '../../helpers';
 
-const DUMMY_DATA = [
-  {
-    category: 'Entertainment: Video Games',
-    type: 'multiple',
-    difficulty: 'hard',
-    question:
-      'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?',
-    correct_answer: 'The Lead Programmer&#039;s birthday',
-    incorrect_answers: [
-      'The first release date of &quot;Sonic the Hedgehog&quot;',
-      'The date Sonic Team was founded',
-      'The first release date of &quot;Sonic the Hedgehog 2&quot;',
-    ],
-  },
-  {
-    category: 'Entertainment: Music',
-    type: 'multiple',
-    difficulty: 'medium',
-    question:
-      'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.',
-    correct_answer: 'Hurt',
-    incorrect_answers: ['Closer', 'A Warm Place', 'Big Man with a Gun'],
-  },
-];
-
-const answer = {
-  category: 'Entertainment: Music',
-  type: 'multiple',
-  difficulty: 'medium',
-  question:
-    'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.',
-
-  correctAnswer: 'Hurt',
-  answers: ['Closer', 'A Warm Place', 'Big Man with a Gun'],
-};
-
-describe('Redux Toolkit Store Tests', () => {
+describe('Redux Toolkit Store', () => {
   it('should initialize with the correct initial state', () => {
     const initialState = store.getState();
 
@@ -63,32 +29,80 @@ describe('Redux Toolkit Store Tests', () => {
     });
   });
 
-  it('should dispatch actions and update the state correctly', () => {
+  it('updates isLoading type when gets fetchQuestion action', () => {
     store.dispatch({
-      type: fetchQuestionsSuccess.type,
-      payload: { results: DUMMY_DATA },
+      type: fetchQuestions.type,
     });
 
+    const updatedState = store.getState();
+
+    expect(updatedState.questions.isLoading).toBe(true);
+  });
+
+  it('updates questions and loading state when gets fetchQuestionSuccess type', () => {
+    store.dispatch({
+      type: fetchQuestionsSuccess.type,
+      payload: { results: DUMMY_QUESTIONS },
+    });
+
+    const updatedState = store.getState();
+
+    expect(updatedState.questions.isLoading).toBe(false);
+    expect(updatedState.questions.questions[0].question).toEqual(
+      decodeHtmlString(DUMMY_QUESTIONS[0].question)
+    );
+  });
+
+  it('updates error and loading state when gets fetchQuestionFailure type', () => {
     store.dispatch({
       type: fetchQuestionFailure.type,
       payload: { data: { error: 'ERROR' } },
     });
 
+    const updatedState = store.getState();
+
+    expect(updatedState.questions.isLoading).toBe(false);
+    expect(updatedState.questions.error).toEqual('ERROR');
+  });
+
+  it('push new question to correctAnsweredQuestions array state when gets increaseCorrectAnsweredQuestions type', () => {
     store.dispatch({
       type: increaseCorrectAnsweredQuestions.type,
-      payload: answer,
+      payload: DUMMY_ANSWER,
     });
 
+    const updatedState = store.getState();
+
+    expect(updatedState.questions.correctAnsweredQuestions).toEqual([
+      DUMMY_ANSWER,
+    ]);
+  });
+
+  it('push new question to wrongAnsweredQuestions array state when gets increaseWrongAnsweredQuestions type', () => {
     store.dispatch({
       type: increaseWrongAnsweredQuestions.type,
-      payload: answer,
+      payload: DUMMY_ANSWER,
     });
 
+    const updatedState = store.getState();
+
+    expect(updatedState.questions.wrongAnsweredQuestions).toEqual([
+      DUMMY_ANSWER,
+    ]);
+  });
+
+  it('updates startTime when gets setStartTime action', () => {
     store.dispatch({
       type: setStartTime.type,
       payload: { startTime: 100 },
     });
 
+    const updatedState = store.getState();
+
+    expect(updatedState.questions.startTime).toEqual(100);
+  });
+
+  it('updates endTime when gets setEndTime action', () => {
     store.dispatch({
       type: setEndTime.type,
       payload: { endTime: 200 },
@@ -96,23 +110,23 @@ describe('Redux Toolkit Store Tests', () => {
 
     const updatedState = store.getState();
 
-    expect(updatedState.questions.questions[0].correctAnswer).toEqual(
-      decodeHtmlString(DUMMY_DATA[0].correct_answer)
-    );
-
-    expect(updatedState.questions.error).toEqual('ERROR');
-    expect(updatedState.questions.correctAnsweredQuestions).toEqual([answer]);
-    expect(updatedState.questions.wrongAnsweredQuestions).toEqual([answer]);
-    expect(updatedState.questions.startTime).toEqual(100);
     expect(updatedState.questions.endTime).toEqual(200);
+  });
 
+  it('reset startTime and endTime when gets initTimes action', () => {
     store.dispatch({ type: initTimes.type });
+
+    const updatedState = store.getState();
+
+    expect(updatedState.questions.startTime).toEqual(0);
+    expect(updatedState.questions.endTime).toEqual(0);
+  });
+
+  it('resets error to null when gets initError action', () => {
     store.dispatch({ type: initError.type });
 
-    const secondUpdatedState = store.getState();
+    const updatedState = store.getState();
 
-    expect(secondUpdatedState.questions.error).toEqual(null);
-    expect(secondUpdatedState.questions.startTime).toEqual(0);
-    expect(secondUpdatedState.questions.endTime).toEqual(0);
+    expect(updatedState.questions.error).toEqual(null);
   });
 });
