@@ -60,52 +60,49 @@ function renderQuestionResultPage({
   };
 
   const solveQuizFromScratchWithAllCorrect = async () => {
-    const mainButton = screen.getByRole('link', { name: '퀴즈 풀기' });
+    const mainPageStartLink = screen.getByRole('link', { name: '퀴즈 풀기' });
 
-    await waitForUserClick(mainButton);
+    await waitForUserClick(mainPageStartLink);
 
-    const secondTestCorrectAnswer = await screen.findByText(
+    const correctAnswer = await screen.findByText(
       decodeHtmlString('The Lead Programmer&#039;s birthday')
     );
 
-    await waitForUserClick(secondTestCorrectAnswer);
+    await waitForUserClick(correctAnswer);
 
-    const secondTestMessageModal = await screen.findByText('정답입니다!', {
+    const correctModal = await screen.findByText('정답입니다!', {
       exact: false,
     });
 
-    const secondTestNextBtn = await screen.findByRole('button', {
+    const nextBtn = await screen.findByRole('button', {
       name: '다음',
     });
 
-    expect(secondTestMessageModal).toBeInTheDocument();
-    expect(secondTestNextBtn).toBeInTheDocument();
+    expect(correctModal).toBeInTheDocument();
+    expect(nextBtn).toBeInTheDocument();
 
-    await waitForUserClick(secondTestNextBtn);
+    await waitForUserClick(nextBtn);
 
-    const secondNextQuestionCorrectAnswer = await screen.findByText(
+    const secondQuestionCorrectAnswer = await screen.findByText(
       decodeHtmlString('Hurt')
     );
 
-    expect(secondNextQuestionCorrectAnswer).toBeInTheDocument();
+    expect(secondQuestionCorrectAnswer).toBeInTheDocument();
 
-    await waitForUserClick(secondNextQuestionCorrectAnswer);
+    await waitForUserClick(secondQuestionCorrectAnswer);
 
-    const secondNextQuestionMessageModal = await screen.findByText(
-      '정답입니다!',
-      {
-        exact: false,
-      }
-    );
+    const secondQuestionCorrectModal = await screen.findByText('정답입니다!', {
+      exact: false,
+    });
 
-    const secondNextQuestionNextBtn = await screen.findByRole('button', {
+    const secondQuestionNextBtn = await screen.findByRole('button', {
       name: '다음',
     });
 
-    expect(secondNextQuestionMessageModal).toBeInTheDocument();
-    expect(secondNextQuestionNextBtn).toBeInTheDocument();
+    expect(secondQuestionCorrectModal).toBeInTheDocument();
+    expect(secondQuestionNextBtn).toBeInTheDocument();
 
-    await waitForUserClick(secondNextQuestionNextBtn);
+    await waitForUserClick(secondQuestionNextBtn);
   };
 
   return {
