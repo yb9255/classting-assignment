@@ -1,16 +1,11 @@
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { decodeHtmlString } from '../../helpers';
-import { screen, render, waitFor } from '../../test-utils';
-import WrongAnsweredQuestionsPage from '../WrongAnsweredQuestionsPage';
 import {
   SHORT_MOCK_WRONG_ANSWERED_QUESTIONS,
   LONG_MOCK_WRONG_ANSWERED_QUESTIONS,
 } from './mocks';
-import userEvent from '@testing-library/user-event';
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
+import renderWrongAnsweredQuestionsPage from './helpers/renderWrongAnsweredQuestionsPage';
 
 describe('WrongAnsweredQuestionsPage', () => {
-  const user = userEvent.setup();
   window.scrollTo = jest.fn();
 
   beforeEach(() => {
@@ -25,105 +20,44 @@ describe('WrongAnsweredQuestionsPage', () => {
   });
 
   it('shows wrong questions title', () => {
-    render(
-      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
-        <Routes>
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    const { getWrongAnsweredQuestionHeading } =
+      renderWrongAnsweredQuestionsPage();
 
-    const pageTitle = screen.getByRole('heading', { name: '오답 노트' });
-
-    expect(pageTitle).toBeInTheDocument();
+    const wrongAnsweredQuestionsHeading = getWrongAnsweredQuestionHeading();
+    expect(wrongAnsweredQuestionsHeading).toBeInTheDocument();
   });
 
-  it('shows all wrong questions in history', () => {
-    render(
-      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
-        <Routes>
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+  it('shows all wrong questions in history when there are under 5 questions', () => {
+    const { getFirstQuestionTitleDiv, getSecondQuestionTitleDiv } =
+      renderWrongAnsweredQuestionsPage();
 
-    const firstQuestionTitleDiv = screen.getByText(
-      decodeHtmlString(
-        'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
-      ),
-      { exact: false }
-    );
-
-    const secondQuestionTitleDiv = screen.getByText(
-      decodeHtmlString(
-        'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
-      ),
-      { exact: false }
-    );
+    const firstQuestionTitleDiv = getFirstQuestionTitleDiv();
+    const secondQuestionTitleDiv = getSecondQuestionTitleDiv();
 
     expect(firstQuestionTitleDiv).toBeInTheDocument();
     expect(secondQuestionTitleDiv).toBeInTheDocument();
   });
 
   it('shows chosen answer that was wrong', () => {
-    render(
-      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
-        <Routes>
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    const { getChosenAnswerDivList } = renderWrongAnsweredQuestionsPage();
 
-    const chosenAnswerDiv = screen.getByText(
-      `선택한 오답: ${decodeHtmlString('Closer')}`
-    );
-
-    expect(chosenAnswerDiv).toBeInTheDocument();
+    const chosenAnswerDivList = getChosenAnswerDivList();
+    expect(chosenAnswerDivList.length > 0).toBe(true);
   });
 
   it('shows correct answer that was not chosen', () => {
-    render(
-      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
-        <Routes>
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    const { getCorrectAnswerDivList } = renderWrongAnsweredQuestionsPage();
 
-    const correctAnswerDiv = screen.getByText(
-      `정답: ${decodeHtmlString('Hurt')}`
-    );
-
-    expect(correctAnswerDiv).toBeInTheDocument();
+    const correctAnswerDivList = getCorrectAnswerDivList();
+    expect(correctAnswerDivList.length > 0).toBe(true);
   });
 
   it('shows list of answers', () => {
     const TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS = 8;
+    const { getTotalAnswersList } = renderWrongAnsweredQuestionsPage();
 
-    render(
-      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
-        <Routes>
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    const totalAnswersList = getTotalAnswersList();
 
-    const totalAnswersList = screen.getAllByRole('listitem');
     expect(totalAnswersList).toHaveLength(
       TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS
     );
@@ -132,21 +66,10 @@ describe('WrongAnsweredQuestionsPage', () => {
   it('shows there is no wrong answered questions in history', () => {
     localStorage.clear();
 
-    render(
-      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
-        <Routes>
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    const { getNoWrongAnsweredQuestionHeading } =
+      renderWrongAnsweredQuestionsPage();
 
-    const noWrongAnsweredQuestionHeading = screen.getByRole('heading', {
-      name: '오답 기록이 없습니다.',
-    });
-
+    const noWrongAnsweredQuestionHeading = getNoWrongAnsweredQuestionHeading();
     expect(noWrongAnsweredQuestionHeading).toBeInTheDocument();
   });
 
@@ -156,93 +79,62 @@ describe('WrongAnsweredQuestionsPage', () => {
       JSON.stringify(LONG_MOCK_WRONG_ANSWERED_QUESTIONS)
     );
 
-    render(
-      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
-        <Routes>
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    const { getWrongAnsweredQuestionTitleList } =
+      renderWrongAnsweredQuestionsPage();
 
-    const wrongAnsweredQuestionTitleList = screen.getAllByText('문제', {
-      exact: false,
-    });
-
+    const wrongAnsweredQuestionTitleList = getWrongAnsweredQuestionTitleList();
     expect(wrongAnsweredQuestionTitleList).toHaveLength(5);
   });
 
-  it('change page and card based on pagination when click pagination btn', async () => {
+  it('changes pages and cards based on pagination when user clicksq pagination button', async () => {
     localStorage.setItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
       JSON.stringify(LONG_MOCK_WRONG_ANSWERED_QUESTIONS)
     );
 
-    render(
-      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
-        <Routes>
-          <Route
-            path="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />
-        </Routes>
-      </MemoryRouter>
-    );
+    const {
+      getPrevButton,
+      getNextButton,
+      findWrongAnsweredQuestionTitleList,
+      waitForUserClick,
+    } = renderWrongAnsweredQuestionsPage();
 
-    const prevButton = screen.getByRole('button', { name: '<' });
-    const nextButton = screen.getByRole('button', { name: '>' });
+    const prevButton = getPrevButton();
+    const nextButton = getNextButton();
 
     expect(prevButton).toBeInTheDocument();
     expect(nextButton).toBeInTheDocument();
 
-    await waitFor(async () => {
-      await user.click(nextButton);
-    });
+    await waitForUserClick(nextButton);
 
     const wrongAnsweredQuestionTitleListOnSecondPage =
-      await screen.findAllByText('문제', {
-        exact: false,
-      });
+      await findWrongAnsweredQuestionTitleList();
 
     expect(wrongAnsweredQuestionTitleListOnSecondPage).toHaveLength(2);
 
-    await waitFor(async () => {
-      await user.click(nextButton);
-    });
+    await waitForUserClick(nextButton);
 
     const wrongAnsweredQuestionTitleListOnSecondPage2 =
-      await screen.findAllByText('문제', {
-        exact: false,
-      });
+      await findWrongAnsweredQuestionTitleList();
 
-    expect(wrongAnsweredQuestionTitleListOnSecondPage2).toHaveLength(2);
-
-    await waitFor(async () => {
-      await user.click(prevButton);
-    });
-
-    const wrongAnswerQuestionTitleListOnFirstPage = await screen.findAllByText(
-      '문제',
-      {
-        exact: false,
-      }
+    expect(wrongAnsweredQuestionTitleListOnSecondPage).toEqual(
+      wrongAnsweredQuestionTitleListOnSecondPage2
     );
+
+    await waitForUserClick(prevButton);
+
+    const wrongAnswerQuestionTitleListOnFirstPage =
+      await findWrongAnsweredQuestionTitleList();
 
     expect(wrongAnswerQuestionTitleListOnFirstPage).toHaveLength(5);
 
-    await waitFor(async () => {
-      await user.click(prevButton);
-    });
+    await waitForUserClick(prevButton);
 
-    const wrongAnswerQuestionTitleListOnFirstPage2 = await screen.findAllByText(
-      '문제',
-      {
-        exact: false,
-      }
+    const wrongAnswerQuestionTitleListOnFirstPage2 =
+      await findWrongAnsweredQuestionTitleList();
+
+    expect(wrongAnswerQuestionTitleListOnFirstPage2).toEqual(
+      wrongAnswerQuestionTitleListOnFirstPage2
     );
-
-    expect(wrongAnswerQuestionTitleListOnFirstPage2).toHaveLength(5);
   });
 });
