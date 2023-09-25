@@ -1,31 +1,48 @@
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { screen, render } from '../../test-utils';
-import MainPage from '../MainPage';
+import { screen } from '@testing-library/react';
+import { renderMainPage } from './helpers';
+import { decodeHtmlString } from '../../helpers';
+import { Route } from 'react-router-dom';
+import QuestionsPage from '../QuestionsPage';
 
 describe('MainPage', () => {
   it('shows main title', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    const { getMainPageTitleHeading } = renderMainPage();
 
-    const mainTitle = screen.getByRole('heading', { name: '영화 퀴즈' });
-    expect(mainTitle).toBeInTheDocument();
+    const mainPageTitleHeading = getMainPageTitleHeading();
+    expect(mainPageTitleHeading).toBeInTheDocument();
   });
 
   it('shows main button', () => {
-    render(
-      <MemoryRouter initialEntries={['/']}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-        </Routes>
-      </MemoryRouter>
+    const { getMainPageStartLink } = renderMainPage();
+
+    const mainPageStartLink = getMainPageStartLink();
+    expect(mainPageStartLink).toBeInTheDocument();
+  });
+
+  it("shows first question when user clicks '퀴즈 풀기' link", async () => {
+    const { getMainPageStartLink, waitForUserClick } = renderMainPage({
+      otherRoutes: [
+        <Route
+          path="/questions"
+          key="/questions"
+          element={<QuestionsPage />}
+        />,
+      ],
+    });
+
+    const mainPageStartLink = getMainPageStartLink();
+
+    await waitForUserClick(mainPageStartLink);
+
+    const firstQuestionTitleHeading = await screen.findByText(
+      decodeHtmlString(
+        'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
+      ),
+      {
+        exact: false,
+      }
     );
 
-    const mainButton = screen.getByRole('link', { name: '퀴즈 풀기' });
-    expect(mainButton).toBeInTheDocument();
+    expect(firstQuestionTitleHeading).toBeInTheDocument();
   });
 });
