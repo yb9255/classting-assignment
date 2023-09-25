@@ -109,8 +109,8 @@ describe('QuestionsPage', () => {
 
     await waitForUserClick(backLink);
 
-    const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
-    expect(mainTitle).toBeInTheDocument();
+    const mainPageTitle = screen.getByRole('heading', { name: '영화 퀴즈' });
+    expect(mainPageTitle).toBeInTheDocument();
   });
 
   it('shows error message when server error occurred', async () => {
@@ -148,8 +148,8 @@ describe('QuestionsPage', () => {
 
     await waitForUserClick(backLink);
 
-    const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
-    expect(mainTitle).toBeInTheDocument();
+    const mainPageTitle = screen.getByRole('heading', { name: '영화 퀴즈' });
+    expect(mainPageTitle).toBeInTheDocument();
   });
 
   it('save wrong answered question in localStorage', async () => {
