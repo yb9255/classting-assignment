@@ -1,16 +1,14 @@
 import type { BarsProps } from './types';
 
-function Bars({ data, height, scaleX, scaleY }: BarsProps) {
+function Bars({ data, scaleX, scaleY }: BarsProps) {
   return (
     <>
-      {data.map(({ value, label }) => (
+      {data.map(({ label }) => (
         <rect
           key={`bar-${label}`}
           role={`${label}`}
           x={scaleX(label)}
-          y={scaleY(value)}
           width={scaleX.bandwidth()}
-          height={height - scaleY(value)}
           fill={label === '정답' ? 'blue' : 'red'}
         />
       ))}

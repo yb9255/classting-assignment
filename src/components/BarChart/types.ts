@@ -21,7 +21,6 @@ export type AxisBottomProps = {
 
 export type BarsProps = {
   data: BarChartProps['data'];
-  height: number;
   scaleX: AxisBottomProps['scale'];
   scaleY: AxisLeftProps['scale'];
 };
