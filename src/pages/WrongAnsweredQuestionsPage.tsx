@@ -117,7 +117,7 @@ const QuestionAnswersWrapper = styled.ul`
 
 const QuestionAnswer = styled.li`
   list-style: none;
-  background-color: #fbebe4;
+  background-color: ${({ theme }) => theme.brightPrimaryColor};
   padding: 18px;
   box-sizing: border-box;
   border-radius: 4px;

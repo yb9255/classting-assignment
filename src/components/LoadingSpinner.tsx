@@ -3,8 +3,8 @@ import styled from 'styled-components';
 const LoadingSpinner = styled.div`
   width: 50px;
   height: 50px;
-  border: 7px solid #f3f3f3;
-  border-top: 7px solid #fdbb11;
+  border: 7px solid ${({ theme }) => theme.white};
+  border-top: 7px solid ${({ theme }) => theme.primaryColor};
   border-radius: 50%;
   animation: spinner 1.5s linear infinite;
   position: absolute;

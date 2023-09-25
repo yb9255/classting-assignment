@@ -47,7 +47,7 @@ const ModalBody = styled.div`
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.white};
 `;
 
 const MessageBox = styled.div`

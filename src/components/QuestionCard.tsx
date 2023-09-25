@@ -6,7 +6,7 @@ const QuestionCard = styled.div`
   box-sizing: border-box;
   width: 760px;
   margin-top: 50px;
-  background-color: #fff;
+  background-color: ${({ theme }) => theme.white};
   border-radius: 10px;
   padding: 30px 30px;
 `;

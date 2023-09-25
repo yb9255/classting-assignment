@@ -8,6 +8,14 @@ import store from './redux/store';
 
 import 'normalize.css';
 import GlobalStyleProvider from './GlobalStyleProvider';
+import { ThemeProvider } from 'styled-components';
+import { DefaultTheme } from 'styled-components';
+
+const theme: DefaultTheme = {
+  brightPrimaryColor: '#fbebe4',
+  white: '#fff',
+  primaryColor: '#fdbb11',
+};
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,10 +24,12 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <GlobalStyleProvider />
-      <Provider store={store}>
-        <App />
-      </Provider>
+      <ThemeProvider theme={theme}>
+        <GlobalStyleProvider />
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

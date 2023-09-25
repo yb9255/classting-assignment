@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const StyledLink = styled(Link)<{ $width?: number }>`
   width: ${({ $width }) => $width && `${$width}px;`};
-  background-color: #fdbb11;
-  color: white;
+  background-color: ${({ theme }) => theme.primaryColor};
+  color: ${({ theme }) => theme.white};
   padding: 15px 32px;
   box-sizing: border-box;
   text-align: center;

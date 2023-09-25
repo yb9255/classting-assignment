@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 const StyledButton = styled.button`
-  background-color: #fdbb11;
+  background-color: ${({ theme }) => theme.primaryColor};
   color: white;
   padding: 15px 32px;
   box-sizing: border-box;
