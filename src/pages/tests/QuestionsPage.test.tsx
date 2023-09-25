@@ -98,7 +98,7 @@ describe('QuestionsPage', () => {
 
     const { findErrorHeading, findBackLink, waitForUserClick } =
       renderQuestionsPage({
-        routes: [<Route path="/" key="/" element={<MainPage />} />],
+        otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
       });
 
     const errorHeading = await findErrorHeading();
@@ -118,7 +118,7 @@ describe('QuestionsPage', () => {
 
     const { findErrorHeading, findBackLink, waitForUserClick } =
       renderQuestionsPage({
-        routes: [<Route path="/" key="/" element={<MainPage />} />],
+        otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
       });
 
     const errorHeading = await findErrorHeading();
@@ -137,7 +137,7 @@ describe('QuestionsPage', () => {
     getMockEmptyData();
     const { findEmptyQuestionPageHeading, findBackLink, waitForUserClick } =
       renderQuestionsPage({
-        routes: [<Route path="/" key="/" element={<MainPage />} />],
+        otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
       });
 
     const emptyQuestionPageHeading = await findEmptyQuestionPageHeading();

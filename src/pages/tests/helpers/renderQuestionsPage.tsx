@@ -7,12 +7,12 @@ import type { ReactElement } from 'react';
 
 type Props = {
   initialEntries?: string[];
-  routes?: ReactElement[];
+  otherRoutes?: ReactElement[];
 };
 
 function renderQuestionsPage({
   initialEntries = ['/questions'],
-  routes,
+  otherRoutes,
 }: Props = {}) {
   const user = userEvent.setup();
 
@@ -38,7 +38,7 @@ function renderQuestionsPage({
       <MemoryRouter initialEntries={initialEntries}>
         <Routes>
           <Route path="/questions" element={<QuestionsPage />} />
-          {routes && routes.map((route) => route)}
+          {otherRoutes && otherRoutes.map((route) => route)}
         </Routes>
       </MemoryRouter>
     </>
