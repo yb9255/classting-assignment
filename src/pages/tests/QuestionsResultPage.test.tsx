@@ -2,7 +2,7 @@ import { Route } from 'react-router-dom';
 import { screen } from '../../test-utils';
 import QuestionsPage from '../QuestionsPage';
 import MainPage from '../MainPage';
-import renderQuestionResultPage from './helpers/renderQuestionsResultPage';
+import { renderQuestionsResultPage } from './helpers';
 import {
   MOCK_CORRECT_ANSWERED_QUESTION_LIST,
   MOCK_WRONG_ANSWERED_QUESTION_LIST,
@@ -10,7 +10,7 @@ import {
 
 describe('QuestionResult', () => {
   it('moves to main page if there is no difference between start time and end time', () => {
-    renderQuestionResultPage({
+    renderQuestionsResultPage({
       otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
     });
 
@@ -19,7 +19,7 @@ describe('QuestionResult', () => {
   });
 
   it('shows 문제 결과 heading when quiz is over', async () => {
-    const { getQuestionsResultHeading } = renderQuestionResultPage({
+    const { getQuestionsResultHeading } = renderQuestionsResultPage({
       preloadedState: {
         questions: {
           startTime: 0,
@@ -33,7 +33,7 @@ describe('QuestionResult', () => {
   });
 
   it('shows spent time with mm:ss format', () => {
-    const { getSpentTimeDiv } = renderQuestionResultPage({
+    const { getSpentTimeDiv } = renderQuestionsResultPage({
       preloadedState: {
         questions: {
           startTime: 0,
@@ -48,7 +48,7 @@ describe('QuestionResult', () => {
 
   it('shows how many rights and wrongs user got', async () => {
     const { getCorrectAnswerCountDiv, getWrongAnswerCountDiv } =
-      renderQuestionResultPage({
+      renderQuestionsResultPage({
         preloadedState: {
           questions: {
             startTime: 0,
@@ -67,7 +67,7 @@ describe('QuestionResult', () => {
   });
 
   it('returns home when click 돌아가기 button', async () => {
-    const { getLinkToMainPage, waitForUserClick } = renderQuestionResultPage({
+    const { getLinkToMainPage, waitForUserClick } = renderQuestionsResultPage({
       otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
       preloadedState: {
         questions: {
@@ -93,7 +93,7 @@ describe('QuestionResult', () => {
       getLinkToMainPage,
       waitForUserClick,
       solveQuizFromScratchWithAllCorrect,
-    } = renderQuestionResultPage({
+    } = renderQuestionsResultPage({
       otherRoutes: [
         <Route path="/" key="/" element={<MainPage />} />,
         <Route

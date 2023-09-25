@@ -3,7 +3,7 @@ import {
   LONG_MOCK_WRONG_ANSWERED_QUESTIONS,
 } from './mocks';
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
-import renderWrongAnsweredQuestionsPage from './helpers/renderWrongAnsweredQuestionsPage';
+import { renderWrongAnsweredQuestionsPage } from './helpers';
 
 describe('WrongAnsweredQuestionsPage', () => {
   window.scrollTo = jest.fn();
