@@ -6,7 +6,7 @@ import renderQuestionResultPage from './helpers/renderQuestionsResultPage';
 import {
   MOCK_CORRECT_ANSWERED_QUESTION_LIST,
   MOCK_WRONG_ANSWERED_QUESTION_LIST,
-} from './QuestionsResultPage.mock';
+} from './mocks';
 
 describe('QuestionResult', () => {
   it('moves to main page if there is no difference between start time and end time', () => {

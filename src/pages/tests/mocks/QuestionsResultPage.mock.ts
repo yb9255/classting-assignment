@@ -1,4 +1,4 @@
-import { decodeHtmlString } from '../../helpers';
+import { decodeHtmlString } from '../../../helpers';
 
 export const MOCK_CORRECT_ANSWERED_QUESTION_LIST = [
   {

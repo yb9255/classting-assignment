@@ -1,5 +1,5 @@
-import { decodeHtmlString } from '../../helpers';
-import { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage';
+import { decodeHtmlString } from '../../../helpers';
+import { WrongAnsweredQuestionType } from '../../WrongAnsweredQuestionsPage';
 
 export const shortTestWrongAnsweredQuestions: WrongAnsweredQuestionType[] = [
   {

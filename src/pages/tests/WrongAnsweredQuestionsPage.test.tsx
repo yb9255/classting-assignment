@@ -5,7 +5,7 @@ import WrongAnsweredQuestionsPage from '../WrongAnsweredQuestionsPage';
 import {
   longTestWrongAnsweredQuestions,
   shortTestWrongAnsweredQuestions,
-} from './WrongAnsweredQuestion.mock';
+} from './mocks';
 import userEvent from '@testing-library/user-event';
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
 
