@@ -89,7 +89,6 @@ describe('QuestionsPage', () => {
     await waitForUserClick(nextBtn);
 
     const secondQuestionTitleHeading = await findSecondQuestionTitleHeading();
-
     expect(secondQuestionTitleHeading).toBeInTheDocument();
   });
 
@@ -135,6 +134,7 @@ describe('QuestionsPage', () => {
 
   it('shows 해당하는 문제가 없습니다. message when there is no error and result', async () => {
     getMockEmptyData();
+
     const { findEmptyQuestionPageHeading, findBackLink, waitForUserClick } =
       renderQuestionsPage({
         otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
