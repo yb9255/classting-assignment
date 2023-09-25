@@ -3,8 +3,8 @@ import { decodeHtmlString } from '../../helpers';
 import { screen, render, waitFor } from '../../test-utils';
 import WrongAnsweredQuestionsPage from '../WrongAnsweredQuestionsPage';
 import {
-  longTestWrongAnsweredQuestions,
-  shortTestWrongAnsweredQuestions,
+  SHORT_MOCK_WRONG_ANSWERED_QUESTIONS,
+  LONG_MOCK_WRONG_ANSWERED_QUESTIONS,
 } from './mocks';
 import userEvent from '@testing-library/user-event';
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
@@ -16,7 +16,7 @@ describe('WrongAnsweredQuestionsPage', () => {
   beforeEach(() => {
     localStorage.setItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
-      JSON.stringify(shortTestWrongAnsweredQuestions)
+      JSON.stringify(SHORT_MOCK_WRONG_ANSWERED_QUESTIONS)
     );
   });
 
@@ -153,7 +153,7 @@ describe('WrongAnsweredQuestionsPage', () => {
   it('shows only 5 question per page', () => {
     localStorage.setItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
-      JSON.stringify(longTestWrongAnsweredQuestions)
+      JSON.stringify(LONG_MOCK_WRONG_ANSWERED_QUESTIONS)
     );
 
     render(
@@ -177,7 +177,7 @@ describe('WrongAnsweredQuestionsPage', () => {
   it('change page and card based on pagination when click pagination btn', async () => {
     localStorage.setItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
-      JSON.stringify(longTestWrongAnsweredQuestions)
+      JSON.stringify(LONG_MOCK_WRONG_ANSWERED_QUESTIONS)
     );
 
     render(
