@@ -56,9 +56,9 @@ describe('QuestionsPage', () => {
 
     await waitForUserClick(nextBtn);
 
-    const nextQuestionTitleHeading = await findSecondQuestionTitleHeading();
+    const secondQuestionTitleHeading = await findSecondQuestionTitleHeading();
 
-    expect(nextQuestionTitleHeading).toBeInTheDocument();
+    expect(secondQuestionTitleHeading).toBeInTheDocument();
   });
 
   it("shows message '틀렸습니다!' and correct answer when the answer is wrong", async () => {
@@ -162,6 +162,7 @@ describe('QuestionsPage', () => {
 
     const wrongAnswerOfFirstQuestionLi =
       await findWrongAnswerOfFirstQuestionLi();
+
     expect(wrongAnswerOfFirstQuestionLi).toBeInTheDocument();
 
     await waitForUserClick(wrongAnswerOfFirstQuestionLi);
