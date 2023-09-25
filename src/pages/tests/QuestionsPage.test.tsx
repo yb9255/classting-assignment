@@ -8,8 +8,8 @@ import { renderQuestionsPage } from './helpers';
 import {
   getMockClient400Error,
   getMockServer500Error,
+  getMockEmptyData,
 } from '../../msw/helpers';
-import getMockEmptyData from '../../msw/helpers/getMockEmptyData';
 
 describe('QuestionsPage', () => {
   afterAll(() => localStorage.clear());
