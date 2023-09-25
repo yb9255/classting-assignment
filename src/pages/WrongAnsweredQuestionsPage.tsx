@@ -48,9 +48,9 @@ function WrongAnsweredQuestionsPage() {
   if (wrongAnsweredQuestionHistory.length <= 0) {
     return (
       <Container>
-        <WrongAnsweredQuestionPageHeading>
+        <WrongAnsweredQuestionsPageHeading>
           오답 노트
-        </WrongAnsweredQuestionPageHeading>
+        </WrongAnsweredQuestionsPageHeading>
         <h3>오답 기록이 없습니다.</h3>
       </Container>
     );
@@ -58,9 +58,9 @@ function WrongAnsweredQuestionsPage() {
 
   return (
     <Container>
-      <WrongAnsweredQuestionPageHeading>
+      <WrongAnsweredQuestionsPageHeading>
         오답 노트
-      </WrongAnsweredQuestionPageHeading>
+      </WrongAnsweredQuestionsPageHeading>
       {currentPageQuestions.map((question) => {
         return (
           <QuestionCard key={question.id}>
@@ -94,7 +94,7 @@ const Container = styled.section`
   margin-bottom: 30px;
 `;
 
-const WrongAnsweredQuestionPageHeading = styled.h1`
+const WrongAnsweredQuestionsPageHeading = styled.h1`
   margin-top: 50px;
 `;
 

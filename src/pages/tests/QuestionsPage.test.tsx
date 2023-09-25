@@ -1,6 +1,6 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { screen, render, waitFor } from '../../test-utils';
-import QuestionPage from '../QuestionPage';
+import QuestionsPage from '../QuestionsPage';
 import userEvent from '@testing-library/user-event';
 import { server } from '../../msw/server';
 import { rest } from 'msw';
@@ -27,7 +27,7 @@ const titleOfSecondQuestion = decodeHtmlString(
   'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
 );
 
-describe('QuestionPage', () => {
+describe('QuestionsPage', () => {
   const user = userEvent.setup();
 
   afterAll(() => localStorage.clear());
@@ -36,7 +36,7 @@ describe('QuestionPage', () => {
     render(
       <MemoryRouter initialEntries={['/questions']}>
         <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
+          <Route path="/questions" element={<QuestionsPage />} />
         </Routes>
       </MemoryRouter>
     );
@@ -49,7 +49,7 @@ describe('QuestionPage', () => {
     render(
       <MemoryRouter initialEntries={['/questions']}>
         <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
+          <Route path="/questions" element={<QuestionsPage />} />
         </Routes>
       </MemoryRouter>
     );
@@ -65,7 +65,7 @@ describe('QuestionPage', () => {
     render(
       <MemoryRouter initialEntries={['/questions']}>
         <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
+          <Route path="/questions" element={<QuestionsPage />} />
         </Routes>
       </MemoryRouter>
     );
@@ -80,7 +80,7 @@ describe('QuestionPage', () => {
         <div id="overlay-root" />
         <MemoryRouter initialEntries={['/questions']}>
           <Routes>
-            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions" element={<QuestionsPage />} />
           </Routes>
         </MemoryRouter>
       </>
@@ -118,7 +118,7 @@ describe('QuestionPage', () => {
         <div id="overlay-root" />
         <MemoryRouter initialEntries={['/questions']}>
           <Routes>
-            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions" element={<QuestionsPage />} />
           </Routes>
         </MemoryRouter>
       </>
@@ -161,7 +161,7 @@ describe('QuestionPage', () => {
       <MemoryRouter initialEntries={['/questions']}>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/questions" element={<QuestionPage />} />
+          <Route path="/questions" element={<QuestionsPage />} />
         </Routes>
       </MemoryRouter>
     );
@@ -200,7 +200,7 @@ describe('QuestionPage', () => {
       <MemoryRouter initialEntries={['/questions']}>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/questions" element={<QuestionPage />} />
+          <Route path="/questions" element={<QuestionsPage />} />
         </Routes>
       </MemoryRouter>
     );
@@ -234,7 +234,7 @@ describe('QuestionPage', () => {
       <MemoryRouter initialEntries={['/questions']}>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          <Route path="/questions" element={<QuestionPage />} />
+          <Route path="/questions" element={<QuestionsPage />} />
         </Routes>
       </MemoryRouter>
     );
@@ -273,7 +273,7 @@ describe('QuestionPage', () => {
     render(
       <MemoryRouter initialEntries={['/questions']}>
         <Routes>
-          <Route path="/questions" element={<QuestionPage />} />
+          <Route path="/questions" element={<QuestionsPage />} />
         </Routes>
       </MemoryRouter>
     );

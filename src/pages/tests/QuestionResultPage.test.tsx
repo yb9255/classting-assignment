@@ -1,7 +1,7 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { screen, render, waitFor } from '../../test-utils';
 import QuestionsResultPage from '../QuestionsResultPage';
-import QuestionPage from '../QuestionPage';
+import QuestionsPage from '../QuestionsPage';
 import { decodeHtmlString } from '../../helpers';
 import userEvent from '@testing-library/user-event';
 import { server } from '../../msw/server';
@@ -43,7 +43,7 @@ describe('QuestionResult', () => {
         <div id="overlay-root" />
         <MemoryRouter initialEntries={['/questions']}>
           <Routes>
-            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions" element={<QuestionsPage />} />
             <Route path="/questions-result" element={<QuestionsResultPage />} />
           </Routes>
         </MemoryRouter>
@@ -109,7 +109,7 @@ describe('QuestionResult', () => {
         <div id="overlay-root" />
         <MemoryRouter initialEntries={['/questions']}>
           <Routes>
-            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions" element={<QuestionsPage />} />
             <Route path="/questions-result" element={<QuestionsResultPage />} />
           </Routes>
         </MemoryRouter>
@@ -168,7 +168,7 @@ describe('QuestionResult', () => {
         <div id="overlay-root" />
         <MemoryRouter initialEntries={['/questions']}>
           <Routes>
-            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions" element={<QuestionsPage />} />
             <Route path="/questions-result" element={<QuestionsResultPage />} />
           </Routes>
         </MemoryRouter>
@@ -300,7 +300,7 @@ describe('QuestionResult', () => {
         <MemoryRouter initialEntries={['/questions']}>
           <Routes>
             <Route path="/" element={<MainPage />} />
-            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions" element={<QuestionsPage />} />
             <Route path="/questions-result" element={<QuestionsResultPage />} />
           </Routes>
         </MemoryRouter>

@@ -3,7 +3,7 @@ import { screen, render, waitFor } from '../../test-utils';
 import WrongAnsweredQuestionsPage from '../../pages/WrongAnsweredQuestionsPage';
 import MainPage from '../../pages/MainPage';
 import userEvent from '@testing-library/user-event';
-import QuestionPage from '../../pages/QuestionPage';
+import QuestionsPage from '../../pages/QuestionsPage';
 import Layout from '../Layout';
 
 describe('NavBar', () => {
@@ -24,11 +24,11 @@ describe('NavBar', () => {
       </MemoryRouter>
     );
 
-    const wrongAnsweredQuestionPageTitle = screen.getByRole('heading', {
+    const wrongAnsweredQuestionsPageTitle = screen.getByRole('heading', {
       name: '오답 노트',
     });
 
-    expect(wrongAnsweredQuestionPageTitle).toBeInTheDocument();
+    expect(wrongAnsweredQuestionsPageTitle).toBeInTheDocument();
 
     const homeLink = screen.getByRole('link', { name: '홈' });
     expect(homeLink).toBeInTheDocument();
@@ -46,7 +46,7 @@ describe('NavBar', () => {
       <MemoryRouter initialEntries={['/questions']}>
         <Layout>
           <Routes>
-            <Route path="/questions" element={<QuestionPage />} />
+            <Route path="/questions" element={<QuestionsPage />} />
             <Route
               path="/wrong-answered-questions"
               element={<WrongAnsweredQuestionsPage />}

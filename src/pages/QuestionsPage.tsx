@@ -21,7 +21,7 @@ import { saveDataToLocalStorageArray } from '../helpers';
 import { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
 
-function QuestionPage() {
+function QuestionsPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -180,4 +180,4 @@ const QuestionAnswer = styled.li`
   }
 `;
 
-export default QuestionPage;
+export default QuestionsPage;

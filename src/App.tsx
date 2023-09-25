@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import MainPage from './pages/MainPage';
-import QuestionPage from './pages/QuestionPage';
+import QuestionsPage from './pages/QuestionsPage';
 import QuestionsResultPage from './pages/QuestionsResultPage';
 import WrongAnsweredQuestionsPage from './pages/WrongAnsweredQuestionsPage';
 import { Layout } from './components';
@@ -14,7 +14,7 @@ function App() {
     <Layout layoutType={layoutType}>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/questions" element={<QuestionPage />} />
+        <Route path="/questions" element={<QuestionsPage />} />
         <Route path="/questions-result" element={<QuestionsResultPage />} />
         <Route
           path="/wrong-answered-questions"
