@@ -1,4 +1,4 @@
-import { screen, render } from '../../test-utils';
+import { screen, render, waitFor } from '../../test-utils';
 import { BarChart } from '../BarChart';
 import { Data } from '../BarChart/types';
 
@@ -14,7 +14,7 @@ const mockChartData: Data[] = [
 ];
 
 describe('BarChart', () => {
-  it('shows different bar size if value is different', () => {
+  it('shows different bar size if value is different', async () => {
     render(<BarChart data={mockChartData} />);
 
     const correctAnswerBar = screen.getByRole('정답');
@@ -23,12 +23,17 @@ describe('BarChart', () => {
     expect(correctAnswerBar).toBeInstanceOf(SVGElement);
     expect(wrongAnswerBar).toBeInstanceOf(SVGElement);
 
-    const correctAnswerBarHeight = Number(
-      correctAnswerBar.getAttribute('height')
-    );
-    const wrongAnswerBarHeight = Number(wrongAnswerBar.getAttribute('height'));
+    await waitFor(async () => {
+      const correctAnswerBarHeight = Number(
+        correctAnswerBar.getAttribute('height')
+      );
 
-    expect(correctAnswerBarHeight < wrongAnswerBarHeight).toBe(true);
+      const wrongAnswerBarHeight = Number(
+        wrongAnswerBar.getAttribute('height')
+      );
+
+      expect(correctAnswerBarHeight < wrongAnswerBarHeight).toBe(true);
+    });
   });
 
   it("it's biggest axis Y value is biggest data value", () => {
