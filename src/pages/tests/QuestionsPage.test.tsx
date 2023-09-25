@@ -1,288 +1,170 @@
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { screen, render, waitFor } from '../../test-utils';
-import QuestionsPage from '../QuestionsPage';
-import userEvent from '@testing-library/user-event';
-import { server } from '../../msw/server';
-import { rest } from 'msw';
-import {
-  DB_API_URL,
-  LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
-} from '../../constants';
+import { Route } from 'react-router-dom';
+import { screen } from '../../test-utils';
+
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
 import MainPage from '../MainPage';
-import { decodeHtmlString } from '../../helpers';
 import { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage';
-
-const wrongAnswerOfFirstQuestion = decodeHtmlString(
-  'The first release date of &quot;Sonic the Hedgehog&quot;'
-);
-const correctAnswerOfFirstQuestion = decodeHtmlString(
-  'The Lead Programmer&#039;s birthday'
-);
-
-const titleOfFirstQuestion = decodeHtmlString(
-  'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
-);
-
-const titleOfSecondQuestion = decodeHtmlString(
-  'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
-);
+import renderQuestionsPage from './helpers/renderQuestionsPage';
+import {
+  getMockClient400Error,
+  getMockServer500Error,
+} from '../../msw/helpers';
+import getMockEmptyData from '../../msw/helpers/getMockEmptyData';
 
 describe('QuestionsPage', () => {
-  const user = userEvent.setup();
-
   afterAll(() => localStorage.clear());
 
   it('shows loading before question is rendered', () => {
-    render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionsPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    const { getLoadingDiv } = renderQuestionsPage();
+    const loadingDiv = getLoadingDiv();
 
-    const loadingComponent = screen.getByTestId('loading-spinner');
-    expect(loadingComponent).toBeInTheDocument();
+    expect(loadingDiv).toBeInTheDocument();
   });
 
-  it('shows question itself as heading', async () => {
-    render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionsPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+  it('shows question title as heading', async () => {
+    const { findFirstQuestionTitleHeading } = renderQuestionsPage();
 
-    const question = await screen.findByText(titleOfFirstQuestion, {
-      exact: false,
-    });
-
-    expect(question).toBeInTheDocument();
+    const firstQuestionTitleHeading = await findFirstQuestionTitleHeading();
+    expect(firstQuestionTitleHeading).toBeInTheDocument();
   });
 
   it('shows 4 choices', async () => {
-    render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionsPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    const { findAnswerList } = renderQuestionsPage();
 
-    const listItems = await screen.findAllByRole('listitem');
+    const listItems = await findAnswerList();
     expect(listItems).toHaveLength(4);
   });
 
   it("shows message '정답입니다!' when the answer is correct", async () => {
-    render(
-      <>
-        <div id="overlay-root" />
-        <MemoryRouter initialEntries={['/questions']}>
-          <Routes>
-            <Route path="/questions" element={<QuestionsPage />} />
-          </Routes>
-        </MemoryRouter>
-      </>
-    );
+    const {
+      findCorrectAnswerOfFirstQuestionLi,
+      findCorrectAnswerModal,
+      findNextButton,
+      findSecondQuestionTitleHeading,
+      waitForUserClick,
+    } = renderQuestionsPage();
 
-    const correctAnswer = await screen.findByText(correctAnswerOfFirstQuestion);
+    const correctAnswerLi = await findCorrectAnswerOfFirstQuestionLi();
 
-    await waitFor(async () => {
-      await user.click(correctAnswer);
-    });
+    await waitForUserClick(correctAnswerLi);
 
-    const messageModal = await screen.findByText('정답입니다!', {
-      exact: false,
-    });
-
-    const nextBtn = await screen.findByRole('button', { name: '다음' });
+    const messageModal = await findCorrectAnswerModal();
+    const nextBtn = await findNextButton();
 
     expect(messageModal).toBeInTheDocument();
     expect(nextBtn).toBeInTheDocument();
 
-    await waitFor(async () => {
-      await user.click(nextBtn);
-    });
+    await waitForUserClick(nextBtn);
 
-    const nextQuestionTitle = await screen.findByText(titleOfSecondQuestion, {
-      exact: false,
-    });
+    const nextQuestionTitleHeading = await findSecondQuestionTitleHeading();
 
-    expect(nextQuestionTitle).toBeInTheDocument();
+    expect(nextQuestionTitleHeading).toBeInTheDocument();
   });
 
   it("shows message '틀렸습니다!' and correct answer when the answer is wrong", async () => {
-    render(
-      <>
-        <div id="overlay-root" />
-        <MemoryRouter initialEntries={['/questions']}>
-          <Routes>
-            <Route path="/questions" element={<QuestionsPage />} />
-          </Routes>
-        </MemoryRouter>
-      </>
-    );
+    const {
+      findWrongAnswerOfFirstQuestionLi,
+      findWrongAnswerModal,
+      findCorrectAnswerInWrongAnswerModalDiv,
+      findSecondQuestionTitleHeading,
+      findNextButton,
+      waitForUserClick,
+    } = renderQuestionsPage();
 
-    const wrongAnswer = await screen.findByText(wrongAnswerOfFirstQuestion);
+    const wrongAnswerLi = await findWrongAnswerOfFirstQuestionLi();
 
-    await waitFor(async () => {
-      await user.click(wrongAnswer);
-    });
+    await waitForUserClick(wrongAnswerLi);
 
-    const messageModal = await screen.findByText('틀렸습니다!', {
-      exact: false,
-    });
+    const wrongAnswerModal = await findWrongAnswerModal();
 
-    const correctAnswerTextDiv = await screen.findByText(
-      `정답: ${correctAnswerOfFirstQuestion}`,
-      { exact: false }
-    );
+    const correctAnswerInWrongAnswerModalDiv =
+      await findCorrectAnswerInWrongAnswerModalDiv();
 
-    const nextBtn = await screen.findByRole('button', { name: '다음' });
+    const nextBtn = await findNextButton();
 
-    expect(messageModal).toBeInTheDocument();
-    expect(correctAnswerTextDiv).toBeInTheDocument();
+    expect(wrongAnswerModal).toBeInTheDocument();
+    expect(correctAnswerInWrongAnswerModalDiv).toBeInTheDocument();
     expect(nextBtn).toBeInTheDocument();
 
-    await waitFor(async () => {
-      await user.click(nextBtn);
-    });
+    await waitForUserClick(nextBtn);
 
-    const nextQuestionTitle = await screen.findByText(titleOfSecondQuestion, {
-      exact: false,
-    });
+    const secondQuestionTitleHeading = await findSecondQuestionTitleHeading();
 
-    expect(nextQuestionTitle).toBeInTheDocument();
+    expect(secondQuestionTitleHeading).toBeInTheDocument();
   });
 
   it('shows error message when wrong request occurred', async () => {
-    render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/questions" element={<QuestionsPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    getMockClient400Error();
 
-    server.resetHandlers(
-      rest.get(DB_API_URL, (_, response, context) => {
-        return response(
-          context.json({
-            response_code: 2,
-            results: [],
-          })
-        );
-      })
-    );
+    const { findErrorHeading, findBackLink, waitForUserClick } =
+      renderQuestionsPage({
+        routes: [<Route path="/" key="/" element={<MainPage />} />],
+      });
 
-    const errorHeading = await screen.findByRole('heading', {
-      name: /ERROR/i,
-    });
+    const errorHeading = await findErrorHeading();
+    const backLink = await findBackLink();
 
     expect(errorHeading).toBeInTheDocument();
+    expect(backLink).toBeInTheDocument();
 
-    const errorBtn = await screen.findByRole('link', {
-      name: '돌아가기',
-    });
-
-    await waitFor(async () => {
-      await user.click(errorBtn);
-    });
+    await waitForUserClick(backLink);
 
     const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
     expect(mainTitle).toBeInTheDocument();
   });
 
   it('shows error message when server error occurred', async () => {
-    render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/questions" element={<QuestionsPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    getMockServer500Error();
 
-    server.resetHandlers(
-      rest.get(DB_API_URL, (_, response, context) => {
-        return response(context.status(500));
-      })
-    );
+    const { findErrorHeading, findBackLink, waitForUserClick } =
+      renderQuestionsPage({
+        routes: [<Route path="/" key="/" element={<MainPage />} />],
+      });
 
-    const errorHeading = await screen.findByRole('heading', {
-      name: /ERROR/i,
-    });
+    const errorHeading = await findErrorHeading();
+    const backLink = await findBackLink();
 
     expect(errorHeading).toBeInTheDocument();
+    expect(backLink).toBeInTheDocument();
 
-    const errorBtn = await screen.findByRole('link', {
-      name: '돌아가기',
-    });
-
-    await waitFor(async () => {
-      await user.click(errorBtn);
-    });
+    await waitForUserClick(backLink);
 
     const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
     expect(mainTitle).toBeInTheDocument();
   });
 
   it('shows 해당하는 문제가 없습니다. message when there is no error and result', async () => {
-    render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/questions" element={<QuestionsPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    getMockEmptyData();
+    const { findEmptyQuestionPageHeading, findBackLink, waitForUserClick } =
+      renderQuestionsPage({
+        routes: [<Route path="/" key="/" element={<MainPage />} />],
+      });
 
-    server.resetHandlers(
-      rest.get(DB_API_URL, (_, response, context) => {
-        return response(
-          context.json({
-            response_code: 1,
-            results: [],
-          })
-        );
-      })
-    );
+    const emptyQuestionPageHeading = await findEmptyQuestionPageHeading();
+    const backLink = await findBackLink();
 
-    const heading = await screen.findByRole('heading', {
-      name: '해당하는 문제가 없습니다.',
-      exact: false,
-    });
+    expect(emptyQuestionPageHeading).toBeInTheDocument();
+    expect(backLink).toBeInTheDocument();
 
-    expect(heading).toBeInTheDocument();
-
-    const backBtn = await screen.findByRole('link', {
-      name: '돌아가기',
-    });
-
-    await waitFor(async () => {
-      await user.click(backBtn);
-    });
+    await waitForUserClick(backLink);
 
     const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
     expect(mainTitle).toBeInTheDocument();
   });
 
   it('save wrong answered question in localStorage', async () => {
-    render(
-      <MemoryRouter initialEntries={['/questions']}>
-        <Routes>
-          <Route path="/questions" element={<QuestionsPage />} />
-        </Routes>
-      </MemoryRouter>
-    );
+    const {
+      correctAnswerOfFirstQuestion,
+      wrongAnswerOfFirstQuestion,
+      findWrongAnswerOfFirstQuestionLi,
+      waitForUserClick,
+    } = renderQuestionsPage();
 
-    const wrongAnswer = await screen.findByText(wrongAnswerOfFirstQuestion);
+    const wrongAnswerOfFirstQuestionLi =
+      await findWrongAnswerOfFirstQuestionLi();
+    expect(wrongAnswerOfFirstQuestionLi).toBeInTheDocument();
 
-    await waitFor(async () => {
-      await user.click(wrongAnswer);
-    });
+    await waitForUserClick(wrongAnswerOfFirstQuestionLi);
 
     const wrongAnsweredQuestionData = localStorage.getItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID
