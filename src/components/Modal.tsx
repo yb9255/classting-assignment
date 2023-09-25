@@ -8,21 +8,19 @@ type Props = {
 };
 
 function Modal({ mainMessage, subMessage, onClickButton }: Props) {
-  const overlayRoot = document.getElementById('overlay-root');
+  const overlayRoot = document.getElementById('overlay-root') as HTMLDivElement;
 
-  return overlayRoot
-    ? createPortal(
-        <>
-          <Backdrop />
-          <ModalBody>
-            <MessageBox>{mainMessage}</MessageBox>
-            {subMessage && <MessageBox>{subMessage}</MessageBox>}
-            <StyledButton onClick={onClickButton}>다음</StyledButton>
-          </ModalBody>
-        </>,
-        overlayRoot
-      )
-    : null;
+  return createPortal(
+    <>
+      <Backdrop />
+      <ModalBody>
+        <MessageBox>{mainMessage}</MessageBox>
+        {subMessage && <MessageBox>{subMessage}</MessageBox>}
+        <StyledButton onClick={onClickButton}>다음</StyledButton>
+      </ModalBody>
+    </>,
+    overlayRoot
+  );
 }
 
 const Backdrop = styled.div`
