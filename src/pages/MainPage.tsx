@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { initTimes } from '../redux/questions/reducer';
 import { StyledLink } from '../components';
 import { MAIN_PAGE_IMAGE_SRC } from '../constants';
+import { styled } from 'styled-components';
 
 function MainPage() {
   const dispatch = useDispatch();
@@ -21,11 +22,22 @@ function MainPage() {
         src={MAIN_PAGE_IMAGE_SRC}
         alt="quiz icons"
       />
-      <StyledLink $width={200} to="/questions">
-        퀴즈 풀기
-      </StyledLink>
+      <LinkWrapper>
+        <StyledLink $width={200} to="/questions">
+          퀴즈 풀기
+        </StyledLink>
+        <StyledLink $width={200} to="/wrong-answered-questions">
+          오답 노트
+        </StyledLink>
+      </LinkWrapper>
     </>
   );
 }
+
+const LinkWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
 
 export default MainPage;
