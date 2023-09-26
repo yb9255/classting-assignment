@@ -31,6 +31,9 @@ function renderMainPage({ initialEntries = ['/'], otherRoutes }: Props = {}) {
   const getMainPageStartLink = () =>
     screen.getByRole('link', { name: '퀴즈 풀기' });
 
+  const getWrongAnsweredQuestionsPageLink = () =>
+    screen.getByRole('link', { name: '오답 노트' });
+
   const waitForUserClick = async (targetElement: Element) => {
     await waitFor(async () => {
       await user.click(targetElement);
@@ -40,6 +43,7 @@ function renderMainPage({ initialEntries = ['/'], otherRoutes }: Props = {}) {
   return {
     getMainPageTitleHeading,
     getMainPageStartLink,
+    getWrongAnsweredQuestionsPageLink,
     waitForUserClick,
   };
 }

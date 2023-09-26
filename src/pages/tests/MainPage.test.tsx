@@ -3,6 +3,7 @@ import { renderMainPage } from './helpers';
 import { decodeHtmlString } from '../../helpers';
 import { Route } from 'react-router-dom';
 import QuestionsPage from '../QuestionsPage';
+import WrongAnsweredQuestionsPage from '../WrongAnsweredQuestionsPage';
 
 describe('MainPage', () => {
   it('shows main title', () => {
@@ -12,7 +13,7 @@ describe('MainPage', () => {
     expect(mainPageTitleHeading).toBeInTheDocument();
   });
 
-  it('shows main button', () => {
+  it('shows quiz start button', () => {
     const { getMainPageStartLink } = renderMainPage();
 
     const mainPageStartLink = getMainPageStartLink();
@@ -44,5 +45,30 @@ describe('MainPage', () => {
     );
 
     expect(firstQuestionTitleHeading).toBeInTheDocument();
+  });
+
+  it('shows link to WrongAnsweredQuestions page, and move to that page when user clicks it', async () => {
+    const { getWrongAnsweredQuestionsPageLink, waitForUserClick } =
+      renderMainPage({
+        otherRoutes: [
+          <Route
+            path="/wrong-answered-questions"
+            key="/wrong-answered-questions"
+            element={<WrongAnsweredQuestionsPage />}
+          />,
+        ],
+      });
+
+    const wrongAnsweredQuestionsPageLink = getWrongAnsweredQuestionsPageLink();
+    expect(wrongAnsweredQuestionsPageLink).toBeInTheDocument();
+
+    await waitForUserClick(wrongAnsweredQuestionsPageLink);
+
+    const wrongAnsweredQuestionsPageHeading = await screen.findByRole(
+      'heading',
+      { name: '오답 노트' }
+    );
+
+    expect(wrongAnsweredQuestionsPageHeading).toBeInTheDocument();
   });
 });
