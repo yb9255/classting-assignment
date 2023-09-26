@@ -3,7 +3,7 @@ import { renderMainPage } from './helpers';
 import { decodeHtmlString } from '../../helpers';
 import { Route } from 'react-router-dom';
 import { QuestionsPage } from '../QuestionsPage';
-import WrongAnsweredQuestionsPage from '../WrongAnsweredQuestionsPage';
+import { WrongAnsweredQuestionsPage } from '../WrongAnsweredQuestionsPage';
 
 describe('MainPage', () => {
   it('shows main title', () => {

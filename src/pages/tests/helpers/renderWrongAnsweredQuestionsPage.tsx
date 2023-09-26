@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '../../../test-utils';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
-import WrongAnsweredQuestionsPage from '../../WrongAnsweredQuestionsPage';
+import { WrongAnsweredQuestionsPage } from '../../WrongAnsweredQuestionsPage';
 import { decodeHtmlString } from '../../../helpers';
 
 type Props = {

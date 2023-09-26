@@ -23,9 +23,10 @@ import {
   QuestionCard,
 } from '../../components';
 import { saveDataToLocalStorageArray } from '../../helpers';
-import { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage';
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
 import { QuestionAnswers } from './components';
+
+import type { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage/WrongAnsweredQuestionsPage';
 
 function QuestionsPage() {
   const dispatch = useDispatch();

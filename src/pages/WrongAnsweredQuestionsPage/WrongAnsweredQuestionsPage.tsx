@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
-import { QuestionCard, PageNavigation } from '../components';
-import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
-import usePagination from '../hooks/usePagination';
+import { QuestionCard, PageNavigation } from '../../components';
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
+import usePagination from '../../hooks/usePagination';
 
 export type WrongAnsweredQuestionType = {
   id: string;

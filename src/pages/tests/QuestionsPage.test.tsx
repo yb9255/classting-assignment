@@ -3,13 +3,14 @@ import { screen } from '../../test-utils';
 
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
 import MainPage from '../MainPage';
-import { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage';
 import { renderQuestionsPage } from './helpers';
 import {
   getMockClient400Error,
   getMockServer500Error,
   getMockEmptyData,
 } from '../../msw/helpers';
+
+import type { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage/WrongAnsweredQuestionsPage';
 
 describe('QuestionsPage', () => {
   afterAll(() => localStorage.clear());
