@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '../../../test-utils';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import QuestionsPage from '../../QuestionsPage';
+import { QuestionsPage } from '../../QuestionsPage';
 import { decodeHtmlString } from '../../../helpers';
 import userEvent from '@testing-library/user-event';
 import type { ReactElement } from 'react';

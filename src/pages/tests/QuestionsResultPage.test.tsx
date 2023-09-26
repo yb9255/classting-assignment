@@ -1,6 +1,6 @@
 import { Route } from 'react-router-dom';
 import { screen } from '../../test-utils';
-import QuestionsPage from '../QuestionsPage';
+import { QuestionsPage } from '../QuestionsPage';
 import MainPage from '../MainPage';
 import { renderQuestionsResultPage } from './helpers';
 import {

@@ -2,7 +2,7 @@ import { screen } from '@testing-library/react';
 import { renderMainPage } from './helpers';
 import { decodeHtmlString } from '../../helpers';
 import { Route } from 'react-router-dom';
-import QuestionsPage from '../QuestionsPage';
+import { QuestionsPage } from '../QuestionsPage';
 import WrongAnsweredQuestionsPage from '../WrongAnsweredQuestionsPage';
 
 describe('MainPage', () => {
