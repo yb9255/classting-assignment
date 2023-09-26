@@ -1,5 +1,3 @@
-import store from '../store';
-
 import {
   fetchQuestions,
   fetchQuestionsSuccess,
@@ -13,8 +11,26 @@ import {
 } from '../questions/reducer';
 import { DUMMY_ANSWER, DUMMY_QUESTIONS } from './store.mock';
 import { decodeHtmlString } from '../../helpers';
+import createSagaMiddleware from 'redux-saga';
+import { configureStore } from '@reduxjs/toolkit';
+import questionsSliceReducer from '../questions/reducer';
+import watch from '../sagas';
 
 describe('Redux Toolkit Store', () => {
+  const sagaMiddleware = createSagaMiddleware();
+
+  const store = configureStore({
+    reducer: {
+      questions: questionsSliceReducer,
+    },
+    middleware: (getDefaultMiddleware) => [
+      sagaMiddleware,
+      ...getDefaultMiddleware(),
+    ],
+  });
+
+  sagaMiddleware.run(watch);
+
   it('should initialize with the correct initial state', () => {
     const initialState = store.getState();
 
