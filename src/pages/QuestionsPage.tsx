@@ -134,21 +134,25 @@ function QuestionsPage() {
             );
           })}
         </QuestionAnswersWrapper>
-        {isModalOpen && (
-          <Modal
-            mainMessage={modalMainMessage}
-            subMessage={modalSubMessage}
-            onClickButton={handleMoveToNextQuestion}
-          />
-        )}
       </QuestionCard>
+      <Progress>{`${currentQuestionIndex + 1} / ${
+        lastQuestionIndex + 1
+      }`}</Progress>
+      {isModalOpen && (
+        <Modal
+          mainMessage={modalMainMessage}
+          subMessage={modalSubMessage}
+          onClickButton={handleMoveToNextQuestion}
+        />
+      )}
     </Container>
   );
 }
 
 const Container = styled.section`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const QuestionHeading = styled.h3`
@@ -178,6 +182,10 @@ const QuestionAnswer = styled.li`
   &:hover {
     box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.5);
   }
+`;
+
+const Progress = styled.div`
+  margin-top: 50px;
 `;
 
 export default QuestionsPage;
