@@ -31,19 +31,19 @@ function WrongAnsweredQuestionsPage() {
     pageLimit: WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE,
   });
 
-  function handleClickPrevButton() {
+  const handleClickPrevButton = () => {
     if (currentPageIndex === 0) return;
     window.scrollTo({ top: 0 });
 
     setCurrentPageIndex(currentPageIndex - 1);
-  }
+  };
 
-  function handleClickNextButton() {
+  const handleClickNextButton = () => {
     if (currentPageIndex + 1 === totalPageCount) return;
     window.scrollTo({ top: 0 });
 
     setCurrentPageIndex(currentPageIndex + 1);
-  }
+  };
 
   if (wrongAnsweredQuestionHistory.length <= 0) {
     return (

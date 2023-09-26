@@ -32,24 +32,10 @@ function QuestionsPage() {
   const error = useSelector(getError);
   const questions = useSelector(getQuestions);
 
-  /** 문제 목록을 서버에 요청하는 액션을 사가에 전송 */
-  useEffect(() => {
-    dispatch(fetchQuestions());
-  }, [dispatch]);
-
-  /** 문제 목록을 서버에서 받아왔다면, 시작 시간을 설정 */
-  useEffect(() => {
-    const hasQuestion = questions.length > 0;
-
-    if (hasQuestion) {
-      dispatch(setStartTime({ startTime: Date.now() }));
-    }
-  }, [questions, dispatch]);
-
   const targetQuestion = questions[currentQuestionIndex];
   const lastQuestionIndex = questions.length - 1;
 
-  function handleClickAnswer(answer: string) {
+  const handleClickAnswer = (answer: string) => {
     setIsModalOpen(true);
 
     if (targetQuestion.correctAnswer === answer) {
@@ -74,9 +60,9 @@ function QuestionsPage() {
     setModalMainMessage('틀렸습니다!');
     setModalSubMessage(`정답: ${targetQuestion.correctAnswer}`);
     dispatch(increaseWrongAnsweredQuestions(targetQuestion));
-  }
+  };
 
-  function handleMoveToNextQuestion() {
+  const handleMoveToNextQuestion = () => {
     setIsModalOpen(false);
     setModalMainMessage('');
     setModalSubMessage(null);
@@ -88,7 +74,21 @@ function QuestionsPage() {
     }
 
     setCurrentQuestionIndex(currentQuestionIndex + 1);
-  }
+  };
+
+  /** 문제 목록을 서버에 요청하는 액션을 사가에 전송 */
+  useEffect(() => {
+    dispatch(fetchQuestions());
+  }, [dispatch]);
+
+  /** 문제 목록을 서버에서 받아왔다면, 시작 시간을 설정 */
+  useEffect(() => {
+    const hasQuestion = questions.length > 0;
+
+    if (hasQuestion) {
+      dispatch(setStartTime({ startTime: Date.now() }));
+    }
+  }, [questions, dispatch]);
 
   if (isLoading) {
     return <LoadingSpinner data-testid="loading-spinner" />;
