@@ -47,16 +47,12 @@ function customRender(
     preloadedState?: { questions: Partial<InitialState> };
   }
 ) {
-  if (options?.preloadedState?.questions) {
-    return render(ui, {
-      wrapper: (props) => (
-        <WrapperComponent {...props} preloadedState={options.preloadedState} />
-      ),
-      ...options,
-    });
-  }
-
-  return render(ui, { ...options, wrapper: WrapperComponent });
+  return render(ui, {
+    wrapper: (props) => (
+      <WrapperComponent {...props} preloadedState={options?.preloadedState} />
+    ),
+    ...options,
+  });
 }
 
 export * from '@testing-library/react';
