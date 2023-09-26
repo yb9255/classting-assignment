@@ -1,7 +1,7 @@
-import { render, screen, waitFor } from '../../../test-utils';
+import { render, screen, waitFor } from '../../../utils/test/test-utils';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { QuestionsPage } from '../../QuestionsPage';
-import { decodeHtmlString } from '../../../helpers';
+import { decodeHtmlString } from '../../../utils';
 import userEvent from '@testing-library/user-event';
 import type { ReactElement } from 'react';
 

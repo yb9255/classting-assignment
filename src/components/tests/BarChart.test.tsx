@@ -1,4 +1,4 @@
-import { screen, render, waitFor } from '../../test-utils';
+import { screen, render, waitFor } from '../../utils/test/test-utils';
 import { BarChart } from '../BarChart';
 import { Data } from '../BarChart/types';
 

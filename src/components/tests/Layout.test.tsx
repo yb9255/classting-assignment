@@ -1,5 +1,5 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { screen, render, waitFor } from '../../test-utils';
+import { screen, render, waitFor } from '../../utils/test/test-utils';
 import { WrongAnsweredQuestionsPage } from '../../pages/WrongAnsweredQuestionsPage';
 import MainPage from '../../pages/MainPage';
 import userEvent from '@testing-library/user-event';

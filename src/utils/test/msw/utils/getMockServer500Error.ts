@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 import { server } from '../server';
-import { DB_API_URL } from '../../constants';
+import { DB_API_URL } from '../../../../constants';
 
 function getMockServer500Error() {
   server.resetHandlers(

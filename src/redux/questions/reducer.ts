@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { InitialState, OriginalQuestionType, QuestionType } from './types';
-import { decodeHtmlString, shuffleArray } from '../../helpers';
+import { decodeHtmlString, shuffleArray } from '../../utils';
 
 const initialState: InitialState = {
   isLoading: false,

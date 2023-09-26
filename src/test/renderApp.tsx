@@ -4,7 +4,7 @@ import { MemoryRouter } from 'react-router-dom';
 import store from '../redux/store';
 import App from '../App';
 import userEvent from '@testing-library/user-event';
-import { decodeHtmlString } from '../helpers';
+import { decodeHtmlString } from '../utils';
 
 function renderApp() {
   const user = userEvent.setup();

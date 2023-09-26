@@ -10,7 +10,7 @@ import {
   initError,
 } from '../questions/reducer';
 import { DUMMY_ANSWER, DUMMY_QUESTIONS } from './store.mock';
-import { decodeHtmlString } from '../../helpers';
+import { decodeHtmlString } from '../../utils';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
 import questionsSliceReducer from '../questions/reducer';

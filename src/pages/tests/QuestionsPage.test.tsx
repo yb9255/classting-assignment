@@ -1,5 +1,5 @@
 import { Route } from 'react-router-dom';
-import { screen } from '../../test-utils';
+import { screen } from '../../utils/test/test-utils';
 
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
 import MainPage from '../MainPage';
@@ -8,7 +8,7 @@ import {
   getMockClient400Error,
   getMockServer500Error,
   getMockEmptyData,
-} from '../../msw/helpers';
+} from '../../utils/test/msw/utils';
 
 import type { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage/WrongAnsweredQuestionsPage';
 

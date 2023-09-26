@@ -7,7 +7,7 @@ import {
 } from '../redux/questions/selectors';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { changeMillisecondsToMinutesAndSeconds } from '../helpers';
+import { changeMillisecondsToMinutesAndSeconds } from '../utils';
 import { BarChart, StyledLink } from '../components';
 import { initAnsweredQuestions } from '../redux/questions/reducer';
 import { styled } from 'styled-components';
