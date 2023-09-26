@@ -32,6 +32,9 @@ function renderQuestionsPage({
     'The first release date of &quot;Sonic the Hedgehog&quot;'
   );
 
+  const mockProgressTextOnFirstQuestion = '1 / 2';
+  const mockProgressTextOnSecondQuestion = '2 / 2';
+
   render(
     <>
       <div id="overlay-root" />
@@ -97,6 +100,11 @@ function renderQuestionsPage({
       name: '돌아가기',
     });
 
+  const findProgressOnFirstQuestionDiv = () =>
+    screen.findByText(mockProgressTextOnFirstQuestion);
+  const findProgressOnSecondQuestionDiv = () =>
+    screen.findByText(mockProgressTextOnSecondQuestion);
+
   const waitForUserClick = async (targetElement: Element) => {
     await waitFor(async () => {
       await user.click(targetElement);
@@ -119,6 +127,8 @@ function renderQuestionsPage({
     findErrorHeading,
     findEmptyQuestionPageHeading,
     findBackLink,
+    findProgressOnFirstQuestionDiv,
+    findProgressOnSecondQuestionDiv,
     waitForUserClick,
   };
 }

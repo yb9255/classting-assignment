@@ -61,6 +61,29 @@ describe('QuestionsPage', () => {
     expect(secondQuestionTitleHeading).toBeInTheDocument();
   });
 
+  it('shows how many questions are passed and left', async () => {
+    const {
+      findCorrectAnswerOfFirstQuestionLi,
+      findNextButton,
+      findProgressOnFirstQuestionDiv,
+      findProgressOnSecondQuestionDiv,
+      waitForUserClick,
+    } = renderQuestionsPage();
+
+    const progressOnFirstQuestionDiv = await findProgressOnFirstQuestionDiv();
+    expect(progressOnFirstQuestionDiv).toBeInTheDocument();
+
+    const correctAnswerOfFirstQuestionLi =
+      await findCorrectAnswerOfFirstQuestionLi();
+    await waitForUserClick(correctAnswerOfFirstQuestionLi);
+
+    const nextButton = await findNextButton();
+    await waitForUserClick(nextButton);
+
+    const progessOnSecondQuestionDiv = await findProgressOnSecondQuestionDiv();
+    expect(progessOnSecondQuestionDiv).toBeInTheDocument();
+  });
+
   it("shows message '틀렸습니다!' and correct answer when the answer is wrong", async () => {
     const {
       findWrongAnswerOfFirstQuestionLi,
