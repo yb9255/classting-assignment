@@ -1,1 +1,1 @@
-export { default as useD3Data } from './useD3Data';
+export { default as useD3 } from './useD3';

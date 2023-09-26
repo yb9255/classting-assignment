@@ -9,7 +9,7 @@ type Margin = {
   left: number;
 };
 
-function useD3Data(data: Data[], margin: Margin) {
+function useD3(data: Data[], margin: Margin) {
   const svgRef = useRef<SVGSVGElement>(null);
   const width = 500 - margin.left - margin.right;
   const height = 300 - margin.top - margin.bottom;
@@ -22,6 +22,7 @@ function useD3Data(data: Data[], margin: Margin) {
 
   const scaleY = scaleLinear().domain([0, totalQuizCount]).range([height, 0]);
 
+  /** 화면에 svg가 렌더링 된 이후 Bar 애니메이션 적용*/
   useEffect(() => {
     if (svgRef.current) {
       select(svgRef.current)
@@ -46,4 +47,4 @@ function useD3Data(data: Data[], margin: Margin) {
   };
 }
 
-export default useD3Data;
+export default useD3;
