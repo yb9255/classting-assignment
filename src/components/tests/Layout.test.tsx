@@ -6,7 +6,7 @@ import userEvent from '@testing-library/user-event';
 import QuestionsPage from '../../pages/QuestionsPage';
 import Layout from '../Layout';
 
-describe('NavBar', () => {
+describe('Layout', () => {
   const user = userEvent.setup();
 
   it('moves to home page when click 홈', async () => {
