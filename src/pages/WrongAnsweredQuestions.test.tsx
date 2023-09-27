@@ -183,7 +183,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     localStorage.clear();
   });
 
-  it('shows wrong questions title', () => {
+  it('페이지 진입 시, 오답 노트 타이틀을 보여줍니다.', () => {
     const { getWrongAnsweredQuestionHeading } =
       renderWrongAnsweredQuestionsPage();
 
@@ -191,7 +191,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     expect(wrongAnsweredQuestionsHeading).toBeInTheDocument();
   });
 
-  it('shows all wrong questions in history when there are under 5 questions', () => {
+  it('히스토리 내 오답이 5개 이하인 경우, 모든 오답을 보여줍니다.', () => {
     const { getFirstQuestionTitleDiv, getSecondQuestionTitleDiv } =
       renderWrongAnsweredQuestionsPage();
 
@@ -202,21 +202,21 @@ describe('WrongAnsweredQuestionsPage', () => {
     expect(secondQuestionTitleDiv).toBeInTheDocument();
   });
 
-  it('shows chosen answer that was wrong', () => {
+  it('사용자가 해당 문제를 풀었을 때 선택한 답지를 보여줍니다.', () => {
     const { getChosenAnswerDivList } = renderWrongAnsweredQuestionsPage();
 
     const chosenAnswerDivList = getChosenAnswerDivList();
     expect(chosenAnswerDivList.length > 0).toBe(true);
   });
 
-  it('shows correct answer that was not chosen', () => {
+  it('각 문제에 대한 정답을 보여줍니다.', () => {
     const { getCorrectAnswerDivList } = renderWrongAnsweredQuestionsPage();
 
     const correctAnswerDivList = getCorrectAnswerDivList();
     expect(correctAnswerDivList.length > 0).toBe(true);
   });
 
-  it('shows list of answers', () => {
+  it('각 문제의 모든 선지를 보여줍니다.', () => {
     const TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS = 8;
     const { getTotalAnswersList } = renderWrongAnsweredQuestionsPage();
 
@@ -227,7 +227,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     );
   });
 
-  it('shows there is no wrong answered questions in history', () => {
+  it('오답 히스토리가 없을 경우, 오답이 없다는 메세지를 보여줍니다.', () => {
     localStorage.clear();
 
     const { getNoWrongAnsweredQuestionHeading } =
@@ -237,7 +237,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     expect(noWrongAnsweredQuestionHeading).toBeInTheDocument();
   });
 
-  it('shows only 5 question per page', () => {
+  it('오답 히스토리에 있는 문제가 5개를 초과할 경우에, 첫 페이지에서 5문제만 보여줍니다.', () => {
     localStorage.setItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
       JSON.stringify(LONG_MOCK_WRONG_ANSWERED_QUESTIONS)
@@ -250,7 +250,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     expect(wrongAnsweredQuestionTitleList).toHaveLength(5);
   });
 
-  it('changes pages and cards based on pagination when user clicksq pagination button', async () => {
+  it('< 혹은 > 버튼을 누르면 이전 혹은 다음 문제들을 보여줍니다. 페이지의 시작에서는 < 버튼이, 끝에서는 > 버튼이 동작하지 않습니다.', async () => {
     localStorage.setItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
       JSON.stringify(LONG_MOCK_WRONG_ANSWERED_QUESTIONS)
@@ -303,19 +303,11 @@ describe('WrongAnsweredQuestionsPage', () => {
   });
 });
 
-type Props = {
-  initialEntries?: string[];
-};
-
-function renderWrongAnsweredQuestionsPage({
-  initialEntries = ['/wrong-answered-questions'],
-}: Props = {}) {
-  const user = userEvent.setup();
-
+function renderWrongAnsweredQuestionsPage() {
   render(
     <>
       <div id="overlay-root" />
-      <MemoryRouter initialEntries={initialEntries}>
+      <MemoryRouter initialEntries={['/wrong-answered-questions']}>
         <Routes>
           <Route
             path="/wrong-answered-questions"
@@ -374,6 +366,8 @@ function renderWrongAnsweredQuestionsPage({
     });
 
   const waitForUserClick = async (targetElement: Element) => {
+    const user = userEvent.setup();
+
     await waitFor(async () => {
       await user.click(targetElement);
     });
