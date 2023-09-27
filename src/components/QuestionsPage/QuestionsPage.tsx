@@ -45,27 +45,35 @@ function QuestionsPage() {
     setIsModalOpen(true);
 
     if (targetQuestion.correctAnswer === answer) {
-      setModalMainMessage('정답입니다!');
-      dispatch(increaseCorrectAnsweredQuestions(targetQuestion));
+      handleClickCorrectAnswer();
       return;
     }
 
-    const wrongAnsweredQuestionData: WrongAnsweredQuestionType = {
-      id: uuid(),
-      question: targetQuestion.question,
-      chosenAnswer: answer,
-      correctAnswer: targetQuestion.correctAnswer,
-      answers: targetQuestion.answers,
-    };
+    handleClickWrongAnswer();
 
-    saveDataToLocalStorageArray({
-      arrayId: LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
-      data: wrongAnsweredQuestionData,
-    });
+    function handleClickCorrectAnswer() {
+      setModalMainMessage('정답입니다!');
+      dispatch(increaseCorrectAnsweredQuestions(targetQuestion));
+    }
 
-    setModalMainMessage('틀렸습니다!');
-    setModalSubMessage(`정답: ${targetQuestion.correctAnswer}`);
-    dispatch(increaseWrongAnsweredQuestions(targetQuestion));
+    function handleClickWrongAnswer() {
+      const wrongAnsweredQuestionData: WrongAnsweredQuestionType = {
+        id: uuid(),
+        question: targetQuestion.question,
+        chosenAnswer: answer,
+        correctAnswer: targetQuestion.correctAnswer,
+        answers: targetQuestion.answers,
+      };
+
+      saveDataToLocalStorageArray({
+        arrayId: LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
+        data: wrongAnsweredQuestionData,
+      });
+
+      setModalMainMessage('틀렸습니다!');
+      setModalSubMessage(`정답: ${targetQuestion.correctAnswer}`);
+      dispatch(increaseWrongAnsweredQuestions(targetQuestion));
+    }
   };
 
   const handleMoveToNextQuestion = () => {
