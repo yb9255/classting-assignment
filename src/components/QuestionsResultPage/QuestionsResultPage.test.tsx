@@ -77,18 +77,18 @@ describe('QuestionResult', () => {
     expect(WrongAnswerCountDiv()).toHaveTextContent('1');
   });
 
-  it('홈 화면으로 향하는 링크를 가진 돌아가기 버튼을 화면에서 확인할 수 있다.', async () => {
-    const { LinkToMainPage } = renderQuestionsResultPage();
-
-    const linkToMainPage = LinkToMainPage();
-    expect(linkToMainPage).toBeInTheDocument();
-  });
-
   it('정답 / 오답 개수를 표시해주는 차트를 확인할 수 있다.', () => {
     const { CorrectAnswerBar, WrongAnswerBar } = renderQuestionsResultPage();
 
     expect(CorrectAnswerBar()).toBeInTheDocument();
     expect(WrongAnswerBar()).toBeInTheDocument();
+  });
+
+  it('홈 화면으로 향하는 링크를 가진 돌아가기 버튼을 화면에서 확인할 수 있다.', async () => {
+    const { LinkToMainPage } = renderQuestionsResultPage();
+
+    const linkToMainPage = LinkToMainPage();
+    expect(linkToMainPage).toBeInTheDocument();
   });
 });
 

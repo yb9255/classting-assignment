@@ -188,7 +188,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     expect(WrongAnsweredQuestionHeading()).toBeInTheDocument();
   });
 
-  it('히스토리 내 오답이 5개 이하인 경우, 모든 오답을 보여준다..', () => {
+  it('히스토리 내 오답이 5개 이하인 경우, 모든 오답을 보여준다.', () => {
     const { FirstQuestionTitleDiv, SecondQuestionTitleDiv } =
       renderWrongAnsweredQuestionsPage();
 
@@ -196,17 +196,17 @@ describe('WrongAnsweredQuestionsPage', () => {
     expect(SecondQuestionTitleDiv()).toBeInTheDocument();
   });
 
-  it('사용자가 해당 문제를 풀었을 때 선택한 답지를 보여준다..', () => {
+  it('사용자가 해당 문제를 풀었을 때 선택한 답지를 보여준다.', () => {
     const { ChosenAnswerDivList } = renderWrongAnsweredQuestionsPage();
     expect(ChosenAnswerDivList().length > 0).toBe(true);
   });
 
-  it('각 문제에 대한 정답을 보여준다..', () => {
+  it('각 문제에 대한 정답을 보여준다.', () => {
     const { CorrectAnswerDivList } = renderWrongAnsweredQuestionsPage();
     expect(CorrectAnswerDivList().length > 0).toBe(true);
   });
 
-  it('각 문제의 모든 선지를 보여준다..', () => {
+  it('각 문제의 모든 선지를 보여준다.', () => {
     const TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS = 8;
     const { TotalAnswersList } = renderWrongAnsweredQuestionsPage();
 

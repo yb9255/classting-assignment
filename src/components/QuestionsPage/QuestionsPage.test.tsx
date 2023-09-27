@@ -31,6 +31,23 @@ describe('QuestionsPage', () => {
     expect(await AnswerList()).toHaveLength(4);
   });
 
+  it('문제 하단에 현재 문제 풀이 수와 총 문제 수를 보여준다.', async () => {
+    const {
+      clickCorrectAnswerOfFirstQuestionLi,
+      clickModalNextButton,
+      ProgressOnFirstQuestionDiv,
+      ProgressOnSecondQuestionDiv,
+    } = renderQuestionsPage();
+
+    expect(await ProgressOnFirstQuestionDiv()).toBeInTheDocument();
+
+    await clickCorrectAnswerOfFirstQuestionLi();
+
+    await clickModalNextButton();
+
+    expect(await ProgressOnSecondQuestionDiv()).toBeInTheDocument();
+  });
+
   it("올바른 답지를 선택 시, '정답입니다' 메세지와 함께 다음 문제로 넘어갈 수 있는 버튼이 화면에 출력된다.", async () => {
     const {
       CorrectAnswerOfFirstQuestionLi,
@@ -51,23 +68,6 @@ describe('QuestionsPage', () => {
     await clickModalNextButton();
 
     expect(await SecondQuestionTitleHeading()).toBeInTheDocument();
-  });
-
-  it('문제 하단에 현재 문제 풀이 수와 총 문제 수를 보여준다.', async () => {
-    const {
-      clickCorrectAnswerOfFirstQuestionLi,
-      clickModalNextButton,
-      ProgressOnFirstQuestionDiv,
-      ProgressOnSecondQuestionDiv,
-    } = renderQuestionsPage();
-
-    expect(await ProgressOnFirstQuestionDiv()).toBeInTheDocument();
-
-    await clickCorrectAnswerOfFirstQuestionLi();
-
-    await clickModalNextButton();
-
-    expect(await ProgressOnSecondQuestionDiv()).toBeInTheDocument();
   });
 
   it("잘못된 답지를 선택 시, '틀렸습니다!' 메세지와 실제 정답, 그리고 다음 문제로 넘어가는 버튼을 보여준다.", async () => {
