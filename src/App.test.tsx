@@ -5,6 +5,7 @@ import { screen, render, waitFor } from './utils/test/test-utils';
 import store from './redux/store';
 import App from './App';
 import { decodeHtmlString } from './utils';
+import { getMockServer500Error } from './utils/test/msw/utils';
 
 describe('App', () => {
   beforeEach(() => {
@@ -95,6 +96,50 @@ describe('App', () => {
     const { MainPageTitleHeading } = renderApp({
       initialEntries: ['/questions-result'],
     });
+
+    expect(MainPageTitleHeading()).toBeInTheDocument();
+  });
+
+  it('문제를 다 풀고 다시 문제를 풀 때, 이전 결과를 리셋 하고 새로운 결과를 화면에 보여줍니다.', async () => {
+    const {
+      CorrectAnswerCountDiv,
+      WrongAnswerCountDiv,
+      clickFirstQuestionCorrectAnswer,
+      clickSecondQuestionWrongAnswer,
+      clickModalNextButton,
+      clickBackButtonToMainPage,
+      clickMainPageStartLink,
+      clickSecondQuestionCorrectAnswer,
+    } = renderApp({ initialEntries: ['/questions'] });
+
+    await clickFirstQuestionCorrectAnswer();
+    await clickModalNextButton();
+    await clickSecondQuestionWrongAnswer();
+    await clickModalNextButton();
+
+    expect(CorrectAnswerCountDiv()).toHaveTextContent('1');
+    expect(WrongAnswerCountDiv()).toHaveTextContent('1');
+
+    await clickBackButtonToMainPage();
+    await clickMainPageStartLink();
+
+    await clickFirstQuestionCorrectAnswer();
+    await clickModalNextButton();
+    await clickSecondQuestionCorrectAnswer();
+    await clickModalNextButton();
+
+    expect(CorrectAnswerCountDiv()).toHaveTextContent('2');
+    expect(WrongAnswerCountDiv()).toHaveTextContent('0');
+  });
+
+  it('서버에서 문제 목록을 불러오는 과정에서 에러 발생 시, 돌아가기 버튼을 누르면 홈으로 이동합니다.', async () => {
+    getMockServer500Error();
+
+    const { clickBackButtonToMainPageAsync, MainPageTitleHeading } = renderApp({
+      initialEntries: ['/questions'],
+    });
+
+    await clickBackButtonToMainPageAsync();
 
     expect(MainPageTitleHeading()).toBeInTheDocument();
   });
@@ -195,6 +240,14 @@ function renderApp({
       ),
       { exact: false }
     );
+
+  const BackButtonToMainPage = () =>
+    screen.getByRole('link', { name: '돌아가기' });
+
+  const BackButtonToMainPageAsync = () =>
+    screen.findByRole('link', { name: '돌아가기' });
+
+  const SecondQuestionCorrectAnswer = () => screen.findByText('Hurt');
   const SecondQuestionWrongAnswer = () => screen.findByText('Closer');
 
   const NavBar = () => screen.queryByRole('navigation');
@@ -221,6 +274,16 @@ function renderApp({
     await waitForUserClick(WrongAnsweredQuestionPageLink());
 
   const clickHomeLink = async () => await waitForUserClick(HomeLink());
+
+  const clickSecondQuestionCorrectAnswer = async () =>
+    await waitForUserClick(await SecondQuestionCorrectAnswer());
+
+  const clickBackButtonToMainPage = async () =>
+    await waitForUserClick(BackButtonToMainPage());
+
+  const clickBackButtonToMainPageAsync = async () =>
+    await waitForUserClick(await BackButtonToMainPageAsync());
+
   return {
     MainPageTitleHeading,
     MainPageStartLink,
@@ -238,8 +301,10 @@ function renderApp({
     WrongCaseModalDiv,
     CorrectAnswerInWrongCaseModalDiv,
     ModalNextButton,
+    BackButtonToMainPage,
     SecondQuestionTitleHeading,
     SecondQuestionWrongAnswer,
+    SecondQuestionCorrectAnswer,
     NavBar,
     clickMainPageStartLink,
     clickFirstQuestionCorrectAnswer,
@@ -247,5 +312,8 @@ function renderApp({
     clickSecondQuestionWrongAnswer,
     clickWrongAnsweredQuestionPageLink,
     clickHomeLink,
+    clickBackButtonToMainPage,
+    clickBackButtonToMainPageAsync,
+    clickSecondQuestionCorrectAnswer,
   };
 }
