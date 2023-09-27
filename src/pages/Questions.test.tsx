@@ -2,7 +2,6 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { render, screen, waitFor } from '../utils/test/test-utils';
 
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
-import MainPage from './Main';
 import {
   getMockClient400Error,
   getMockServer500Error,
@@ -18,180 +17,121 @@ describe('QuestionsPage', () => {
   afterAll(() => localStorage.clear());
 
   it('데이터를 불러오는 동안 로딩 스피너를 보여준다.', () => {
-    const { getLoadingDiv } = renderQuestionsPage();
-    const loadingDiv = getLoadingDiv();
-
-    expect(loadingDiv).toBeInTheDocument();
+    const { LoadingDiv } = renderQuestionsPage();
+    expect(LoadingDiv()).toBeInTheDocument();
   });
 
   it('데이터가 다 불러지면, 첫번째 문제를 확인할 수 있다.', async () => {
-    const { findFirstQuestionTitleHeading } = renderQuestionsPage();
-
-    const firstQuestionTitleHeading = await findFirstQuestionTitleHeading();
-    expect(firstQuestionTitleHeading).toBeInTheDocument();
+    const { FirstQuestionTitleHeading } = renderQuestionsPage();
+    expect(await FirstQuestionTitleHeading()).toBeInTheDocument();
   });
 
   it('문제는 4개의 답지를 가지고 있다.', async () => {
-    const { findAnswerList } = renderQuestionsPage();
-
-    const listItems = await findAnswerList();
-    expect(listItems).toHaveLength(4);
+    const { AnswerList } = renderQuestionsPage();
+    expect(await AnswerList()).toHaveLength(4);
   });
 
   it("올바른 답지를 선택 시, '정답입니다' 메세지와 함께 다음 문제로 넘어갈 수 있는 버튼이 화면에 출력된다.", async () => {
     const {
-      findCorrectAnswerOfFirstQuestionLi,
-      findCorrectAnswerModal,
-      findNextButton,
-      findSecondQuestionTitleHeading,
-      waitForUserClick,
+      CorrectAnswerOfFirstQuestionLi,
+      clickCorrectAnswerOfFirstQuestionLi,
+      CorrectAnswerModal,
+      ModalNextButton,
+      clickModalNextButton,
+      SecondQuestionTitleHeading,
     } = renderQuestionsPage();
 
-    const correctAnswerLi = await findCorrectAnswerOfFirstQuestionLi();
+    expect(await CorrectAnswerOfFirstQuestionLi()).toBeInTheDocument();
 
-    await waitForUserClick(correctAnswerLi);
+    await clickCorrectAnswerOfFirstQuestionLi();
 
-    const messageModal = await findCorrectAnswerModal();
-    const nextBtn = await findNextButton();
+    expect(await CorrectAnswerModal()).toBeInTheDocument();
+    expect(await ModalNextButton()).toBeInTheDocument();
 
-    expect(messageModal).toBeInTheDocument();
-    expect(nextBtn).toBeInTheDocument();
+    await clickModalNextButton();
 
-    await waitForUserClick(nextBtn);
-
-    const secondQuestionTitleHeading = await findSecondQuestionTitleHeading();
-
-    expect(secondQuestionTitleHeading).toBeInTheDocument();
+    expect(await SecondQuestionTitleHeading()).toBeInTheDocument();
   });
 
   it('문제 하단에 현재 문제 풀이 수와 총 문제 수를 보여준다.', async () => {
     const {
-      findCorrectAnswerOfFirstQuestionLi,
-      findNextButton,
-      findProgressOnFirstQuestionDiv,
-      findProgressOnSecondQuestionDiv,
-      waitForUserClick,
+      clickCorrectAnswerOfFirstQuestionLi,
+      clickModalNextButton,
+      ProgressOnFirstQuestionDiv,
+      ProgressOnSecondQuestionDiv,
     } = renderQuestionsPage();
 
-    const progressOnFirstQuestionDiv = await findProgressOnFirstQuestionDiv();
-    expect(progressOnFirstQuestionDiv).toBeInTheDocument();
+    expect(await ProgressOnFirstQuestionDiv()).toBeInTheDocument();
 
-    const correctAnswerOfFirstQuestionLi =
-      await findCorrectAnswerOfFirstQuestionLi();
-    await waitForUserClick(correctAnswerOfFirstQuestionLi);
+    await clickCorrectAnswerOfFirstQuestionLi();
 
-    const nextButton = await findNextButton();
-    await waitForUserClick(nextButton);
+    await clickModalNextButton();
 
-    const progessOnSecondQuestionDiv = await findProgressOnSecondQuestionDiv();
-    expect(progessOnSecondQuestionDiv).toBeInTheDocument();
+    expect(await ProgressOnSecondQuestionDiv()).toBeInTheDocument();
   });
 
   it("잘못된 답지를 선택 시, '틀렸습니다!' 메세지와 실제 정답, 그리고 다음 문제로 넘어가는 버튼을 보여준다.", async () => {
     const {
-      findWrongAnswerOfFirstQuestionLi,
-      findWrongAnswerModal,
-      findCorrectAnswerInWrongAnswerModalDiv,
-      findSecondQuestionTitleHeading,
-      findNextButton,
-      waitForUserClick,
+      WrongAnswerOfFirstQuestionLi,
+      clickWrongAnswerOfFirstQuestionLi,
+      WrongAnswerModal,
+      CorrectAnswerInWrongAnswerModalDiv,
+      SecondQuestionTitleHeading,
+      ModalNextButton,
+      clickModalNextButton,
     } = renderQuestionsPage();
 
-    const wrongAnswerLi = await findWrongAnswerOfFirstQuestionLi();
+    expect(await WrongAnswerOfFirstQuestionLi()).toBeInTheDocument();
 
-    await waitForUserClick(wrongAnswerLi);
+    await clickWrongAnswerOfFirstQuestionLi();
 
-    const wrongAnswerModal = await findWrongAnswerModal();
+    expect(await WrongAnswerModal()).toBeInTheDocument();
+    expect(await CorrectAnswerInWrongAnswerModalDiv()).toBeInTheDocument();
+    expect(await ModalNextButton()).toBeInTheDocument();
 
-    const correctAnswerInWrongAnswerModalDiv =
-      await findCorrectAnswerInWrongAnswerModalDiv();
+    await clickModalNextButton();
 
-    const nextBtn = await findNextButton();
-
-    expect(wrongAnswerModal).toBeInTheDocument();
-    expect(correctAnswerInWrongAnswerModalDiv).toBeInTheDocument();
-    expect(nextBtn).toBeInTheDocument();
-
-    await waitForUserClick(nextBtn);
-
-    const secondQuestionTitleHeading = await findSecondQuestionTitleHeading();
-    expect(secondQuestionTitleHeading).toBeInTheDocument();
+    expect(await SecondQuestionTitleHeading()).toBeInTheDocument();
   });
 
   it('클라이언트에서 에러가 발생 시, 에러 메세지와 메인 페이지로 향하는 링크를 가진 버튼이 화면에 출력된다.', async () => {
     getMockClient400Error();
 
-    const { findErrorHeading, findBackLink, waitForUserClick } =
-      renderQuestionsPage({
-        otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
-      });
+    const { ErrorHeading, BackLink } = renderQuestionsPage();
 
-    const errorHeading = await findErrorHeading();
-    const backLink = await findBackLink();
-
-    expect(errorHeading).toBeInTheDocument();
-    expect(backLink).toBeInTheDocument();
-
-    await waitForUserClick(backLink);
-
-    const mainPageTitle = screen.getByRole('heading', { name: '영화 퀴즈' });
-    expect(mainPageTitle).toBeInTheDocument();
+    expect(await ErrorHeading()).toBeInTheDocument();
+    expect(await BackLink()).toBeInTheDocument();
+    expect(await BackLink()).toHaveAttribute('href', '/');
   });
 
   it('서버에서 에러가 발생 시, 에러 메세지와 메인 페이지로 향하는 링크를 가진 버튼이 화면에 출력된다.', async () => {
     getMockServer500Error();
 
-    const { findErrorHeading, findBackLink, waitForUserClick } =
-      renderQuestionsPage({
-        otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
-      });
+    const { ErrorHeading, BackLink } = renderQuestionsPage();
 
-    const errorHeading = await findErrorHeading();
-    const backLink = await findBackLink();
-
-    expect(errorHeading).toBeInTheDocument();
-    expect(backLink).toBeInTheDocument();
-
-    await waitForUserClick(backLink);
-
-    const mainTitle = screen.queryByRole('heading', { name: '영화 퀴즈' });
-    expect(mainTitle).toBeInTheDocument();
+    expect(await ErrorHeading()).toBeInTheDocument();
+    expect(await BackLink()).toBeInTheDocument();
+    expect(await BackLink()).toHaveAttribute('href', '/');
   });
 
   it("해당하는 문제가 없을 시, '해당하는 문제가 없습니다.' 메세지와 메인 페이지로 향하는 링크를 가진 버튼이 화면에 출력된다.", async () => {
     getMockEmptyData();
 
-    const { findEmptyQuestionPageHeading, findBackLink, waitForUserClick } =
-      renderQuestionsPage({
-        otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
-      });
+    const { EmptyQuestionPageHeading, BackLink } = renderQuestionsPage();
 
-    const emptyQuestionPageHeading = await findEmptyQuestionPageHeading();
-    const backLink = await findBackLink();
-
-    expect(emptyQuestionPageHeading).toBeInTheDocument();
-    expect(backLink).toBeInTheDocument();
-
-    await waitForUserClick(backLink);
-
-    const mainPageTitle = screen.getByRole('heading', { name: '영화 퀴즈' });
-    expect(mainPageTitle).toBeInTheDocument();
+    expect(await EmptyQuestionPageHeading()).toBeInTheDocument();
+    expect(await BackLink()).toBeInTheDocument();
+    expect(await BackLink()).toHaveAttribute('href', '/');
   });
 
   it('오답을 선택했을 시, 오답 내역이 클라이언트 저장소(LocalStorage)의 오답 히스토리에 저장된다.', async () => {
     const {
       correctAnswerOfFirstQuestion,
       wrongAnswerOfFirstQuestion,
-      findWrongAnswerOfFirstQuestionLi,
-      waitForUserClick,
+      clickWrongAnswerOfFirstQuestionLi,
     } = renderQuestionsPage();
 
-    const wrongAnswerOfFirstQuestionLi =
-      await findWrongAnswerOfFirstQuestionLi();
-
-    expect(wrongAnswerOfFirstQuestionLi).toBeInTheDocument();
-
-    await waitForUserClick(wrongAnswerOfFirstQuestionLi);
+    await clickWrongAnswerOfFirstQuestionLi();
 
     const wrongAnsweredQuestionData = localStorage.getItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID
@@ -210,17 +150,7 @@ describe('QuestionsPage', () => {
   });
 });
 
-type Props = {
-  initialEntries?: string[];
-  otherRoutes?: React.ReactElement[];
-};
-
-function renderQuestionsPage({
-  initialEntries = ['/questions'],
-  otherRoutes,
-}: Props = {}) {
-  const user = userEvent.setup();
-
+function renderQuestionsPage() {
   const titleOfFirstQuestion = decodeHtmlString(
     'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
   );
@@ -243,97 +173,109 @@ function renderQuestionsPage({
   render(
     <>
       <div id="overlay-root" />
-      <MemoryRouter initialEntries={initialEntries}>
+      <MemoryRouter initialEntries={['/questions']}>
         <Routes>
           <Route path="/questions" element={<QuestionsPage />} />
-          {otherRoutes && otherRoutes.map((route) => route)}
         </Routes>
       </MemoryRouter>
     </>
   );
 
-  const getLoadingDiv = () => screen.getByTestId('loading-spinner');
+  const LoadingDiv = () => screen.getByTestId('loading-spinner');
 
-  const findFirstQuestionTitleHeading = () =>
+  const FirstQuestionTitleHeading = () =>
     screen.findByText(titleOfFirstQuestion, {
       exact: false,
     });
 
-  const findAnswerList = () => screen.findAllByRole('listitem');
+  const AnswerList = () => screen.findAllByRole('listitem');
 
-  const findCorrectAnswerOfFirstQuestionLi = () =>
+  const CorrectAnswerOfFirstQuestionLi = () =>
     screen.findByText(correctAnswerOfFirstQuestion);
 
-  const findWrongAnswerOfFirstQuestionLi = () =>
+  const WrongAnswerOfFirstQuestionLi = () =>
     screen.findByText(wrongAnswerOfFirstQuestion);
 
-  const findCorrectAnswerModal = () =>
+  const CorrectAnswerModal = () =>
     screen.findByText('정답입니다!', {
       exact: false,
     });
 
-  const findWrongAnswerModal = () =>
+  const WrongAnswerModal = () =>
     screen.findByText('틀렸습니다!', {
       exact: false,
     });
 
-  const findCorrectAnswerInWrongAnswerModalDiv = () =>
+  const CorrectAnswerInWrongAnswerModalDiv = () =>
     screen.findByText(`정답: ${correctAnswerOfFirstQuestion}`, {
       exact: false,
     });
 
-  const findNextButton = () => screen.findByRole('button', { name: '다음' });
+  const ModalNextButton = () => screen.findByRole('button', { name: '다음' });
 
-  const findSecondQuestionTitleHeading = () =>
+  const SecondQuestionTitleHeading = () =>
     screen.findByText(titleOfSecondQuestion, {
       exact: false,
     });
 
-  const findErrorHeading = () =>
+  const ErrorHeading = () =>
     screen.findByRole('heading', {
       name: /ERROR/i,
     });
 
-  const findEmptyQuestionPageHeading = () =>
+  const EmptyQuestionPageHeading = () =>
     screen.findByRole('heading', {
       name: '해당하는 문제가 없습니다.',
       exact: false,
     });
 
-  const findBackLink = () =>
+  const BackLink = () =>
     screen.findByRole('link', {
       name: '돌아가기',
     });
 
-  const findProgressOnFirstQuestionDiv = () =>
+  const ProgressOnFirstQuestionDiv = () =>
     screen.findByText(mockProgressTextOnFirstQuestion);
-  const findProgressOnSecondQuestionDiv = () =>
+  const ProgressOnSecondQuestionDiv = () =>
     screen.findByText(mockProgressTextOnSecondQuestion);
 
   const waitForUserClick = async (targetElement: Element) => {
+    const user = userEvent.setup();
+
     await waitFor(async () => {
       await user.click(targetElement);
     });
   };
 
+  const clickCorrectAnswerOfFirstQuestionLi = async () =>
+    await waitForUserClick(await CorrectAnswerOfFirstQuestionLi());
+
+  const clickModalNextButton = async () =>
+    await waitForUserClick(await ModalNextButton());
+
+  const clickWrongAnswerOfFirstQuestionLi = async () =>
+    await waitForUserClick(await WrongAnswerOfFirstQuestionLi());
+
   return {
     correctAnswerOfFirstQuestion,
     wrongAnswerOfFirstQuestion,
-    getLoadingDiv,
-    findFirstQuestionTitleHeading,
-    findAnswerList,
-    findCorrectAnswerOfFirstQuestionLi,
-    findWrongAnswerOfFirstQuestionLi,
-    findCorrectAnswerModal,
-    findWrongAnswerModal,
-    findCorrectAnswerInWrongAnswerModalDiv,
-    findNextButton,
-    findSecondQuestionTitleHeading,
-    findErrorHeading,
-    findEmptyQuestionPageHeading,
-    findBackLink,
-    findProgressOnFirstQuestionDiv,
-    findProgressOnSecondQuestionDiv,
-    waitForUserClick,
+    LoadingDiv,
+    FirstQuestionTitleHeading,
+    AnswerList,
+    CorrectAnswerOfFirstQuestionLi,
+    clickCorrectAnswerOfFirstQuestionLi,
+    WrongAnswerOfFirstQuestionLi,
+    clickWrongAnswerOfFirstQuestionLi,
+    CorrectAnswerModal,
+    WrongAnswerModal,
+    CorrectAnswerInWrongAnswerModalDiv,
+    ModalNextButton,
+    clickModalNextButton,
+    SecondQuestionTitleHeading,
+    ErrorHeading,
+    EmptyQuestionPageHeading,
+    BackLink,
+    ProgressOnFirstQuestionDiv,
+    ProgressOnSecondQuestionDiv,
   };
 }
