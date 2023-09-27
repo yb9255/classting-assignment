@@ -7,9 +7,9 @@ import QuestionsPage from '../pages/Questions';
 import Layout from './Layout';
 
 describe('Layout', () => {
-  const user = userEvent.setup();
+  it('상단 네비게이션 바의 홈 버튼을 누를 경우, 홈으로 이도앟ㅂ니다.', async () => {
+    const user = userEvent.setup();
 
-  it('moves to home page when click 홈', async () => {
     render(
       <MemoryRouter initialEntries={['/wrong-answered-questions']}>
         <Layout>
@@ -41,7 +41,9 @@ describe('Layout', () => {
     expect(mainTitle).toBeInTheDocument();
   });
 
-  it('moves to WrongAnsweredQuestionsPage when click 오답 노트', async () => {
+  it("상단 네비게이션 바의 '오답 노트' 버튼을 누를 경우 오답 노트 페이지로 이동합니다.", async () => {
+    const user = userEvent.setup();
+
     render(
       <MemoryRouter initialEntries={['/questions']}>
         <Layout>
@@ -73,7 +75,7 @@ describe('Layout', () => {
     expect(wrongAnsweredQuestionsPageTitle).toBeInTheDocument();
   });
 
-  it("doesn't show navbar when the route is /", () => {
+  it('메인 페이지에 있을 경우 네비게이션 바가 보이지 않습니다.', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <Layout layoutType="main">

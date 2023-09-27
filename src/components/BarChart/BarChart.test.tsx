@@ -14,7 +14,7 @@ const mockChartData: Data[] = [
 ];
 
 describe('BarChart', () => {
-  it('shows different bar size if value is different', async () => {
+  it('정답과 오답 개수가 다른 경우, 각 차트의 바 길이가 다릅니다.', async () => {
     render(<BarChart data={mockChartData} />);
 
     const correctAnswerBar = screen.getByRole('정답');
@@ -36,7 +36,7 @@ describe('BarChart', () => {
     });
   });
 
-  it("it's biggest axis Y value is biggest data value", () => {
+  it('Y축의 값은 정/오답 개수의 최대 개수를 넘지 않습니다.', () => {
     render(<BarChart data={mockChartData} />);
 
     const maxAxisY = screen.getByText('6');
