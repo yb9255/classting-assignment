@@ -3,7 +3,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 
 import userEvent from '@testing-library/user-event';
 import type { ReactElement } from 'react';
-import MainPage from './MainPage';
+import MainPage from './Main';
 import QuestionsPage from './QuestionsPage';
 import { decodeHtmlString } from '../utils';
 import WrongAnsweredQuestionsPage from './WrongAnsweredQuestionsPage';

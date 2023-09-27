@@ -7,7 +7,7 @@ import { InitialState } from '../redux/questions/types';
 import { render } from '../utils/test/test-utils';
 import userEvent from '@testing-library/user-event';
 import QuestionsResultPage from './QuestionsResultPage';
-import MainPage from './MainPage';
+import MainPage from './Main';
 
 const MOCK_CORRECT_ANSWERED_QUESTION_LIST = [
   {

@@ -1,5 +1,5 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import MainPage from './pages/MainPage';
+import { MainPage } from './pages';
 import QuestionsPage from './pages/QuestionsPage';
 import QuestionsResultPage from './pages/QuestionsResultPage';
 import WrongAnsweredQuestionsPage from './pages/WrongAnsweredQuestionsPage';

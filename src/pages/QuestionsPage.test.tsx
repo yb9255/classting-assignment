@@ -2,7 +2,7 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { render, screen, waitFor } from '../utils/test/test-utils';
 
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
-import MainPage from './MainPage';
+import MainPage from './Main';
 import {
   getMockClient400Error,
   getMockServer500Error,
