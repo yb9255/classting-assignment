@@ -19,6 +19,7 @@ export function* watchFetchQuestions() {
     const questionsResponse: Response = yield call(() =>
       fetch(`${DB_API_URL}${query}`)
     );
+
     const questionResponseBody: ResponseBody = yield questionsResponse.json();
 
     const isSuccess = questionResponseBody.response_code <= 1;
@@ -29,6 +30,7 @@ export function* watchFetchQuestions() {
           results: questionResponseBody.results,
         })
       );
+
       return;
     }
 
