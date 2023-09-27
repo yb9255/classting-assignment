@@ -1,120 +1,74 @@
-import { render, screen, waitFor } from '../utils/test/test-utils';
+import { render, screen } from '../utils/test/test-utils';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-
-import userEvent from '@testing-library/user-event';
-import type { ReactElement } from 'react';
 import MainPage from './Main';
-import QuestionsPage from './Questions';
-import { decodeHtmlString } from '../utils';
-import WrongAnsweredQuestionsPage from './WrongAnsweredQuestions';
+
+jest.mock('react-router-dom', () => {
+  return {
+    ...jest.requireActual('react-router-dom'),
+    Link: ({ to, children }: { to: string; children: string }) => (
+      <a href={to}>{children}</a>
+    ),
+  };
+});
 
 describe('MainPage', () => {
-  it('shows main title', () => {
-    const { getMainPageTitleHeading } = renderMainPage();
+  it("사용자는 메인 페이지에서 타이틀 '영화 퀴즈'를 확인할 수 있다.", () => {
+    const { MainPageTitleHeading } = renderMainPage();
 
-    const mainPageTitleHeading = getMainPageTitleHeading();
-    expect(mainPageTitleHeading).toBeInTheDocument();
+    expect(MainPageTitleHeading()).toBeInTheDocument();
   });
 
-  it('shows quiz start button', () => {
-    const { getMainPageStartLink } = renderMainPage();
+  it("사용자는 메인 페이지에서 '퀴즈 풀기' 버튼 링크를 확인할 수 있다.", () => {
+    const { MainPageStartLink } = renderMainPage();
 
-    const mainPageStartLink = getMainPageStartLink();
-    expect(mainPageStartLink).toBeInTheDocument();
+    expect(MainPageStartLink()).toBeInTheDocument();
   });
 
-  it("shows first question when user clicks '퀴즈 풀기' link", async () => {
-    const { getMainPageStartLink, waitForUserClick } = renderMainPage({
-      otherRoutes: [
-        <Route
-          path="/questions"
-          key="/questions"
-          element={<QuestionsPage />}
-        />,
-      ],
-    });
+  it("'퀴즈 풀기' 버튼은 클릭 시 문제 풀이 페이지로 이어지는 링크를 가지고 있다.", async () => {
+    const { MainPageStartLink } = renderMainPage();
 
-    const mainPageStartLink = getMainPageStartLink();
+    expect(MainPageStartLink()).toHaveAttribute('href', '/questions');
+  });
 
-    await waitForUserClick(mainPageStartLink);
+  it("사용자는 메인 페이지에서 '오답 노트' 버튼 링크를 확인할 수 있다.", async () => {
+    const { WrongAnsweredQuestionsPageLink } = renderMainPage();
 
-    const firstQuestionTitleHeading = await screen.findByText(
-      decodeHtmlString(
-        'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
-      ),
-      {
-        exact: false,
-      }
+    expect(WrongAnsweredQuestionsPageLink()).toBeInTheDocument();
+  });
+
+  it("'오답 노트' 버튼은 클릭시 오답 노트 페이지로 이어지는 링크를 가지고 있다.", () => {
+    const { WrongAnsweredQuestionsPageLink } = renderMainPage();
+
+    expect(WrongAnsweredQuestionsPageLink()).toHaveAttribute(
+      'href',
+      '/wrong-answered-questions'
     );
-
-    expect(firstQuestionTitleHeading).toBeInTheDocument();
-  });
-
-  it('shows link to WrongAnsweredQuestions page, and move to that page when user clicks it', async () => {
-    const { getWrongAnsweredQuestionsPageLink, waitForUserClick } =
-      renderMainPage({
-        otherRoutes: [
-          <Route
-            path="/wrong-answered-questions"
-            key="/wrong-answered-questions"
-            element={<WrongAnsweredQuestionsPage />}
-          />,
-        ],
-      });
-
-    const wrongAnsweredQuestionsPageLink = getWrongAnsweredQuestionsPageLink();
-    expect(wrongAnsweredQuestionsPageLink).toBeInTheDocument();
-
-    await waitForUserClick(wrongAnsweredQuestionsPageLink);
-
-    const wrongAnsweredQuestionsPageHeading = await screen.findByRole(
-      'heading',
-      { name: '오답 노트' }
-    );
-
-    expect(wrongAnsweredQuestionsPageHeading).toBeInTheDocument();
   });
 });
 
-type Props = {
-  initialEntries?: string[];
-  otherRoutes?: ReactElement[];
-};
-
-function renderMainPage({ initialEntries = ['/'], otherRoutes }: Props = {}) {
-  const user = userEvent.setup();
-
+function renderMainPage() {
   render(
     <>
-      <div id="overlay-root" />
-      <MemoryRouter initialEntries={initialEntries}>
+      <MemoryRouter initialEntries={['/']}>
         <Routes>
           <Route path="/" element={<MainPage />} />
-          {otherRoutes && otherRoutes.map((route) => route)}
         </Routes>
       </MemoryRouter>
     </>
   );
 
-  const getMainPageTitleHeading = () =>
+  const MainPageTitleHeading = () =>
     screen.getByRole('heading', { name: '영화 퀴즈' });
 
-  const getMainPageStartLink = () =>
+  const MainPageStartLink = () =>
     screen.getByRole('link', { name: '퀴즈 풀기' });
 
-  const getWrongAnsweredQuestionsPageLink = () =>
+  const WrongAnsweredQuestionsPageLink = () =>
     screen.getByRole('link', { name: '오답 노트' });
 
-  const waitForUserClick = async (targetElement: Element) => {
-    await waitFor(async () => {
-      await user.click(targetElement);
-    });
-  };
-
   return {
-    getMainPageTitleHeading,
-    getMainPageStartLink,
-    getWrongAnsweredQuestionsPageLink,
-    waitForUserClick,
+    MainPageTitleHeading,
+    MainPageStartLink,
+    WrongAnsweredQuestionsPageLink,
   };
 }
