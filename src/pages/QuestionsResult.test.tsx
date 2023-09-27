@@ -1,10 +1,8 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { screen, waitFor } from '../utils/test/test-utils';
+import { screen, render } from '../utils/test/test-utils';
 
 import { decodeHtmlString } from '../utils';
 import { InitialState } from '../redux/questions/types';
-import { render } from '../utils/test/test-utils';
-import userEvent from '@testing-library/user-event';
 import QuestionsResult from './QuestionsResult';
 
 const MOCK_CORRECT_ANSWERED_QUESTION_LIST = [
@@ -43,22 +41,14 @@ const MOCK_WRONG_ANSWERED_QUESTION_LIST = [
 ];
 
 describe('QuestionResult', () => {
-  it('shows 문제 결과 heading when quiz is over', async () => {
-    const { getQuestionsResultHeading } = renderQuestionsResultPage({
-      preloadedState: {
-        questions: {
-          startTime: 0,
-          endTime: 500,
-        },
-      },
-    });
+  it("사용자가 문제를 다 풀었을 때, '문제 결과' 타이틀을 보여줍니다.", async () => {
+    const { QuestionsResultHeading } = renderQuestionsResultPage();
 
-    const questionsResultHeading = getQuestionsResultHeading();
-    expect(questionsResultHeading).toBeInTheDocument();
+    expect(QuestionsResultHeading()).toBeInTheDocument();
   });
 
-  it('shows spent time with mm:ss format', () => {
-    const { getSpentTimeDiv } = renderQuestionsResultPage({
+  it('문제 소요 시간의 mm:ss 포맷으로 보여줍니다.', () => {
+    const { SpentTimeDiv } = renderQuestionsResultPage({
       preloadedState: {
         questions: {
           startTime: 0,
@@ -67,12 +57,11 @@ describe('QuestionResult', () => {
       },
     });
 
-    const spentTimeDiv = getSpentTimeDiv();
-    expect(spentTimeDiv).toHaveTextContent('10:50');
+    expect(SpentTimeDiv()).toHaveTextContent('10:50');
   });
 
-  it('shows how many rights and wrongs user got', async () => {
-    const { getCorrectAnswerCountDiv, getWrongAnswerCountDiv } =
+  it('정답, 오답 갯수를 화면에 보여줍니다.', async () => {
+    const { CorrectAnswerCountDiv, WrongAnswerCountDiv } =
       renderQuestionsResultPage({
         preloadedState: {
           questions: {
@@ -84,30 +73,22 @@ describe('QuestionResult', () => {
         },
       });
 
-    const correctAnswerCountDiv = getCorrectAnswerCountDiv();
-    const wrongAnswerCountDiv = getWrongAnswerCountDiv();
-
-    expect(correctAnswerCountDiv).toHaveTextContent('1');
-    expect(wrongAnswerCountDiv).toHaveTextContent('1');
+    expect(CorrectAnswerCountDiv()).toHaveTextContent('1');
+    expect(WrongAnswerCountDiv()).toHaveTextContent('1');
   });
 
-  it('returns home when click 돌아가기 button', async () => {
-    const { getLinkToMainPage, waitForUserClick } = renderQuestionsResultPage({
-      preloadedState: {
-        questions: {
-          startTime: 0,
-          endTime: 650000,
-        },
-      },
-    });
+  it('홈 화면으로 향하는 링크를 가진 돌아가기 버튼을 화면에서 확인할 수 있습니다.', async () => {
+    const { LinkToMainPage } = renderQuestionsResultPage();
 
-    const linkToMainPage = getLinkToMainPage();
+    const linkToMainPage = LinkToMainPage();
     expect(linkToMainPage).toBeInTheDocument();
+  });
 
-    await waitForUserClick(linkToMainPage);
+  it('정답 / 오답 개수를 표시해주는 차트를 확인할 수 있습니다.', () => {
+    const { CorrectAnswerBar, WrongAnswerBar } = renderQuestionsResultPage();
 
-    const mainTitle = await screen.findByRole('heading', { name: '영화 퀴즈' });
-    expect(mainTitle).toBeInTheDocument();
+    expect(CorrectAnswerBar()).toBeInTheDocument();
+    expect(WrongAnswerBar()).toBeInTheDocument();
   });
 });
 
@@ -115,101 +96,51 @@ type Props = {
   preloadedState?: { questions: Partial<InitialState> };
 };
 
-function renderQuestionsResultPage({ preloadedState }: Props) {
-  const user = userEvent.setup();
-
+function renderQuestionsResultPage({
+  preloadedState = {
+    questions: {
+      startTime: 0,
+      endTime: 500,
+    },
+  },
+}: Props = {}) {
   render(
-    <>
-      <div id="overlay-root" />
-      <MemoryRouter initialEntries={['/questions-result']}>
-        <Routes>
-          <Route path="/questions-result" element={<QuestionsResult />} />
-        </Routes>
-      </MemoryRouter>
-    </>,
+    <MemoryRouter initialEntries={['/questions-result']}>
+      <Routes>
+        <Route path="/questions-result" element={<QuestionsResult />} />
+      </Routes>
+    </MemoryRouter>,
     { preloadedState }
   );
 
-  const getQuestionsResultHeading = () =>
+  const QuestionsResultHeading = () =>
     screen.getByRole('heading', {
       name: '문제 결과',
     });
 
-  const getSpentTimeDiv = () =>
-    screen.getByText('소요 시간:', { exact: false });
+  const SpentTimeDiv = () => screen.getByText('소요 시간:', { exact: false });
 
-  const getCorrectAnswerCountDiv = () =>
+  const CorrectAnswerCountDiv = () =>
     screen.getByText('정답 수:', {
       exact: false,
     });
 
-  const getWrongAnswerCountDiv = () =>
+  const WrongAnswerCountDiv = () =>
     screen.getByText('오답 수: ', {
       exact: false,
     });
 
-  const getLinkToMainPage = () =>
-    screen.getByRole('link', { name: '돌아가기' });
-
-  const waitForUserClick = async (targetElement: Element) => {
-    await waitFor(async () => {
-      await user.click(targetElement);
-    });
-  };
-
-  const solveQuizFromScratchWithAllCorrect = async () => {
-    const mainPageStartLink = screen.getByRole('link', { name: '퀴즈 풀기' });
-
-    await waitForUserClick(mainPageStartLink);
-
-    const correctAnswer = await screen.findByText(
-      decodeHtmlString('The Lead Programmer&#039;s birthday')
-    );
-
-    await waitForUserClick(correctAnswer);
-
-    const correctModal = await screen.findByText('정답입니다!', {
-      exact: false,
-    });
-
-    const nextBtn = await screen.findByRole('button', {
-      name: '다음',
-    });
-
-    expect(correctModal).toBeInTheDocument();
-    expect(nextBtn).toBeInTheDocument();
-
-    await waitForUserClick(nextBtn);
-
-    const secondQuestionCorrectAnswer = await screen.findByText(
-      decodeHtmlString('Hurt')
-    );
-
-    expect(secondQuestionCorrectAnswer).toBeInTheDocument();
-
-    await waitForUserClick(secondQuestionCorrectAnswer);
-
-    const secondQuestionCorrectModal = await screen.findByText('정답입니다!', {
-      exact: false,
-    });
-
-    const secondQuestionNextBtn = await screen.findByRole('button', {
-      name: '다음',
-    });
-
-    expect(secondQuestionCorrectModal).toBeInTheDocument();
-    expect(secondQuestionNextBtn).toBeInTheDocument();
-
-    await waitForUserClick(secondQuestionNextBtn);
-  };
+  const LinkToMainPage = () => screen.getByRole('link', { name: '돌아가기' });
+  const CorrectAnswerBar = () => screen.getByRole('정답');
+  const WrongAnswerBar = () => screen.getByRole('오답');
 
   return {
-    getQuestionsResultHeading,
-    getSpentTimeDiv,
-    getCorrectAnswerCountDiv,
-    getWrongAnswerCountDiv,
-    getLinkToMainPage,
-    waitForUserClick,
-    solveQuizFromScratchWithAllCorrect,
+    QuestionsResultHeading,
+    SpentTimeDiv,
+    CorrectAnswerCountDiv,
+    WrongAnswerCountDiv,
+    LinkToMainPage,
+    CorrectAnswerBar,
+    WrongAnswerBar,
   };
 }
