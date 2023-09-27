@@ -17,28 +17,28 @@ import QuestionsPage from './Questions';
 describe('QuestionsPage', () => {
   afterAll(() => localStorage.clear());
 
-  it('shows loading before question is rendered', () => {
+  it('데이터를 불러오는 동안 로딩 스피너를 보여준다.', () => {
     const { getLoadingDiv } = renderQuestionsPage();
     const loadingDiv = getLoadingDiv();
 
     expect(loadingDiv).toBeInTheDocument();
   });
 
-  it('shows question title as heading', async () => {
+  it('데이터가 다 불러지면, 첫번째 문제를 확인할 수 있다.', async () => {
     const { findFirstQuestionTitleHeading } = renderQuestionsPage();
 
     const firstQuestionTitleHeading = await findFirstQuestionTitleHeading();
     expect(firstQuestionTitleHeading).toBeInTheDocument();
   });
 
-  it('shows 4 choices', async () => {
+  it('문제는 4개의 답지를 가지고 있다.', async () => {
     const { findAnswerList } = renderQuestionsPage();
 
     const listItems = await findAnswerList();
     expect(listItems).toHaveLength(4);
   });
 
-  it("shows message '정답입니다!' when the answer is correct", async () => {
+  it("올바른 답지를 선택 시, '정답입니다' 메세지와 함께 다음 문제로 넘어갈 수 있는 버튼이 화면에 출력된다.", async () => {
     const {
       findCorrectAnswerOfFirstQuestionLi,
       findCorrectAnswerModal,
@@ -64,7 +64,7 @@ describe('QuestionsPage', () => {
     expect(secondQuestionTitleHeading).toBeInTheDocument();
   });
 
-  it('shows how many questions are passed and left', async () => {
+  it('문제 하단에 현재 문제 풀이 수와 총 문제 수를 보여준다.', async () => {
     const {
       findCorrectAnswerOfFirstQuestionLi,
       findNextButton,
@@ -87,7 +87,7 @@ describe('QuestionsPage', () => {
     expect(progessOnSecondQuestionDiv).toBeInTheDocument();
   });
 
-  it("shows message '틀렸습니다!' and correct answer when the answer is wrong", async () => {
+  it("잘못된 답지를 선택 시, '틀렸습니다!' 메세지와 실제 정답, 그리고 다음 문제로 넘어가는 버튼을 보여준다.", async () => {
     const {
       findWrongAnswerOfFirstQuestionLi,
       findWrongAnswerModal,
@@ -118,7 +118,7 @@ describe('QuestionsPage', () => {
     expect(secondQuestionTitleHeading).toBeInTheDocument();
   });
 
-  it('shows error message when wrong request occurred', async () => {
+  it('클라이언트에서 에러가 발생 시, 에러 메세지와 메인 페이지로 향하는 링크를 가진 버튼이 화면에 출력된다.', async () => {
     getMockClient400Error();
 
     const { findErrorHeading, findBackLink, waitForUserClick } =
@@ -138,7 +138,7 @@ describe('QuestionsPage', () => {
     expect(mainPageTitle).toBeInTheDocument();
   });
 
-  it('shows error message when server error occurred', async () => {
+  it('서버에서 에러가 발생 시, 에러 메세지와 메인 페이지로 향하는 링크를 가진 버튼이 화면에 출력된다.', async () => {
     getMockServer500Error();
 
     const { findErrorHeading, findBackLink, waitForUserClick } =
@@ -158,7 +158,7 @@ describe('QuestionsPage', () => {
     expect(mainTitle).toBeInTheDocument();
   });
 
-  it('shows 해당하는 문제가 없습니다. message when there is no error and result', async () => {
+  it("해당하는 문제가 없을 시, '해당하는 문제가 없습니다.' 메세지와 메인 페이지로 향하는 링크를 가진 버튼이 화면에 출력된다.", async () => {
     getMockEmptyData();
 
     const { findEmptyQuestionPageHeading, findBackLink, waitForUserClick } =
@@ -178,7 +178,7 @@ describe('QuestionsPage', () => {
     expect(mainPageTitle).toBeInTheDocument();
   });
 
-  it('save wrong answered question in localStorage', async () => {
+  it('오답을 선택했을 시, 오답 내역이 클라이언트 저장소(LocalStorage)의 오답 히스토리에 저장된다.', async () => {
     const {
       correctAnswerOfFirstQuestion,
       wrongAnswerOfFirstQuestion,
