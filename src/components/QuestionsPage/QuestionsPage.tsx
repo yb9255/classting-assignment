@@ -107,11 +107,19 @@ function QuestionsPage() {
   }
 
   if (error) {
-    return <Error />;
+    return (
+      <Container>
+        <Error />
+      </Container>
+    );
   }
 
   if (!targetQuestion) {
-    return <NoQuestion />;
+    return (
+      <Container>
+        <NoQuestion />
+      </Container>
+    );
   }
 
   return (
