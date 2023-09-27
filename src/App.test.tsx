@@ -16,7 +16,7 @@ describe('App', () => {
     localStorage.clear();
   });
 
-  it("메인 화면에서 '퀴즈 풀기' 버튼을 누르면 퀴즈가 시작되고, 퀴즈를 다 풀고 나서 퀴즈 결과 페이지 확인이 가능하며, 오답 노트 링크 버튼을 누르면 오답 노트 페이지로, 홈 링크 버튼을 클릭하면 홈으로 이동합니다.", async () => {
+  it("메인 화면에서 '퀴즈 풀기' 버튼을 누르면 퀴즈가 시작되고, 퀴즈를 다 풀고 나서 퀴즈 결과 페이지 확인이 가능하며, 오답 노트 링크 버튼을 누르면 오답 노트 페이지로, 홈 링크 버튼을 클릭하면 홈으로 이동한다.", async () => {
     const {
       MainPageTitleHeading,
       MainPageStartLink,
@@ -92,7 +92,7 @@ describe('App', () => {
     expect(NavBar()).not.toBeInTheDocument();
   });
 
-  it('결과 페이지에 접속 시 시작 시간 state와 종료 시간 state가 같다면, 퀴즈를 풀지 않은 것으로 간주하여 메인 페이지로 이동합니다.', () => {
+  it('결과 페이지에 접속 시 시작 시간 state와 종료 시간 state가 같다면, 퀴즈를 풀지 않은 것으로 간주하여 메인 페이지로 이동한다.', () => {
     const { MainPageTitleHeading } = renderApp({
       initialEntries: ['/questions-result'],
     });
@@ -100,7 +100,7 @@ describe('App', () => {
     expect(MainPageTitleHeading()).toBeInTheDocument();
   });
 
-  it('문제를 다 풀고 다시 문제를 풀 때, 이전 결과를 리셋 하고 새로운 결과를 화면에 보여줍니다.', async () => {
+  it('문제를 다 풀고 다시 문제를 풀 때, 이전 결과를 리셋 하고 새로운 결과를 화면에 보여준다.', async () => {
     const {
       CorrectAnswerCountDiv,
       WrongAnswerCountDiv,

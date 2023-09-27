@@ -7,7 +7,7 @@ import QuestionsPage from '../../pages/Questions';
 import Layout from './Layout';
 
 describe('Layout', () => {
-  it('상단 네비게이션 바의 홈 버튼을 누를 경우, 홈으로 이도앟ㅂ니다.', async () => {
+  it('상단 네비게이션 바의 홈 버튼을 누를 경우, 홈으로 이동한다.', async () => {
     const user = userEvent.setup();
 
     render(
@@ -41,7 +41,7 @@ describe('Layout', () => {
     expect(mainTitle).toBeInTheDocument();
   });
 
-  it("상단 네비게이션 바의 '오답 노트' 버튼을 누를 경우 오답 노트 페이지로 이동합니다.", async () => {
+  it("상단 네비게이션 바의 '오답 노트' 버튼을 누를 경우 오답 노트 페이지로 이동한다.", async () => {
     const user = userEvent.setup();
 
     render(
@@ -75,7 +75,7 @@ describe('Layout', () => {
     expect(wrongAnsweredQuestionsPageTitle).toBeInTheDocument();
   });
 
-  it('메인 페이지에 있을 경우 네비게이션 바가 보이지 않습니다.', () => {
+  it('메인 페이지에 있을 경우 네비게이션 바가 보이지 않는다.', () => {
     render(
       <MemoryRouter initialEntries={['/']}>
         <Layout layoutType="main">

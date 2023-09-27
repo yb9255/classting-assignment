@@ -183,12 +183,12 @@ describe('WrongAnsweredQuestionsPage', () => {
     localStorage.clear();
   });
 
-  it('페이지 진입 시, 오답 노트 타이틀을 보여줍니다.', () => {
+  it('페이지 진입 시, 오답 노트 타이틀을 보여준다..', () => {
     const { WrongAnsweredQuestionHeading } = renderWrongAnsweredQuestionsPage();
     expect(WrongAnsweredQuestionHeading()).toBeInTheDocument();
   });
 
-  it('히스토리 내 오답이 5개 이하인 경우, 모든 오답을 보여줍니다.', () => {
+  it('히스토리 내 오답이 5개 이하인 경우, 모든 오답을 보여준다..', () => {
     const { FirstQuestionTitleDiv, SecondQuestionTitleDiv } =
       renderWrongAnsweredQuestionsPage();
 
@@ -196,17 +196,17 @@ describe('WrongAnsweredQuestionsPage', () => {
     expect(SecondQuestionTitleDiv()).toBeInTheDocument();
   });
 
-  it('사용자가 해당 문제를 풀었을 때 선택한 답지를 보여줍니다.', () => {
+  it('사용자가 해당 문제를 풀었을 때 선택한 답지를 보여준다..', () => {
     const { ChosenAnswerDivList } = renderWrongAnsweredQuestionsPage();
     expect(ChosenAnswerDivList().length > 0).toBe(true);
   });
 
-  it('각 문제에 대한 정답을 보여줍니다.', () => {
+  it('각 문제에 대한 정답을 보여준다..', () => {
     const { CorrectAnswerDivList } = renderWrongAnsweredQuestionsPage();
     expect(CorrectAnswerDivList().length > 0).toBe(true);
   });
 
-  it('각 문제의 모든 선지를 보여줍니다.', () => {
+  it('각 문제의 모든 선지를 보여준다..', () => {
     const TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS = 8;
     const { TotalAnswersList } = renderWrongAnsweredQuestionsPage();
 
@@ -215,7 +215,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     );
   });
 
-  it('오답 히스토리가 없을 경우, 오답이 없다는 메세지를 보여줍니다.', () => {
+  it('오답 히스토리가 없을 경우, 오답이 없다는 메세지를 보여준다.', () => {
     localStorage.clear();
 
     const { NoWrongAnsweredQuestionHeading } =
@@ -224,7 +224,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     expect(NoWrongAnsweredQuestionHeading()).toBeInTheDocument();
   });
 
-  it('오답 히스토리에 있는 문제가 5개를 초과할 경우에, 첫 페이지에서 5문제만 보여줍니다.', () => {
+  it('오답 히스토리에 있는 문제가 5개를 초과할 경우에, 첫 페이지에서 5문제만 보여준다.', () => {
     localStorage.setItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
       JSON.stringify(LONG_MOCK_WRONG_ANSWERED_QUESTIONS)
@@ -236,7 +236,7 @@ describe('WrongAnsweredQuestionsPage', () => {
     expect(WrongAnsweredQuestionTitleList()).toHaveLength(5);
   });
 
-  it('< 혹은 > 버튼을 누르면 이전 혹은 다음 문제들을 보여줍니다. 페이지의 시작에서는 < 버튼이, 끝에서는 > 버튼이 동작하지 않습니다.', async () => {
+  it('< 혹은 > 버튼을 누르면 이전 혹은 다음 문제들을 보여준다. 페이지의 시작에서는 < 버튼이, 끝에서는 > 버튼이 동작하지 않는다.', async () => {
     localStorage.setItem(
       LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID,
       JSON.stringify(LONG_MOCK_WRONG_ANSWERED_QUESTIONS)

@@ -41,13 +41,13 @@ const MOCK_WRONG_ANSWERED_QUESTION_LIST = [
 ];
 
 describe('QuestionResult', () => {
-  it("사용자가 문제를 다 풀었을 때, '문제 결과' 타이틀을 보여줍니다.", async () => {
+  it("사용자가 문제를 다 풀었을 때, '문제 결과' 타이틀을 보여준다.", async () => {
     const { QuestionsResultHeading } = renderQuestionsResultPage();
 
     expect(QuestionsResultHeading()).toBeInTheDocument();
   });
 
-  it('문제 소요 시간의 mm:ss 포맷으로 보여줍니다.', () => {
+  it('문제 소요 시간의 mm:ss 포맷으로 보여준다.', () => {
     const { SpentTimeDiv } = renderQuestionsResultPage({
       preloadedState: {
         questions: {
@@ -60,7 +60,7 @@ describe('QuestionResult', () => {
     expect(SpentTimeDiv()).toHaveTextContent('10:50');
   });
 
-  it('정답, 오답 갯수를 화면에 보여줍니다.', async () => {
+  it('정답, 오답 갯수를 화면에 보여준다.', async () => {
     const { CorrectAnswerCountDiv, WrongAnswerCountDiv } =
       renderQuestionsResultPage({
         preloadedState: {
@@ -77,14 +77,14 @@ describe('QuestionResult', () => {
     expect(WrongAnswerCountDiv()).toHaveTextContent('1');
   });
 
-  it('홈 화면으로 향하는 링크를 가진 돌아가기 버튼을 화면에서 확인할 수 있습니다.', async () => {
+  it('홈 화면으로 향하는 링크를 가진 돌아가기 버튼을 화면에서 확인할 수 있다.', async () => {
     const { LinkToMainPage } = renderQuestionsResultPage();
 
     const linkToMainPage = LinkToMainPage();
     expect(linkToMainPage).toBeInTheDocument();
   });
 
-  it('정답 / 오답 개수를 표시해주는 차트를 확인할 수 있습니다.', () => {
+  it('정답 / 오답 개수를 표시해주는 차트를 확인할 수 있다.', () => {
     const { CorrectAnswerBar, WrongAnswerBar } = renderQuestionsResultPage();
 
     expect(CorrectAnswerBar()).toBeInTheDocument();
