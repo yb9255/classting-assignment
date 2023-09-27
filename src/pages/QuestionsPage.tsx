@@ -5,7 +5,7 @@ import {
   getError,
   getIsLoading,
   getQuestions,
-} from '../../redux/questions/selectors';
+} from '../redux/questions/selectors';
 import { v4 as uuid } from 'uuid';
 import {
   fetchQuestions,
@@ -14,19 +14,14 @@ import {
   initError,
   setStartTime,
   setEndTime,
-} from '../../redux/questions/reducer';
+} from '../redux/questions/reducer';
 import styled from 'styled-components';
-import {
-  StyledLink,
-  Modal,
-  LoadingSpinner,
-  QuestionCard,
-} from '../../components';
-import { saveDataToLocalStorageArray } from '../../utils';
-import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
-import { QuestionAnswers } from './components';
+import { StyledLink, Modal, LoadingSpinner, QuestionCard } from '../components';
+import { saveDataToLocalStorageArray } from '../utils';
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
+import QuestionAnswers from './QuestionAnswers';
 
-import type { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage/WrongAnsweredQuestionsPage';
+import type { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
 
 function QuestionsPage() {
   const dispatch = useDispatch();

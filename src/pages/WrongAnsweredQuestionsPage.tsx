@@ -1,8 +1,8 @@
 import { styled } from 'styled-components';
-import { PageNavigation } from '../../components';
-import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
-import usePagination from '../../hooks/usePagination';
-import { QuestionCards } from './components';
+import { PageNavigation } from '../components';
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
+import usePagination from '../hooks/usePagination';
+import QuestionCards from './QuestionCards';
 
 export type WrongAnsweredQuestionType = {
   id: string;

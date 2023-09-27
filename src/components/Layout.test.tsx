@@ -1,10 +1,10 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { screen, render, waitFor } from '../../utils/test/test-utils';
-import { WrongAnsweredQuestionsPage } from '../../pages/WrongAnsweredQuestionsPage';
-import MainPage from '../../pages/MainPage';
+import { screen, render, waitFor } from '../utils/test/test-utils';
+import WrongAnsweredQuestionsPage from '../pages/WrongAnsweredQuestionsPage';
+import MainPage from '../pages/MainPage';
 import userEvent from '@testing-library/user-event';
-import { QuestionsPage } from '../../pages/QuestionsPage';
-import Layout from '../Layout';
+import QuestionsPage from '../pages/QuestionsPage';
+import Layout from './Layout';
 
 describe('Layout', () => {
   const user = userEvent.setup();

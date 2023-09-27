@@ -1,6 +1,6 @@
 import { screen, render, waitFor } from '../../utils/test/test-utils';
-import { BarChart } from '../BarChart';
-import { Data } from '../BarChart/types';
+import { BarChart } from '.';
+import { Data } from './types';
 
 const mockChartData: Data[] = [
   {

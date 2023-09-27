@@ -1,9 +1,12 @@
-import { screen } from '@testing-library/react';
-import { renderMainPage } from './helpers';
-import { decodeHtmlString } from '../../utils';
-import { Route } from 'react-router-dom';
-import { QuestionsPage } from '../QuestionsPage';
-import { WrongAnsweredQuestionsPage } from '../WrongAnsweredQuestionsPage';
+import { render, screen, waitFor } from '../utils/test/test-utils';
+import { MemoryRouter, Route, Routes } from 'react-router-dom';
+
+import userEvent from '@testing-library/user-event';
+import type { ReactElement } from 'react';
+import MainPage from './MainPage';
+import QuestionsPage from './QuestionsPage';
+import { decodeHtmlString } from '../utils';
+import WrongAnsweredQuestionsPage from './WrongAnsweredQuestionsPage';
 
 describe('MainPage', () => {
   it('shows main title', () => {
@@ -72,3 +75,46 @@ describe('MainPage', () => {
     expect(wrongAnsweredQuestionsPageHeading).toBeInTheDocument();
   });
 });
+
+type Props = {
+  initialEntries?: string[];
+  otherRoutes?: ReactElement[];
+};
+
+function renderMainPage({ initialEntries = ['/'], otherRoutes }: Props = {}) {
+  const user = userEvent.setup();
+
+  render(
+    <>
+      <div id="overlay-root" />
+      <MemoryRouter initialEntries={initialEntries}>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          {otherRoutes && otherRoutes.map((route) => route)}
+        </Routes>
+      </MemoryRouter>
+    </>
+  );
+
+  const getMainPageTitleHeading = () =>
+    screen.getByRole('heading', { name: '영화 퀴즈' });
+
+  const getMainPageStartLink = () =>
+    screen.getByRole('link', { name: '퀴즈 풀기' });
+
+  const getWrongAnsweredQuestionsPageLink = () =>
+    screen.getByRole('link', { name: '오답 노트' });
+
+  const waitForUserClick = async (targetElement: Element) => {
+    await waitFor(async () => {
+      await user.click(targetElement);
+    });
+  };
+
+  return {
+    getMainPageTitleHeading,
+    getMainPageStartLink,
+    getWrongAnsweredQuestionsPageLink,
+    waitForUserClick,
+  };
+}

@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import type { WrongAnsweredQuestionType } from '../WrongAnsweredQuestionsPage';
-import { QuestionCard } from '../../../components';
+import type { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
+import { QuestionCard } from '../components';
 
 type Props = {
   questions: WrongAnsweredQuestionType[];
