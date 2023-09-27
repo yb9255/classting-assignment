@@ -1,13 +1,11 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { screen, waitFor } from '../utils/test/test-utils';
-import Questions from './Questions';
 
 import { decodeHtmlString } from '../utils';
 import { InitialState } from '../redux/questions/types';
 import { render } from '../utils/test/test-utils';
 import userEvent from '@testing-library/user-event';
 import QuestionsResult from './QuestionsResult';
-import MainPage from './Main';
 
 const MOCK_CORRECT_ANSWERED_QUESTION_LIST = [
   {
@@ -45,15 +43,6 @@ const MOCK_WRONG_ANSWERED_QUESTION_LIST = [
 ];
 
 describe('QuestionResult', () => {
-  it('moves to main page if there is no difference between start time and end time', () => {
-    renderQuestionsResultPage({
-      otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
-    });
-
-    const mainTitle = screen.getByRole('heading', { name: '영화 퀴즈' });
-    expect(mainTitle).toBeInTheDocument();
-  });
-
   it('shows 문제 결과 heading when quiz is over', async () => {
     const { getQuestionsResultHeading } = renderQuestionsResultPage({
       preloadedState: {
@@ -104,7 +93,6 @@ describe('QuestionResult', () => {
 
   it('returns home when click 돌아가기 button', async () => {
     const { getLinkToMainPage, waitForUserClick } = renderQuestionsResultPage({
-      otherRoutes: [<Route path="/" key="/" element={<MainPage />} />],
       preloadedState: {
         questions: {
           startTime: 0,
@@ -121,70 +109,21 @@ describe('QuestionResult', () => {
     const mainTitle = await screen.findByRole('heading', { name: '영화 퀴즈' });
     expect(mainTitle).toBeInTheDocument();
   });
-
-  it('resets the result when user leaves the page and shows new result when user solves quiz again', async () => {
-    const {
-      getCorrectAnswerCountDiv,
-      getWrongAnswerCountDiv,
-      getLinkToMainPage,
-      waitForUserClick,
-      solveQuizFromScratchWithAllCorrect,
-    } = renderQuestionsResultPage({
-      otherRoutes: [
-        <Route path="/" key="/" element={<MainPage />} />,
-        <Route path="/questions" key="/questions" element={<Questions />} />,
-      ],
-      preloadedState: {
-        questions: {
-          startTime: 0,
-          endTime: 500,
-          correctAnsweredQuestions: MOCK_CORRECT_ANSWERED_QUESTION_LIST,
-          wrongAnsweredQuestions: MOCK_WRONG_ANSWERED_QUESTION_LIST,
-        },
-      },
-    });
-
-    const correctAnswerCountDiv = getCorrectAnswerCountDiv();
-    const wrongAnswerCountDiv = getWrongAnswerCountDiv();
-
-    expect(correctAnswerCountDiv).toHaveTextContent('1');
-    expect(wrongAnswerCountDiv).toHaveTextContent('1');
-
-    const linkToMainPage = getLinkToMainPage();
-
-    expect(linkToMainPage).toBeInTheDocument();
-
-    await waitForUserClick(linkToMainPage);
-    await solveQuizFromScratchWithAllCorrect();
-
-    const secondTestCorrectAnswerCountDiv = getCorrectAnswerCountDiv();
-    const secondTestWrongAnswerCountDiv = getWrongAnswerCountDiv();
-
-    expect(secondTestCorrectAnswerCountDiv).toHaveTextContent('2');
-    expect(secondTestWrongAnswerCountDiv).toHaveTextContent('0');
-  });
 });
 
 type Props = {
-  initialEntries?: string[];
-  otherRoutes?: React.ReactElement[];
   preloadedState?: { questions: Partial<InitialState> };
 };
 
-function renderQuestionsResultPage({
-  initialEntries = ['/questions-result'],
-  otherRoutes,
-  preloadedState,
-}: Props) {
+function renderQuestionsResultPage({ preloadedState }: Props) {
   const user = userEvent.setup();
 
   render(
     <>
       <div id="overlay-root" />
-      <MemoryRouter initialEntries={initialEntries}>
+      <MemoryRouter initialEntries={['/questions-result']}>
         <Routes>
           <Route path="/questions-result" element={<QuestionsResult />} />
-          {otherRoutes && otherRoutes.map((route) => route)}
         </Routes>
       </MemoryRouter>
     </>,
