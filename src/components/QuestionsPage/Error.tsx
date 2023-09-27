@@ -8,9 +8,9 @@ function Error() {
   return (
     <>
       <h2>ERROR!</h2>
-      <div onClick={() => dispatch(initError())}>
-        <StyledLink to="/">돌아가기</StyledLink>
-      </div>
+      <StyledLink to="/" onClick={() => dispatch(initError())}>
+        돌아가기
+      </StyledLink>
     </>
   );
 }

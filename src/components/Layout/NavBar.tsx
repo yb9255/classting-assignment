@@ -8,12 +8,15 @@ function NavBar() {
 
   return (
     <NavBarContainer>
-      <div onClick={() => dispatch(initAnsweredQuestions())}>
-        <StyledLink to="/">홈</StyledLink>
-      </div>
-      <div onClick={() => dispatch(initAnsweredQuestions())}>
-        <StyledLink to="/wrong-answered-questions">오답 노트</StyledLink>
-      </div>
+      <StyledLink to="/" onClick={() => dispatch(initAnsweredQuestions())}>
+        홈
+      </StyledLink>
+      <StyledLink
+        to="/wrong-answered-questions"
+        onClick={() => dispatch(initAnsweredQuestions())}
+      >
+        오답 노트
+      </StyledLink>
     </NavBarContainer>
   );
 }

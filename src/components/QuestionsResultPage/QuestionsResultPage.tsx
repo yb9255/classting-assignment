@@ -53,8 +53,10 @@ function QuestionsResultPage() {
         wrongAnswerCount={wrongAnswerCount}
       />
       {resultData && <BarChart data={resultData} />}
-      <StyledLinkBox onClick={() => dispatch(initAnsweredQuestions())}>
-        <StyledLink to="/">돌아가기</StyledLink>
+      <StyledLinkBox>
+        <StyledLink to="/" onClick={() => dispatch(initAnsweredQuestions())}>
+          돌아가기
+        </StyledLink>
       </StyledLinkBox>
     </Container>
   );
