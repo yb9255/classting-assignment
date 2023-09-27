@@ -16,12 +16,12 @@ import QuestionsPage from './Questions';
 describe('QuestionsPage', () => {
   afterAll(() => localStorage.clear());
 
-  it('데이터를 불러오는 동안 로딩 스피너를 보여준다.', () => {
+  it('문제 데이터를 불러오는 동안 로딩 스피너를 보여준다.', () => {
     const { LoadingDiv } = renderQuestionsPage();
     expect(LoadingDiv()).toBeInTheDocument();
   });
 
-  it('데이터가 다 불러지면, 첫번째 문제를 확인할 수 있다.', async () => {
+  it('문제 데이터가 다 불러지면, 첫번째 문제를 확인할 수 있다.', async () => {
     const { FirstQuestionTitleHeading } = renderQuestionsPage();
     expect(await FirstQuestionTitleHeading()).toBeInTheDocument();
   });
