@@ -12,6 +12,7 @@ import { BarChart } from '../BarChart';
 import StyledLink from '../StyledLink';
 import { initAnsweredQuestions } from '../../redux/questions/reducer';
 import { styled } from 'styled-components';
+import AnswerCount from './AnswerCount';
 
 function QuestionsResultPage() {
   const dispatch = useDispatch();
@@ -47,10 +48,10 @@ function QuestionsResultPage() {
     <Container>
       <h1>문제 결과</h1>
       <h3>소요 시간: {spentSeconds}</h3>
-      <CountWrapper>
-        <div>정답 수: {correctAnswerCount} 👍</div>
-        <div>오답 수: {wrongAnswerCount} 😂</div>
-      </CountWrapper>
+      <AnswerCount
+        correctAnswerCount={correctAnswerCount}
+        wrongAnswerCount={wrongAnswerCount}
+      />
       {resultData && <BarChart data={resultData} />}
       <StyledLinkBox onClick={() => dispatch(initAnsweredQuestions())}>
         <StyledLink to="/">돌아가기</StyledLink>
@@ -63,13 +64,6 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const CountWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-bottom: 20px;
 `;
 
 const StyledLinkBox = styled.div`
