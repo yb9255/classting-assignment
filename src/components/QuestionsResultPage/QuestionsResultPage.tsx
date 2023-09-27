@@ -4,12 +4,13 @@ import {
   getEndTime,
   getStartTime,
   getWrongAnsweredQuestions,
-} from '../redux/questions/selectors';
+} from '../../redux/questions/selectors';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { changeMillisecondsToMinutesAndSeconds } from '../utils';
-import { BarChart, StyledLink } from '../components';
-import { initAnsweredQuestions } from '../redux/questions/reducer';
+import { changeMillisecondsToMinutesAndSeconds } from '../../utils';
+import { BarChart } from '../BarChart';
+import StyledLink from '../StyledLink';
+import { initAnsweredQuestions } from '../../redux/questions/reducer';
 import { styled } from 'styled-components';
 
 function QuestionsResultPage() {

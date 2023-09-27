@@ -1,6 +1,10 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { MainPage, QuestionsPage, WrongAnsweredQuestionsPage } from './pages';
-import QuestionsResultPage from './pages/QuestionsResultPage';
+import {
+  Main,
+  Questions,
+  QuestionsResult,
+  WrongAnsweredQuestions,
+} from './pages';
 import { Layout } from './components';
 import { useLocation } from 'react-router-dom';
 
@@ -11,12 +15,12 @@ function App() {
   return (
     <Layout layoutType={layoutType}>
       <Routes>
-        <Route path="/" element={<MainPage />} />
-        <Route path="/questions" element={<QuestionsPage />} />
-        <Route path="/questions-result" element={<QuestionsResultPage />} />
+        <Route path="/" element={<Main />} />
+        <Route path="/questions" element={<Questions />} />
+        <Route path="/questions-result" element={<QuestionsResult />} />
         <Route
           path="/wrong-answered-questions"
-          element={<WrongAnsweredQuestionsPage />}
+          element={<WrongAnsweredQuestions />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

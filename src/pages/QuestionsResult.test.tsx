@@ -1,12 +1,12 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { screen, waitFor } from '../utils/test/test-utils';
-import QuestionsPage from './Questions';
+import Questions from './Questions';
 
 import { decodeHtmlString } from '../utils';
 import { InitialState } from '../redux/questions/types';
 import { render } from '../utils/test/test-utils';
 import userEvent from '@testing-library/user-event';
-import QuestionsResultPage from './QuestionsResultPage';
+import QuestionsResult from './QuestionsResult';
 import MainPage from './Main';
 
 const MOCK_CORRECT_ANSWERED_QUESTION_LIST = [
@@ -132,11 +132,7 @@ describe('QuestionResult', () => {
     } = renderQuestionsResultPage({
       otherRoutes: [
         <Route path="/" key="/" element={<MainPage />} />,
-        <Route
-          path="/questions"
-          key="/questions"
-          element={<QuestionsPage />}
-        />,
+        <Route path="/questions" key="/questions" element={<Questions />} />,
       ],
       preloadedState: {
         questions: {
@@ -187,7 +183,7 @@ function renderQuestionsResultPage({
       <div id="overlay-root" />
       <MemoryRouter initialEntries={initialEntries}>
         <Routes>
-          <Route path="/questions-result" element={<QuestionsResultPage />} />
+          <Route path="/questions-result" element={<QuestionsResult />} />
           {otherRoutes && otherRoutes.map((route) => route)}
         </Routes>
       </MemoryRouter>

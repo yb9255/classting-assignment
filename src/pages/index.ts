@@ -1,3 +1,4 @@
-export { default as MainPage } from './Main';
-export { default as QuestionsPage } from './Questions';
-export { default as WrongAnsweredQuestionsPage } from './WrongAnsweredQuestions';
+export { default as Main } from './Main';
+export { default as Questions } from './Questions';
+export { default as WrongAnsweredQuestions } from './WrongAnsweredQuestions';
+export { default as QuestionsResult } from './QuestionsResult';
