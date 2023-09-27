@@ -1,9 +1,9 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { screen, render, waitFor } from '../utils/test/test-utils';
-import WrongAnsweredQuestionsPage from '../pages/WrongAnsweredQuestions';
-import MainPage from '../pages/Main';
+import { screen, render, waitFor } from '../../utils/test/test-utils';
+import WrongAnsweredQuestionsPage from '../../pages/WrongAnsweredQuestions';
+import MainPage from '../../pages/Main';
 import userEvent from '@testing-library/user-event';
-import QuestionsPage from '../pages/Questions';
+import QuestionsPage from '../../pages/Questions';
 import Layout from './Layout';
 
 describe('Layout', () => {

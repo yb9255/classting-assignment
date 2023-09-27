@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
-import StyledLink from './StyledLink';
+import StyledLink from '../StyledLink';
 import { useDispatch } from 'react-redux';
-import { initAnsweredQuestions } from '../redux/questions/reducer';
+import { initAnsweredQuestions } from '../../redux/questions/reducer';
 
 function NavBar() {
   const dispatch = useDispatch();

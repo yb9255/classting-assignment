@@ -5,8 +5,8 @@ import {
   QuestionsResult,
   WrongAnsweredQuestions,
 } from './pages';
-import { Layout } from './components';
 import { useLocation } from 'react-router-dom';
+import { Layout } from './components';
 
 function App() {
   const { pathname } = useLocation();
