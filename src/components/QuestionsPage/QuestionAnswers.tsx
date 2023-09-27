@@ -37,6 +37,8 @@ const QuestionAnswer = styled.li`
   cursor: pointer;
   transition: 0.3 all;
   user-select: none;
+  width: 100%;
+  word-wrap: break-word;
 
   &:hover {
     box-shadow: 0 2px 6px -2px rgba(0, 0, 0, 0.5);

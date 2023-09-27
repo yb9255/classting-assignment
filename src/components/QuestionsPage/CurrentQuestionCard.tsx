@@ -29,7 +29,8 @@ function CurrentQuestionCard({
 
 const QuestionTitle = styled.h3`
   font-size: 20px;
-  width: 760px;
+  width: 100%;
+  word-wrap: break-word;
 `;
 
 export default CurrentQuestionCard;

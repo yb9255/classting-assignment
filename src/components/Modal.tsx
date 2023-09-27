@@ -52,6 +52,11 @@ const ModalBody = styled.div`
 
 const MessageBox = styled.div`
   font-size: 20px;
+  width: 100%;
+  text-align: center;
+  word-break: break-word;
+  padding: 0 10px;
+  box-sizing: border-box;
 `;
 
 export default Modal;

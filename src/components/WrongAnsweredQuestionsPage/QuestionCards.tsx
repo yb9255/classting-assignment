@@ -25,10 +25,12 @@ function QuestionCards({ questions }: Props) {
 const QuestionTitle = styled.h3`
   font-size: 20px;
   width: 100%;
+  word-wrap: break-word;
 `;
 
 const AnswerInfoBox = styled.div`
   margin-bottom: 10px;
+  word-wrap: break-word;
 `;
 
 export default QuestionCards;
