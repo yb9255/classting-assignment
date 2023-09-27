@@ -11,22 +11,21 @@ import {
   fetchQuestions,
   increaseCorrectAnsweredQuestions,
   increaseWrongAnsweredQuestions,
-  initError,
   setStartTime,
   setEndTime,
 } from '../../redux/questions/reducer';
 import styled from 'styled-components';
 
-import StyledLink from '../StyledLink';
 import Modal from '../Modal';
 import LoadingSpinner from '../LoadingSpinner';
-import QuestionCard from '../QuestionCard';
 
 import { saveDataToLocalStorageArray } from '../../utils';
 import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
-import QuestionAnswers from './QuestionAnswers';
 
 import type { WrongAnsweredQuestionType } from '../../types';
+import Error from './Error';
+import NoQuestion from './NoQuestion';
+import CurrentQuestionCard from './CurrentQuestionCard';
 
 function QuestionsPage() {
   const dispatch = useDispatch();
@@ -90,9 +89,7 @@ function QuestionsPage() {
 
   /** 문제 목록을 서버에서 받아왔다면, 시작 시간을 설정 */
   useEffect(() => {
-    const hasQuestion = questions.length > 0;
-
-    if (hasQuestion) {
+    if (questions.length > 0) {
       dispatch(setStartTime({ startTime: Date.now() }));
     }
   }, [questions, dispatch]);
@@ -101,44 +98,24 @@ function QuestionsPage() {
     return <LoadingSpinner data-testid="loading-spinner" />;
   }
 
-  if (!isLoading && !error && !targetQuestion) {
-    return (
-      <>
-        <h2>해당하는 문제가 없습니다.</h2>
-        <StyledLink to="/" onClick={() => dispatch(initError())}>
-          돌아가기
-        </StyledLink>
-      </>
-    );
+  if (error) {
+    return <Error />;
   }
 
-  if (!isLoading && error) {
-    return (
-      <>
-        <h2>ERROR!</h2>
-        <StyledLink to="/" onClick={() => dispatch(initError())}>
-          돌아가기
-        </StyledLink>
-      </>
-    );
+  if (!targetQuestion) {
+    return <NoQuestion />;
   }
-
-  const questionTitleText = `${currentQuestionIndex + 1}: ${
-    targetQuestion.question
-  }`;
-
-  const progressText = `${currentQuestionIndex + 1} / ${lastQuestionIndex + 1}`;
 
   return (
     <Container>
-      <QuestionCard>
-        <QuestionHeading>{questionTitleText}</QuestionHeading>
-        <QuestionAnswers
-          answers={targetQuestion.answers}
-          onClickAnswer={handleClickAnswer}
-        />
-      </QuestionCard>
-      <Progress>{progressText}</Progress>
+      <CurrentQuestionCard
+        targetQuestion={targetQuestion}
+        currentQuestionIndex={currentQuestionIndex}
+        onClickAnswer={handleClickAnswer}
+      />
+      <Progress>{`${currentQuestionIndex + 1} / ${
+        lastQuestionIndex + 1
+      }`}</Progress>
       {isModalOpen && (
         <Modal
           mainMessage={modalMainMessage}
@@ -154,11 +131,6 @@ const Container = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const QuestionHeading = styled.h3`
-  font-size: 20px;
-  width: 700px;
 `;
 
 const Progress = styled.div`
