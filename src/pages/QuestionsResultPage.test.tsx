@@ -1,6 +1,6 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { screen, waitFor } from '../utils/test/test-utils';
-import QuestionsPage from './QuestionsPage';
+import QuestionsPage from './Questions';
 
 import { decodeHtmlString } from '../utils';
 import { InitialState } from '../redux/questions/types';

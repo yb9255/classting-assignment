@@ -1,16 +1,9 @@
 import { styled } from 'styled-components';
-import { PageNavigation } from '../components';
-import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
-import usePagination from '../hooks/usePagination';
+import PageNavigation from '../PageNavigation';
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
+import usePagination from '../../hooks/usePagination';
 import QuestionCards from './QuestionCards';
-
-export type WrongAnsweredQuestionType = {
-  id: string;
-  question: string;
-  chosenAnswer: string;
-  correctAnswer: string;
-  answers: string[];
-};
+import type { WrongAnsweredQuestionType } from '../../types';
 
 const WRONG_ANSWERED_QUESTIONS_COUNT_PER_PAGE = 5;
 

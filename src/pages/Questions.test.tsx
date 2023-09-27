@@ -9,10 +9,10 @@ import {
   getMockEmptyData,
 } from '../utils/test/msw/utils';
 
-import type { WrongAnsweredQuestionType } from './WrongAnsweredQuestionsPage';
+import type { WrongAnsweredQuestionType } from '../types';
 import userEvent from '@testing-library/user-event';
 import { decodeHtmlString } from '../utils';
-import QuestionsPage from './QuestionsPage';
+import QuestionsPage from './Questions';
 
 describe('QuestionsPage', () => {
   afterAll(() => localStorage.clear());

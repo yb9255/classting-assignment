@@ -1,8 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { MainPage } from './pages';
-import QuestionsPage from './pages/QuestionsPage';
+import { MainPage, QuestionsPage, WrongAnsweredQuestionsPage } from './pages';
 import QuestionsResultPage from './pages/QuestionsResultPage';
-import WrongAnsweredQuestionsPage from './pages/WrongAnsweredQuestionsPage';
 import { Layout } from './components';
 import { useLocation } from 'react-router-dom';
 

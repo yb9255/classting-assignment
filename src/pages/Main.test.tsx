@@ -4,9 +4,9 @@ import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
 import type { ReactElement } from 'react';
 import MainPage from './Main';
-import QuestionsPage from './QuestionsPage';
+import QuestionsPage from './Questions';
 import { decodeHtmlString } from '../utils';
-import WrongAnsweredQuestionsPage from './WrongAnsweredQuestionsPage';
+import WrongAnsweredQuestionsPage from './WrongAnsweredQuestions';
 
 describe('MainPage', () => {
   it('shows main title', () => {
