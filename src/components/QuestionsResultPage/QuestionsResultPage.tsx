@@ -44,6 +44,13 @@ function QuestionsResultPage() {
     }
   }, [startTime, endTime, navigate]);
 
+  /** 정답 리스트와 오답 리스트 모두 빈 배열이면, 퀴즈를 풀지 않았다고 간주하여 메인 페이지로 이동 */
+  useEffect(() => {
+    if (correctAnswerCount === 0 && wrongAnswerCount === 0) {
+      navigate('/');
+    }
+  }, [correctAnswerCount, wrongAnswerCount, navigate]);
+
   return (
     <Container>
       <h1>문제 결과</h1>

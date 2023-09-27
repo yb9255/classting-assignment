@@ -92,7 +92,7 @@ describe('App', () => {
     expect(NavBar()).not.toBeInTheDocument();
   });
 
-  it('결과 페이지에 접속 시 시작 시간 state와 종료 시간 state가 같다면, 퀴즈를 풀지 않은 것으로 간주하여 메인 페이지로 이동한다.', () => {
+  it('결과 페이지에 접속 시 시작 시간 state와 종료 시간 state가 같다면, 혹은 정답 개수와 오답 개수가 모두 0개라면, 퀴즈를 풀지 않은 것으로 간주하여 메인 페이지로 이동한다.', () => {
     const { MainPageTitleHeading } = renderApp({
       initialEntries: ['/questions-result'],
     });
