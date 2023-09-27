@@ -1,17 +1,17 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { render, screen, waitFor } from '../utils/test/test-utils';
+import { render, screen, waitFor } from '../../utils/test/test-utils';
 
-import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
 import {
   getMockClient400Error,
   getMockServer500Error,
   getMockEmptyData,
-} from '../utils/test/msw/utils';
+} from '../../utils/test/msw/utils';
 
-import type { WrongAnsweredQuestionType } from '../types';
+import type { WrongAnsweredQuestionType } from '../../types';
 import userEvent from '@testing-library/user-event';
-import { decodeHtmlString } from '../utils';
-import QuestionsPage from './Questions';
+import { decodeHtmlString } from '../../utils';
+import QuestionsPage from './QuestionsPage';
 
 describe('QuestionsPage', () => {
   afterAll(() => localStorage.clear());

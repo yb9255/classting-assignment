@@ -1,6 +1,6 @@
-import { render, screen } from '../utils/test/test-utils';
+import { render, screen } from '../../utils/test/test-utils';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import MainPage from './Main';
+import MainPage from './MainPage';
 
 jest.mock('react-router-dom', () => {
   return {

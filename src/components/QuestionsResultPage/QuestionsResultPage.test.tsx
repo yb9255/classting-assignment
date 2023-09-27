@@ -1,9 +1,9 @@
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import { screen, render } from '../utils/test/test-utils';
+import { screen, render } from '../../utils/test/test-utils';
 
-import { decodeHtmlString } from '../utils';
-import { InitialState } from '../redux/questions/types';
-import QuestionsResult from './QuestionsResult';
+import { decodeHtmlString } from '../../utils';
+import { InitialState } from '../../redux/questions/types';
+import QuestionsResult from './QuestionsResultPage';
 
 const MOCK_CORRECT_ANSWERED_QUESTION_LIST = [
   {

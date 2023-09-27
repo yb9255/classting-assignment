@@ -1,11 +1,11 @@
-import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../constants';
+import { LOCAL_STORAGE_WRONG_ANSWERED_QUESTION_ARRAY_ID } from '../../constants';
 import userEvent from '@testing-library/user-event';
-import { screen, render, waitFor } from '../utils/test/test-utils';
+import { screen, render, waitFor } from '../../utils/test/test-utils';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import WrongAnsweredQuestionsPage from './WrongAnsweredQuestions';
+import WrongAnsweredQuestionsPage from './WrongAnsweredQuestionsPage';
 
-import { decodeHtmlString } from '../utils';
-import type { WrongAnsweredQuestionType } from '../types';
+import { decodeHtmlString } from '../../utils';
+import type { WrongAnsweredQuestionType } from '../../types';
 
 const SHORT_MOCK_WRONG_ANSWERED_QUESTIONS: WrongAnsweredQuestionType[] = [
   {
