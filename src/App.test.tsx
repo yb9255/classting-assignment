@@ -17,7 +17,7 @@ describe('App', () => {
 
   it("메인 화면에서 '퀴즈 풀기' 버튼을 누르면 퀴즈가 시작되고, 퀴즈를 다 풀고 나서 퀴즈 결과 페이지 확인이 가능하며, 오답 노트 링크 버튼을 누르면 오답 노트 페이지로, 홈 링크 버튼을 클릭하면 홈으로 이동합니다.", async () => {
     const {
-      MainTitleHeading,
+      MainPageTitleHeading,
       MainPageStartLink,
       SpentTimeDiv,
       CorrectAnswerCountDiv,
@@ -87,18 +87,28 @@ describe('App', () => {
 
     await clickHomeLink();
 
-    expect(MainTitleHeading()).toBeInTheDocument();
+    expect(MainPageTitleHeading()).toBeInTheDocument();
     expect(NavBar()).not.toBeInTheDocument();
+  });
+
+  it('결과 페이지에 접속 시 시작 시간 state와 종료 시간 state가 같다면, 퀴즈를 풀지 않은 것으로 간주하여 메인 페이지로 이동합니다.', () => {
+    const { MainPageTitleHeading } = renderApp({
+      initialEntries: ['/questions-result'],
+    });
+
+    expect(MainPageTitleHeading()).toBeInTheDocument();
   });
 });
 
-function renderApp() {
+function renderApp({
+  initialEntries = ['/'],
+}: { initialEntries?: string[] } = {}) {
   const user = userEvent.setup();
 
   render(
     <>
       <div id="overlay-root" />
-      <MemoryRouter initialEntries={['/']}>
+      <MemoryRouter initialEntries={initialEntries}>
         <Provider store={store}>
           <App />
         </Provider>
@@ -106,7 +116,7 @@ function renderApp() {
     </>
   );
 
-  const MainTitleHeading = () =>
+  const MainPageTitleHeading = () =>
     screen.getByRole('heading', { name: '영화 퀴즈' });
 
   const MainPageStartLink = () =>
@@ -212,7 +222,7 @@ function renderApp() {
 
   const clickHomeLink = async () => await waitForUserClick(HomeLink());
   return {
-    MainTitleHeading,
+    MainPageTitleHeading,
     MainPageStartLink,
     SpentTimeDiv,
     CorrectAnswerCountDiv,
