@@ -68,7 +68,7 @@ const LONG_MOCK_WRONG_ANSWERED_QUESTIONS: WrongAnsweredQuestionType[] = [
   {
     id: '2',
     question: decodeHtmlString(
-      'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
+      'In &quot;Sonic the Hedgehog3 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
     ),
     correctAnswer: decodeHtmlString('The Lead Programmer&#039;s birthday'),
     chosenAnswer: decodeHtmlString(
@@ -88,7 +88,7 @@ const LONG_MOCK_WRONG_ANSWERED_QUESTIONS: WrongAnsweredQuestionType[] = [
   {
     id: '3',
     question: decodeHtmlString(
-      'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
+      'Johnny Cash did a cover5 of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
     ),
     correctAnswer: decodeHtmlString('Hurt'),
     chosenAnswer: decodeHtmlString('Closer'),
@@ -102,7 +102,7 @@ const LONG_MOCK_WRONG_ANSWERED_QUESTIONS: WrongAnsweredQuestionType[] = [
   {
     id: '4',
     question: decodeHtmlString(
-      'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
+      'In &quot;Sonic the Hedge6hog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
     ),
     correctAnswer: decodeHtmlString('The Lead Programmer&#039;s birthday'),
     chosenAnswer: decodeHtmlString(
@@ -122,7 +122,7 @@ const LONG_MOCK_WRONG_ANSWERED_QUESTIONS: WrongAnsweredQuestionType[] = [
   {
     id: '5',
     question: decodeHtmlString(
-      'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
+      'Johnny Cash did a cover 7of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
     ),
     correctAnswer: decodeHtmlString('Hurt'),
     chosenAnswer: decodeHtmlString('Closer'),
@@ -136,7 +136,7 @@ const LONG_MOCK_WRONG_ANSWERED_QUESTIONS: WrongAnsweredQuestionType[] = [
   {
     id: '6',
     question: decodeHtmlString(
-      'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
+      'In &quot;Sonic the 8Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
     ),
     correctAnswer: decodeHtmlString('The Lead Programmer&#039;s birthday'),
     chosenAnswer: decodeHtmlString(
@@ -156,7 +156,7 @@ const LONG_MOCK_WRONG_ANSWERED_QUESTIONS: WrongAnsweredQuestionType[] = [
   {
     id: '7',
     question: decodeHtmlString(
-      'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
+      'Johnny Cash did a cover o2f this song written by lead singer of Nine Inch Nails, Trent Reznor.'
     ),
     correctAnswer: decodeHtmlString('Hurt'),
     chosenAnswer: decodeHtmlString('Closer'),
@@ -184,45 +184,33 @@ describe('WrongAnsweredQuestionsPage', () => {
   });
 
   it('페이지 진입 시, 오답 노트 타이틀을 보여줍니다.', () => {
-    const { getWrongAnsweredQuestionHeading } =
-      renderWrongAnsweredQuestionsPage();
-
-    const wrongAnsweredQuestionsHeading = getWrongAnsweredQuestionHeading();
-    expect(wrongAnsweredQuestionsHeading).toBeInTheDocument();
+    const { WrongAnsweredQuestionHeading } = renderWrongAnsweredQuestionsPage();
+    expect(WrongAnsweredQuestionHeading()).toBeInTheDocument();
   });
 
   it('히스토리 내 오답이 5개 이하인 경우, 모든 오답을 보여줍니다.', () => {
-    const { getFirstQuestionTitleDiv, getSecondQuestionTitleDiv } =
+    const { FirstQuestionTitleDiv, SecondQuestionTitleDiv } =
       renderWrongAnsweredQuestionsPage();
 
-    const firstQuestionTitleDiv = getFirstQuestionTitleDiv();
-    const secondQuestionTitleDiv = getSecondQuestionTitleDiv();
-
-    expect(firstQuestionTitleDiv).toBeInTheDocument();
-    expect(secondQuestionTitleDiv).toBeInTheDocument();
+    expect(FirstQuestionTitleDiv()).toBeInTheDocument();
+    expect(SecondQuestionTitleDiv()).toBeInTheDocument();
   });
 
   it('사용자가 해당 문제를 풀었을 때 선택한 답지를 보여줍니다.', () => {
-    const { getChosenAnswerDivList } = renderWrongAnsweredQuestionsPage();
-
-    const chosenAnswerDivList = getChosenAnswerDivList();
-    expect(chosenAnswerDivList.length > 0).toBe(true);
+    const { ChosenAnswerDivList } = renderWrongAnsweredQuestionsPage();
+    expect(ChosenAnswerDivList().length > 0).toBe(true);
   });
 
   it('각 문제에 대한 정답을 보여줍니다.', () => {
-    const { getCorrectAnswerDivList } = renderWrongAnsweredQuestionsPage();
-
-    const correctAnswerDivList = getCorrectAnswerDivList();
-    expect(correctAnswerDivList.length > 0).toBe(true);
+    const { CorrectAnswerDivList } = renderWrongAnsweredQuestionsPage();
+    expect(CorrectAnswerDivList().length > 0).toBe(true);
   });
 
   it('각 문제의 모든 선지를 보여줍니다.', () => {
     const TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS = 8;
-    const { getTotalAnswersList } = renderWrongAnsweredQuestionsPage();
+    const { TotalAnswersList } = renderWrongAnsweredQuestionsPage();
 
-    const totalAnswersList = getTotalAnswersList();
-
-    expect(totalAnswersList).toHaveLength(
+    expect(TotalAnswersList()).toHaveLength(
       TOTAL_LIST_ITEMS_OF_ALL_WRONG_QUESTIONS
     );
   });
@@ -230,11 +218,10 @@ describe('WrongAnsweredQuestionsPage', () => {
   it('오답 히스토리가 없을 경우, 오답이 없다는 메세지를 보여줍니다.', () => {
     localStorage.clear();
 
-    const { getNoWrongAnsweredQuestionHeading } =
+    const { NoWrongAnsweredQuestionHeading } =
       renderWrongAnsweredQuestionsPage();
 
-    const noWrongAnsweredQuestionHeading = getNoWrongAnsweredQuestionHeading();
-    expect(noWrongAnsweredQuestionHeading).toBeInTheDocument();
+    expect(NoWrongAnsweredQuestionHeading()).toBeInTheDocument();
   });
 
   it('오답 히스토리에 있는 문제가 5개를 초과할 경우에, 첫 페이지에서 5문제만 보여줍니다.', () => {
@@ -243,11 +230,10 @@ describe('WrongAnsweredQuestionsPage', () => {
       JSON.stringify(LONG_MOCK_WRONG_ANSWERED_QUESTIONS)
     );
 
-    const { getWrongAnsweredQuestionTitleList } =
+    const { WrongAnsweredQuestionTitleList } =
       renderWrongAnsweredQuestionsPage();
 
-    const wrongAnsweredQuestionTitleList = getWrongAnsweredQuestionTitleList();
-    expect(wrongAnsweredQuestionTitleList).toHaveLength(5);
+    expect(WrongAnsweredQuestionTitleList()).toHaveLength(5);
   });
 
   it('< 혹은 > 버튼을 누르면 이전 혹은 다음 문제들을 보여줍니다. 페이지의 시작에서는 < 버튼이, 끝에서는 > 버튼이 동작하지 않습니다.', async () => {
@@ -257,49 +243,37 @@ describe('WrongAnsweredQuestionsPage', () => {
     );
 
     const {
-      getPrevButton,
-      getNextButton,
-      findWrongAnsweredQuestionTitleList,
-      waitForUserClick,
+      PrevButton,
+      NextButton,
+      FirstQuestionTitleDivAsync,
+      LastQuestionTitleDivOnLongList,
+      clickPrevButton,
+      clickNextButton,
+      WrongAnsweredQuestionTitleListAsync,
     } = renderWrongAnsweredQuestionsPage();
 
-    const prevButton = getPrevButton();
-    const nextButton = getNextButton();
+    expect(PrevButton()).toBeInTheDocument();
+    expect(NextButton()).toBeInTheDocument();
 
-    expect(prevButton).toBeInTheDocument();
-    expect(nextButton).toBeInTheDocument();
+    await clickNextButton();
 
-    await waitForUserClick(nextButton);
+    expect(await WrongAnsweredQuestionTitleListAsync()).toHaveLength(2);
+    expect(await LastQuestionTitleDivOnLongList()).toBeInTheDocument();
 
-    const wrongAnsweredQuestionTitleListOnSecondPage =
-      await findWrongAnsweredQuestionTitleList();
+    await clickNextButton();
 
-    expect(wrongAnsweredQuestionTitleListOnSecondPage).toHaveLength(2);
+    expect(await WrongAnsweredQuestionTitleListAsync()).toHaveLength(2);
+    expect(await LastQuestionTitleDivOnLongList()).toBeInTheDocument();
 
-    await waitForUserClick(nextButton);
+    await clickPrevButton();
 
-    const wrongAnsweredQuestionTitleListOnSecondPage2 =
-      await findWrongAnsweredQuestionTitleList();
+    expect(await WrongAnsweredQuestionTitleListAsync()).toHaveLength(5);
+    expect(await FirstQuestionTitleDivAsync()).toBeInTheDocument();
 
-    expect(wrongAnsweredQuestionTitleListOnSecondPage).toEqual(
-      wrongAnsweredQuestionTitleListOnSecondPage2
-    );
+    await clickPrevButton();
 
-    await waitForUserClick(prevButton);
-
-    const wrongAnswerQuestionTitleListOnFirstPage =
-      await findWrongAnsweredQuestionTitleList();
-
-    expect(wrongAnswerQuestionTitleListOnFirstPage).toHaveLength(5);
-
-    await waitForUserClick(prevButton);
-
-    const wrongAnswerQuestionTitleListOnFirstPage2 =
-      await findWrongAnsweredQuestionTitleList();
-
-    expect(wrongAnswerQuestionTitleListOnFirstPage2).toEqual(
-      wrongAnswerQuestionTitleListOnFirstPage2
-    );
+    expect(await WrongAnsweredQuestionTitleListAsync()).toHaveLength(5);
+    expect(await FirstQuestionTitleDivAsync()).toBeInTheDocument();
   });
 });
 
@@ -318,10 +292,10 @@ function renderWrongAnsweredQuestionsPage() {
     </>
   );
 
-  const getWrongAnsweredQuestionHeading = () =>
+  const WrongAnsweredQuestionHeading = () =>
     screen.getByRole('heading', { name: '오답 노트' });
 
-  const getFirstQuestionTitleDiv = () =>
+  const FirstQuestionTitleDiv = () =>
     screen.getByText(
       decodeHtmlString(
         'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
@@ -329,7 +303,15 @@ function renderWrongAnsweredQuestionsPage() {
       { exact: false }
     );
 
-  const getSecondQuestionTitleDiv = () =>
+  const FirstQuestionTitleDivAsync = () =>
+    screen.findByText(
+      decodeHtmlString(
+        'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
+      ),
+      { exact: false }
+    );
+
+  const SecondQuestionTitleDiv = () =>
     screen.getByText(
       decodeHtmlString(
         'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
@@ -337,33 +319,41 @@ function renderWrongAnsweredQuestionsPage() {
       { exact: false }
     );
 
-  const getChosenAnswerDivList = () =>
+  const ChosenAnswerDivList = () =>
     screen.getAllByText(`선택한 오답: `, {
       exact: false,
     });
 
-  const getCorrectAnswerDivList = () =>
+  const CorrectAnswerDivList = () =>
     screen.getAllByText('정답:', { exact: false });
 
-  const getTotalAnswersList = () => screen.getAllByRole('listitem');
+  const TotalAnswersList = () => screen.getAllByRole('listitem');
 
-  const getNoWrongAnsweredQuestionHeading = () =>
+  const NoWrongAnsweredQuestionHeading = () =>
     screen.getByRole('heading', {
       name: '오답 기록이 없습니다.',
     });
 
-  const getWrongAnsweredQuestionTitleList = () =>
+  const WrongAnsweredQuestionTitleList = () =>
     screen.getAllByText('문제', {
       exact: false,
     });
 
-  const getPrevButton = () => screen.getByRole('button', { name: '<' });
-  const getNextButton = () => screen.getByRole('button', { name: '>' });
+  const PrevButton = () => screen.getByRole('button', { name: '<' });
+  const NextButton = () => screen.getByRole('button', { name: '>' });
 
-  const findWrongAnsweredQuestionTitleList = () =>
+  const WrongAnsweredQuestionTitleListAsync = () =>
     screen.findAllByText('문제', {
       exact: false,
     });
+
+  const LastQuestionTitleDivOnLongList = () =>
+    screen.findByText(
+      decodeHtmlString(
+        'Johnny Cash did a cover o2f this song written by lead singer of Nine Inch Nails, Trent Reznor.'
+      ),
+      { exact: false }
+    );
 
   const waitForUserClick = async (targetElement: Element) => {
     const user = userEvent.setup();
@@ -373,19 +363,25 @@ function renderWrongAnsweredQuestionsPage() {
     });
   };
 
+  const clickPrevButton = async () => await waitForUserClick(PrevButton());
+  const clickNextButton = async () => await waitForUserClick(NextButton());
+
   return {
-    getWrongAnsweredQuestionHeading,
-    getFirstQuestionTitleDiv,
-    getSecondQuestionTitleDiv,
-    getChosenAnswerDivList,
-    getCorrectAnswerDivList,
-    getTotalAnswersList,
-    getNoWrongAnsweredQuestionHeading,
-    getWrongAnsweredQuestionTitleList,
-    getPrevButton,
-    getNextButton,
-    findWrongAnsweredQuestionTitleList,
-    waitForUserClick,
+    WrongAnsweredQuestionHeading,
+    FirstQuestionTitleDiv,
+    FirstQuestionTitleDivAsync,
+    SecondQuestionTitleDiv,
+    ChosenAnswerDivList,
+    CorrectAnswerDivList,
+    TotalAnswersList,
+    NoWrongAnsweredQuestionHeading,
+    WrongAnsweredQuestionTitleList,
+    PrevButton,
+    NextButton,
+    WrongAnsweredQuestionTitleListAsync,
+    LastQuestionTitleDivOnLongList,
+    clickPrevButton,
+    clickNextButton,
   };
 }
 
