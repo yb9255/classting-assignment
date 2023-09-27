@@ -7,132 +7,88 @@ import App from './App';
 import { decodeHtmlString } from './utils';
 
 describe('App', () => {
-  beforeAll(() => {
+  beforeEach(() => {
     localStorage.clear();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     localStorage.clear();
   });
 
-  it('works for every process from scratch to end', async () => {
+  it("메인 화면에서 '퀴즈 풀기' 버튼을 누르면 퀴즈가 시작되고, 퀴즈를 다 풀고 나서 퀴즈 결과 페이지 확인이 가능하며, 오답 노트 링크 버튼을 누르면 오답 노트 페이지로, 홈 링크 버튼을 클릭하면 홈으로 이동합니다.", async () => {
     const {
-      getMainTitleHeading,
-      getMainPageStartLink,
-      getSpentTimeDiv,
-      getCorrectAnswerCountDiv,
-      getWrongAnswerCountDiv,
-      getWrongAnsweredQuestionPageLink,
-      getWrongAnsweredQuestionHeading,
-      getWrongAnsweredQuestionTitleDiv,
-      getHomeLink,
-      findQuestionTitleHeading,
-      findQuestionAnswersList,
-      findFirstQuestionCorrectAnswer,
-      findCorrectCaseModalDiv,
-      findWrongCaseModalDiv,
-      findCorrectAnswerInWrongCaseModalDiv,
-      findModalNextButton,
-      findSecondQuestionWrongAnswer,
-      queryNavBar,
-      waitForUserClick,
+      MainTitleHeading,
+      MainPageStartLink,
+      SpentTimeDiv,
+      CorrectAnswerCountDiv,
+      WrongAnswerCountDiv,
+      WrongAnsweredQuestionPageLink,
+      WrongAnsweredQuestionHeading,
+      WrongAnsweredQuestionTitleDiv,
+      HomeLink,
+      FirstQuestionTitleHeading,
+      QuestionAnswersList,
+      FirstQuestionCorrectAnswer,
+      CorrectCaseModalDiv,
+      WrongCaseModalDiv,
+      CorrectAnswerInWrongCaseModalDiv,
+      ModalNextButton,
+      SecondQuestionTitleHeading,
+      SecondQuestionWrongAnswer,
+      NavBar,
+      clickMainPageStartLink,
+      clickFirstQuestionCorrectAnswer,
+      clickModalNextButton,
+      clickSecondQuestionWrongAnswer,
+      clickWrongAnsweredQuestionPageLink,
+      clickHomeLink,
     } = renderApp();
 
-    /** 메인 페이지에서 '퀴즈 풀기' 링크를 클릭 */
-    const mainPageStartLink = getMainPageStartLink();
-    expect(mainPageStartLink).toBeInTheDocument();
+    expect(MainPageStartLink()).toBeInTheDocument();
 
-    await waitForUserClick(mainPageStartLink);
+    await clickMainPageStartLink();
 
-    /** 첫번째 문제가 화면에 출력됨 */
-    const firstQuestionTitleHeading = await findQuestionTitleHeading({
-      rawHeadingText:
-        'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?',
-    });
+    expect(await FirstQuestionTitleHeading()).toBeInTheDocument();
+    expect(await QuestionAnswersList()).toHaveLength(4);
 
-    const firstQuestionAnswerList = await findQuestionAnswersList();
+    expect(await FirstQuestionCorrectAnswer()).toBeInTheDocument();
 
-    expect(firstQuestionTitleHeading).toBeInTheDocument();
-    expect(firstQuestionAnswerList).toHaveLength(4);
+    await clickFirstQuestionCorrectAnswer();
 
-    /** 첫번째 문제는 정답을 클릭함 */
-    const firstQuestionCorrectAnswer = await findFirstQuestionCorrectAnswer();
-    expect(firstQuestionCorrectAnswer).toBeInTheDocument();
+    expect(await CorrectCaseModalDiv()).toBeInTheDocument();
+    expect(await ModalNextButton()).toBeInTheDocument();
 
-    await waitForUserClick(firstQuestionCorrectAnswer);
+    await clickModalNextButton();
 
-    /** 정답임을 알려주는 모달이 화면에 출력되고, 다음 버튼을 누름 */
-    const correctCaseMessageModalDiv = await findCorrectCaseModalDiv();
-    const correctCaseNextButton = await findModalNextButton();
+    expect(await SecondQuestionTitleHeading()).toBeInTheDocument();
+    expect(await QuestionAnswersList()).toHaveLength(4);
+    expect(await SecondQuestionWrongAnswer()).toBeInTheDocument();
 
-    expect(correctCaseMessageModalDiv).toBeInTheDocument();
-    expect(correctCaseNextButton).toBeInTheDocument();
+    await clickSecondQuestionWrongAnswer();
 
-    await waitForUserClick(correctCaseNextButton);
+    expect(await WrongCaseModalDiv()).toBeInTheDocument();
+    expect(await CorrectAnswerInWrongCaseModalDiv()).toBeInTheDocument();
+    expect(await ModalNextButton()).toBeInTheDocument();
 
-    /** 두번째 문제가 화면에 출력되고, 오답을 클릭함 */
-    const secondQuestionTitleHeading = await findQuestionTitleHeading({
-      rawHeadingText:
-        'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.',
-    });
-    const secondQuestionAnswerList = await findQuestionAnswersList();
+    await clickModalNextButton();
 
-    expect(secondQuestionTitleHeading).toBeInTheDocument();
-    expect(secondQuestionAnswerList).toHaveLength(4);
+    expect(SpentTimeDiv()).toBeInTheDocument();
+    expect(CorrectAnswerCountDiv()).toHaveTextContent('1');
+    expect(WrongAnswerCountDiv()).toHaveTextContent('1');
 
-    const secondQuestionWrongAnswer = await findSecondQuestionWrongAnswer();
+    expect(WrongAnsweredQuestionPageLink()).toBeInTheDocument();
 
-    await waitForUserClick(secondQuestionWrongAnswer);
+    await clickWrongAnsweredQuestionPageLink();
 
-    /** 오답을 선택했음과 정답을 알려주는 모달이 뜨고, 모달에 있는 다음 버튼을 클릭함. */
-    const wrongCaseModalDiv = await findWrongCaseModalDiv();
+    expect(WrongAnsweredQuestionHeading()).toBeInTheDocument();
+    expect(WrongAnsweredQuestionTitleDiv()).toBeInTheDocument();
 
-    const correctAnswerInWrongCaseModalDiv =
-      await findCorrectAnswerInWrongCaseModalDiv();
+    expect(HomeLink()).toBeInTheDocument();
 
-    const wrongCaseNextButton = await findModalNextButton();
+    await clickHomeLink();
 
-    expect(wrongCaseModalDiv).toBeInTheDocument();
-    expect(correctAnswerInWrongCaseModalDiv).toBeInTheDocument();
-    expect(wrongCaseNextButton).toBeInTheDocument();
-
-    await waitForUserClick(wrongCaseNextButton);
-
-    /** 소요 시간, 정답 개수, 오답 개수가 화면에 출력됨 */
-    const spentTimeDiv = getSpentTimeDiv();
-    const correctAnswerCountDiv = getCorrectAnswerCountDiv();
-    const wrongAnswerCountDiv = getWrongAnswerCountDiv();
-
-    expect(spentTimeDiv).toBeInTheDocument();
-    expect(correctAnswerCountDiv).toHaveTextContent('1');
-    expect(wrongAnswerCountDiv).toHaveTextContent('1');
-
-    /** 상단에 오답 노트 링크를 클릭함 */
-    const wrongAnsweredQuestionsPageLink = getWrongAnsweredQuestionPageLink();
-
-    expect(wrongAnsweredQuestionsPageLink).toBeInTheDocument();
-
-    await waitForUserClick(wrongAnsweredQuestionsPageLink);
-
-    /** 오답 노트 제목과 오답 제목이 화면에 출력됨 */
-    const wrongAnsweredPagesHeading = getWrongAnsweredQuestionHeading();
-    const wrongAnsweredQuestionTitleDiv = getWrongAnsweredQuestionTitleDiv();
-
-    expect(wrongAnsweredPagesHeading).toBeInTheDocument();
-    expect(wrongAnsweredQuestionTitleDiv).toBeInTheDocument();
-
-    /** 화면 상단 네비게이션 바에 홈 버튼을 누름 */
-    const homeLink = getHomeLink();
-    expect(homeLink).toBeInTheDocument();
-
-    await waitForUserClick(homeLink);
-
-    /** 홈에서 페이지 타이틀이 보이고, 네비게이션 바는 사라짐 */
-    const mainTitle = getMainTitleHeading();
-    const navBar = queryNavBar();
-
-    expect(mainTitle).toBeInTheDocument();
-    expect(navBar).not.toBeInTheDocument();
+    expect(MainTitleHeading()).toBeInTheDocument();
+    expect(NavBar()).not.toBeInTheDocument();
   });
 });
 
@@ -150,34 +106,33 @@ function renderApp() {
     </>
   );
 
-  const getMainTitleHeading = () =>
+  const MainTitleHeading = () =>
     screen.getByRole('heading', { name: '영화 퀴즈' });
 
-  const getMainPageStartLink = () =>
+  const MainPageStartLink = () =>
     screen.getByRole('link', { name: '퀴즈 풀기' });
 
-  const getSpentTimeDiv = () =>
-    screen.getByText('소요 시간:', { exact: false });
+  const SpentTimeDiv = () => screen.getByText('소요 시간:', { exact: false });
 
-  const getCorrectAnswerCountDiv = () =>
+  const CorrectAnswerCountDiv = () =>
     screen.getByText('정답 수:', {
       exact: false,
     });
 
-  const getWrongAnswerCountDiv = () =>
+  const WrongAnswerCountDiv = () =>
     screen.getByText('오답 수: ', {
       exact: false,
     });
 
-  const getWrongAnsweredQuestionPageLink = () =>
+  const WrongAnsweredQuestionPageLink = () =>
     screen.getByRole('link', {
       name: '오답 노트',
     });
 
-  const getWrongAnsweredQuestionHeading = () =>
+  const WrongAnsweredQuestionHeading = () =>
     screen.getByRole('heading', { name: '오답 노트' });
 
-  const getWrongAnsweredQuestionTitleDiv = () =>
+  const WrongAnsweredQuestionTitleDiv = () =>
     screen.getByText(
       decodeHtmlString(
         'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
@@ -185,45 +140,54 @@ function renderApp() {
       { exact: false }
     );
 
-  const getHomeLink = () =>
+  const HomeLink = () =>
     screen.getByRole('link', {
       name: '홈',
     });
 
-  const findQuestionTitleHeading = ({
-    rawHeadingText,
-  }: {
-    rawHeadingText: string;
-  }) => screen.findByText(decodeHtmlString(rawHeadingText), { exact: false });
+  const FirstQuestionTitleHeading = () =>
+    screen.findByText(
+      decodeHtmlString(
+        'In &quot;Sonic the Hedgehog 2&quot; for the Sega Genesis, what do you input in the sound test screen to access the secret level select?'
+      ),
+      { exact: false }
+    );
 
-  const findQuestionAnswersList = () => screen.findAllByRole('listitem');
+  const QuestionAnswersList = () => screen.findAllByRole('listitem');
 
-  const findFirstQuestionCorrectAnswer = () =>
+  const FirstQuestionCorrectAnswer = () =>
     screen.findByText(decodeHtmlString('The Lead Programmer&#039;s birthday'));
 
-  const findCorrectCaseModalDiv = () =>
+  const CorrectCaseModalDiv = () =>
     screen.findByText('정답입니다!', {
       exact: false,
     });
 
-  const findWrongCaseModalDiv = () =>
+  const WrongCaseModalDiv = () =>
     screen.findByText('틀렸습니다!', {
       exact: false,
     });
 
-  const findCorrectAnswerInWrongCaseModalDiv = () =>
+  const CorrectAnswerInWrongCaseModalDiv = () =>
     screen.findByText(`정답: `, {
       exact: false,
     });
 
-  const findModalNextButton = () =>
+  const ModalNextButton = () =>
     screen.findByRole('button', {
       name: '다음',
     });
 
-  const findSecondQuestionWrongAnswer = () => screen.findByText('Closer');
+  const SecondQuestionTitleHeading = () =>
+    screen.findByText(
+      decodeHtmlString(
+        'Johnny Cash did a cover of this song written by lead singer of Nine Inch Nails, Trent Reznor.'
+      ),
+      { exact: false }
+    );
+  const SecondQuestionWrongAnswer = () => screen.findByText('Closer');
 
-  const queryNavBar = () => screen.queryByRole('navigation');
+  const NavBar = () => screen.queryByRole('navigation');
 
   const waitForUserClick = async (targetElement: Element) => {
     await waitFor(async () => {
@@ -231,25 +195,47 @@ function renderApp() {
     });
   };
 
+  const clickMainPageStartLink = async () =>
+    await waitForUserClick(MainPageStartLink());
+
+  const clickFirstQuestionCorrectAnswer = async () =>
+    await waitForUserClick(await FirstQuestionCorrectAnswer());
+
+  const clickModalNextButton = async () =>
+    await waitForUserClick(await ModalNextButton());
+
+  const clickSecondQuestionWrongAnswer = async () =>
+    await waitForUserClick(await SecondQuestionWrongAnswer());
+
+  const clickWrongAnsweredQuestionPageLink = async () =>
+    await waitForUserClick(WrongAnsweredQuestionPageLink());
+
+  const clickHomeLink = async () => await waitForUserClick(HomeLink());
   return {
-    getMainTitleHeading,
-    getMainPageStartLink,
-    getSpentTimeDiv,
-    getCorrectAnswerCountDiv,
-    getWrongAnswerCountDiv,
-    getWrongAnsweredQuestionTitleDiv,
-    getWrongAnsweredQuestionPageLink,
-    getWrongAnsweredQuestionHeading,
-    getHomeLink,
-    findQuestionTitleHeading,
-    findQuestionAnswersList,
-    findFirstQuestionCorrectAnswer,
-    findCorrectCaseModalDiv,
-    findWrongCaseModalDiv,
-    findCorrectAnswerInWrongCaseModalDiv,
-    findModalNextButton,
-    findSecondQuestionWrongAnswer,
-    queryNavBar,
-    waitForUserClick,
+    MainTitleHeading,
+    MainPageStartLink,
+    SpentTimeDiv,
+    CorrectAnswerCountDiv,
+    WrongAnswerCountDiv,
+    WrongAnsweredQuestionTitleDiv,
+    WrongAnsweredQuestionPageLink,
+    WrongAnsweredQuestionHeading,
+    HomeLink,
+    FirstQuestionTitleHeading,
+    QuestionAnswersList,
+    FirstQuestionCorrectAnswer,
+    CorrectCaseModalDiv,
+    WrongCaseModalDiv,
+    CorrectAnswerInWrongCaseModalDiv,
+    ModalNextButton,
+    SecondQuestionTitleHeading,
+    SecondQuestionWrongAnswer,
+    NavBar,
+    clickMainPageStartLink,
+    clickFirstQuestionCorrectAnswer,
+    clickModalNextButton,
+    clickSecondQuestionWrongAnswer,
+    clickWrongAnsweredQuestionPageLink,
+    clickHomeLink,
   };
 }
