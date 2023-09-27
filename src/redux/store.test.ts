@@ -8,13 +8,13 @@ import {
   setEndTime,
   initTimes,
   initError,
-} from '../questions/reducer';
+} from './questions/reducer';
 import { DUMMY_ANSWER, DUMMY_QUESTIONS } from './store.mock';
-import { decodeHtmlString } from '../../utils';
+import { decodeHtmlString } from '../utils';
 import createSagaMiddleware from 'redux-saga';
 import { configureStore } from '@reduxjs/toolkit';
-import questionsSliceReducer from '../questions/reducer';
-import watch from '../sagas';
+import questionsSliceReducer from './questions/reducer';
+import watch from './sagas';
 
 describe('Redux Toolkit Store', () => {
   const sagaMiddleware = createSagaMiddleware();
