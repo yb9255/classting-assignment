@@ -14,25 +14,21 @@ jest.mock('react-router-dom', () => {
 describe('MainPage', () => {
   it("사용자는 메인 페이지에서 타이틀 '영화 퀴즈'를 확인할 수 있다.", () => {
     const { MainPageTitleHeading } = renderMainPage();
-
     expect(MainPageTitleHeading()).toBeInTheDocument();
   });
 
   it("사용자는 메인 페이지에서 '퀴즈 풀기' 버튼 링크를 확인할 수 있다.", () => {
     const { MainPageStartLink } = renderMainPage();
-
     expect(MainPageStartLink()).toBeInTheDocument();
   });
 
   it("사용자는 메인 페이지에서 '오답 노트' 버튼 링크를 확인할 수 있다.", async () => {
     const { WrongAnsweredQuestionsPageLink } = renderMainPage();
-
     expect(WrongAnsweredQuestionsPageLink()).toBeInTheDocument();
   });
 
   it("'퀴즈 풀기' 버튼은 클릭 시 문제 풀이 페이지로 이어지는 링크를 가지고 있다.", async () => {
     const { MainPageStartLink } = renderMainPage();
-
     expect(MainPageStartLink()).toHaveAttribute('href', '/questions');
   });
 

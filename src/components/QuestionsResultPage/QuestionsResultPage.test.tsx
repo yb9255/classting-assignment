@@ -86,9 +86,7 @@ describe('QuestionResult', () => {
 
   it('홈 화면으로 향하는 링크를 가진 돌아가기 버튼을 화면에서 확인할 수 있다.', async () => {
     const { LinkToMainPage } = renderQuestionsResultPage();
-
-    const linkToMainPage = LinkToMainPage();
-    expect(linkToMainPage).toBeInTheDocument();
+    expect(LinkToMainPage()).toBeInTheDocument();
   });
 });
 
